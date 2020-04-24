@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class ProfileEncadreurOrganisme implements Serializable{
-
+public class ProfileEncadrant implements Serializable{
 	/**
 	 * 
 	 */
@@ -27,7 +26,9 @@ public class ProfileEncadreurOrganisme implements Serializable{
 	@Column(length = 20)
 	private String profession;
 	@OneToOne
-	private Utilisateur utlisateur;
+	private Utilisateur utilisateur;
 	@ManyToOne
-	private OrganismeAccueil organismeAccueil;
-}
+	private Etablissement etablissement;
+	
+	
+}	

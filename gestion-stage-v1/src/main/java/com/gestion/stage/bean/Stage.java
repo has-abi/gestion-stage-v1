@@ -26,4 +26,5 @@ public class Stage {
 	private Date dateFin;
 	@ManyToOne
 	private TypeStage typeStage;
+	private OrganismeAccueil organismeAccueil;
 }

@@ -20,6 +20,7 @@ public class Document implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String titre;
 	private Byte[] donnee;
 	private String typeDoc;
 	
