@@ -36,5 +36,7 @@ public class Commentaire implements Serializable {
 	private Utilisateur utilisateur;
 	@ManyToOne
 	private SujetForum sujetForum;
+	@ManyToOne
+	private Commentaire commentaire;
 	
 }

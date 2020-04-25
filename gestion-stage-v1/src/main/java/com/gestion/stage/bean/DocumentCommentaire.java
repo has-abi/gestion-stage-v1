@@ -35,5 +35,7 @@ public class DocumentCommentaire implements Serializable{
 	private Utilisateur utilisateur;
 	@ManyToOne
 	private Document document;
+	@ManyToOne
+	private DocumentCommentaire documentCommentaire;
 	
 }
