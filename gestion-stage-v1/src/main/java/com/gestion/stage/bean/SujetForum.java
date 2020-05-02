@@ -26,8 +26,8 @@ public class SujetForum implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreation;
 	@Temporal(TemporalType.TIMESTAMP)
-	private boolean suprimer;
 	private Date dateModification;
+	private boolean suprimer;
 	@ManyToOne
 	private Utilisateur utilisateur;
 	@ManyToOne
