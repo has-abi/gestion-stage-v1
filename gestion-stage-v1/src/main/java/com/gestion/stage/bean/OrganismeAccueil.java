@@ -1,5 +1,4 @@
 package com.gestion.stage.bean;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -36,4 +35,5 @@ public class OrganismeAccueil implements Serializable{
 	private TypeOrganisme typeOrganisme;
 	@ManyToOne
 	private TypeServiceOrganisme typeServiceOrganisme;
+	
 }
