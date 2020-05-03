@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Stage {
+public class Stage{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String sujet;
@@ -24,6 +24,7 @@ public class Stage {
 	private Date dateDebut;
 	@Temporal(TemporalType.DATE)
 	private Date dateFin;
+	private boolean statu;
 	@ManyToOne
 	private TypeStage typeStage;
 	private OrganismeAccueil organismeAccueil;

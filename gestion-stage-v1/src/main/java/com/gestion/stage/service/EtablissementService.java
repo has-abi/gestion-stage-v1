@@ -6,11 +6,11 @@ import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.bean.Ville;
 
 public interface EtablissementService {
-	List<Etablissement> findByLibelle(String libelle);
-
-	List<Etablissement> findByVille(Ville ville);
-
+	
+	Etablissement findByLibelle(String libelle);
+	List<Etablissement> findByVilleId(Long id);
 	int save(Etablissement etablissement);
-
+	int removeByLibelle(String libelle);
+	int update(Etablissement etablissement);
 	List<Etablissement> findAll();
 }

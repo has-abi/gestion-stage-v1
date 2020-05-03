@@ -1,6 +1,5 @@
 package com.gestion.stage.bean;
 
-import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +15,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class ProfileAdministrateur implements Serializable{
+public class ProfileAdministrateur{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String ref;

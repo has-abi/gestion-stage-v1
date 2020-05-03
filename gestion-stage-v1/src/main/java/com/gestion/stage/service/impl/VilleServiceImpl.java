@@ -1,0 +1,84 @@
+package com.gestion.stage.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gestion.stage.bean.Etablissement;
+import com.gestion.stage.bean.Pays;
+import com.gestion.stage.bean.Ville;
+import com.gestion.stage.dao.VilleDao;
+import com.gestion.stage.service.EtablissementService;
+import com.gestion.stage.service.PaysService;
+import com.gestion.stage.service.VilleService;
+
+@Service
+public class VilleServiceImpl implements VilleService{
+	@Autowired
+	private VilleDao villeDao;
+	@Autowired
+	private PaysService paysService;
+	@Autowired
+	private EtablissementService etablissementService;
+	@Override
+	public Ville findbyId(Long id) {
+		return villeDao.findById(id).get();
+	}
+
+	@Override
+	public List<Ville> findByPaysNom(String nom) {
+		return villeDao.findByPaysNom(nom);
+	}
+
+	@Override
+	public int save(Ville ville) {
+		Pays p = paysService.findByNom(ville.getPaye().getNom());
+		Ville v = villeDao.findByPaysNomAndNom(p.getNom(), ville.getNom());
+		if(p == null || v!=null) {
+			return -1;
+		}else if(ville.getNom() == null || ville.getNom() == "" || ville.getCodePostal() == 0) {
+			return -2;
+		}else {
+			ville.setPaye(p);
+			villeDao.save(ville);
+			return 1;
+		}
+		
+	}
+
+	@Override
+	public int removeByid(Long id) {
+		Ville v = findbyId(id);
+		if(v == null) {
+			return -1;
+		}else {
+			List<Etablissement> etabs = etablissementService.findByVilleId(v.getId());
+			etabs.forEach(etab->etablissementService.removeByLibelle(etab.getLibelle()));
+			villeDao.delete(v);
+			return 1;
+		}
+	}
+
+	@Override
+	public int update(Ville ville) {
+		Ville v = findbyId(ville.getId());
+		if(v == null) {
+			return -1;
+		}else {
+			villeDao.save(ville);
+			return 1;
+		}
+	}
+
+	@Override
+	public List<Ville> findAll() {
+		return villeDao.findAll();
+	}
+
+	@Override
+	public Ville findByPaysNomAndNom(String pays, String nom) {
+		return villeDao.findByPaysNomAndNom(pays, nom);
+	}
+
+}
