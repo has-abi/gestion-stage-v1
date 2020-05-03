@@ -1,6 +1,5 @@
 package com.gestion.stage.bean;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -13,12 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class RapportTache implements Serializable{
+public class RapportTache{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateDepot;

@@ -1,6 +1,5 @@
 package com.gestion.stage.bean;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,12 +16,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Utilisateur implements Serializable {
+public class Utilisateur{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 30)
@@ -42,5 +37,9 @@ public class Utilisateur implements Serializable {
 	private String motPass;
 	private String photo;
 	private boolean active;
+	private String question;
+	private String reponce;
+	@Temporal(TemporalType.DATE)
+	private Date dateJoin;
 	
 }
