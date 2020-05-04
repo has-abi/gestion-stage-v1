@@ -19,7 +19,7 @@ public class Coordinateur {
 	@Column(length = 16,unique = true)
 	private String reference;
 	@OneToOne
-	private Specialite specialite;
+	private Filiere filiere;
 	@OneToOne
 	private Utilisateur utilisateur;
 }

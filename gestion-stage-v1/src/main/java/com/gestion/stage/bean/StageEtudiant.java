@@ -20,7 +20,7 @@ public class StageEtudiant{
 	@Column(columnDefinition = "Text")
 	private String remarque;
 	@ManyToOne
-	private ProfileEtudiant profileEtudiant;
+	private Etudiant etudiant;
 	@ManyToOne
 	private Stage stage;
 

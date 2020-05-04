@@ -6,6 +6,6 @@ import com.gestion.stage.bean.Pays;
 
 public interface PaysService {
 	Pays findByNom(String nom);
-	int save(Pays paye);
+	int save(Pays pays);
 	List<Pays> findAll();
 }

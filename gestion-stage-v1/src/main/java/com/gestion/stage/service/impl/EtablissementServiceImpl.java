@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etablissement;
+import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.EtablissementDao;
+import com.gestion.stage.service.DepartementService;
 import com.gestion.stage.service.EtablissementService;
 import com.gestion.stage.service.VilleService;
 @Service
@@ -15,6 +18,8 @@ public class EtablissementServiceImpl implements EtablissementService{
 	private EtablissementDao etablissementDao;
 	@Autowired
 	private VilleService villeService;
+	@Autowired
+	private DepartementService departementService;
 
 	@Override
 	public Etablissement findByLibelle(String libelle) {
@@ -28,19 +33,49 @@ public class EtablissementServiceImpl implements EtablissementService{
 
 	@Override
 	public int save(Etablissement etablissement) {
-		return 0;
+		Ville v = villeService.findByPaysNomAndNom(etablissement.getVille().getNom(), etablissement.getVille().getPays().getNom());
+		if(v == null) {
+			return -1;
+		}else if(etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
+			return -2;
+		}
+		else {
+			Etablissement etab = findByLibelle(etablissement.getLibelle());
+			if(etab!=null) {
+				return -3;
+			}else {
+				etablissement.setVille(v);
+				etablissementDao.save(etablissement);
+				return 1;
+			}
+		}
 	}
 
 	@Override
 	public int removeByLibelle(String libelle) {
-		// TODO Auto-generated method stub
-		return 0;
+		Etablissement etab = findByLibelle(libelle);
+		if(etab == null) {
+			return -1;
+		}else {
+			List<Departement> deps = departementService.findByEtablissementLibelle(libelle);
+			deps.forEach(dep->departementService.removeById(dep.getId()));
+			etablissementDao.delete(etab);
+			return 1;
+		}
 	}
 
 	@Override
 	public int update(Etablissement etablissement) {
-		// TODO Auto-generated method stub
-		return 0;
+		Etablissement etab = etablissementDao.findById(etablissement.getId()).get();
+		Etablissement etabBylibelle = findByLibelle(etablissement.getLibelle());
+		if(etab == null || etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
+			return -1;
+		}else if(etabBylibelle!=null && etabBylibelle.getId() != etab.getId()) {
+			return -2;
+		}else {
+			etablissementDao.save(etablissement);
+			return 1;
+		}
 	}
 
 	@Override

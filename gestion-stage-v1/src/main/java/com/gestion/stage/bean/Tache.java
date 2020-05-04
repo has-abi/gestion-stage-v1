@@ -27,6 +27,7 @@ public class Tache{
 	private boolean valider;
 	@ManyToOne
 	private Stage stage;
-	
+	@ManyToOne
+	private StageEncadreur stageEncadreur;
 
 }

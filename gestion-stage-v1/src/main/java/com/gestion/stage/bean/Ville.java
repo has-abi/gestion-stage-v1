@@ -22,6 +22,6 @@ public class Ville{
 	private String nom;
 	private int codePostal;
 	@ManyToOne
-	private Pays paye;
+	private Pays pays;
 	
 }
