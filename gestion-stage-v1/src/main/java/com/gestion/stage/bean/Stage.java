@@ -27,5 +27,6 @@ public class Stage{
 	private boolean statu;
 	@ManyToOne
 	private TypeStage typeStage;
+	@ManyToOne
 	private OrganismeAccueil organismeAccueil;
 }

@@ -33,14 +33,14 @@ public class VilleServiceImpl implements VilleService{
 
 	@Override
 	public int save(Ville ville) {
-		Pays p = paysService.findByNom(ville.getPaye().getNom());
+		Pays p = paysService.findByNom(ville.getPays().getNom());
 		Ville v = villeDao.findByPaysNomAndNom(p.getNom(), ville.getNom());
 		if(p == null || v!=null) {
 			return -1;
 		}else if(ville.getNom() == null || ville.getNom() == "" || ville.getCodePostal() == 0) {
 			return -2;
 		}else {
-			ville.setPaye(p);
+			ville.setPays(p);
 			villeDao.save(ville);
 			return 1;
 		}

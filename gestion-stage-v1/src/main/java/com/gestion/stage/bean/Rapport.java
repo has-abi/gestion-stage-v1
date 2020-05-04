@@ -31,6 +31,8 @@ public class Rapport{
 	private boolean valider;
 	@Column(columnDefinition = "Text")
 	private String descreption;
+	@Column(length = 20)
+	private String localeSoutenance;
 	@OneToOne
 	private Document document;
 	@ManyToOne

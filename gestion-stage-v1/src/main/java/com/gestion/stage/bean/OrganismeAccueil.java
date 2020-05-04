@@ -23,6 +23,7 @@ public class OrganismeAccueil{
 	@Column(length = 15)
 	private String tele;
 	private String adress;
+	private String responsable;
 	@ManyToOne
 	private Ville ville;
 	@ManyToOne

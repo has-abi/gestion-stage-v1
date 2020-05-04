@@ -9,33 +9,24 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class ProfileEtudiant{
-
+public class Encadreur{
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true,length = 10)
-	private String cin;
-	@Column(length = 8)
-	private String codeAppoge;
 	@Column(length = 20)
-	private String nationalite;
-	@Column(length = 20)
-	private String niveau;
-	@Column(length = 15)
-	private String Situation_familial;
+	private String profession;
+	private String qualite;
+	private String type;
 	@OneToOne
 	private Utilisateur utilisateur;
 	@ManyToOne
-	private Specialite specialite;
-	@ManyToOne
-	private Departement departement;
+	private Etablissement etablissement;
 	
 	
-}
+}	

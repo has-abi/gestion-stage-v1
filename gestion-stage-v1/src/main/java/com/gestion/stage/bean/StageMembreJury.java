@@ -19,8 +19,9 @@ public class StageMembreJury{
 	private Long id;
 	@Column(columnDefinition = "Text" )
 	private String remarque;
+	private String role;
 	@ManyToOne
-	private ProfileMembreJury profileMembreJury;
+	private MembreJury membreJury;
 	@ManyToOne
 	private Stage stage;
 
