@@ -26,6 +26,7 @@ public class SujetForum{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateModification;
 	private boolean suprimer;
+	private String reference;
 	@ManyToOne
 	private Utilisateur utilisateur;
 	@ManyToOne
