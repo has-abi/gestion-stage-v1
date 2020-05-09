@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,20 +21,20 @@ public class DocumentRest {
 	private DocumentService documentService;
 
 	@GetMapping("/titre/{titre}")
-	public Document findByTitre(String titre) {
+	public Document findByTitre(@PathVariable String titre) {
 		return documentService.findByTitre(titre);
 	}
 
 	@GetMapping("/reference/{reference}")
-	public Document findByReference(String reference) {
+	public Document findByReference(@PathVariable String reference) {
 		return documentService.findByReference(reference);
 	}
 @DeleteMapping("/delete/reference/{reference}")
-	public int deleteByReference(String reference) {
+	public int deleteByReference(@PathVariable String reference) {
 		return documentService.deleteByReference(reference);
 	}
 @PostMapping("/")
-	public int save(Document document) {
+	public int save( @RequestBody Document document) {
 		return documentService.save(document);
 	}
 @GetMapping("/")

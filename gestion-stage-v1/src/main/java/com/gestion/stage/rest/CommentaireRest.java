@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +22,15 @@ public class CommentaireRest {
 	@Autowired
 	private CommentaireService commentaireService;
 	@GetMapping("/dateCreation/{dateCreatuin}")
-	public List<Commentaire> findByDateCreation(Date dateCreation) {
+	public List<Commentaire> findByDateCreation(@PathVariable Date dateCreation) {
 		return commentaireService.findByDateCreation(dateCreation);
 	}
 @GetMapping("/sujetForum/{sujetForum}")
-	public List<Commentaire> findBySujetForum(SujetForum sujetForum) {
+	public List<Commentaire> findBySujetForum(@RequestBody SujetForum sujetForum) {
 		return commentaireService.findBySujetForum(sujetForum);
 	}
 @PostMapping("/")
-	public int save(Commentaire commentaire) {
+	public int save(@RequestBody Commentaire commentaire) {
 		return commentaireService.save(commentaire);
 	}
 
