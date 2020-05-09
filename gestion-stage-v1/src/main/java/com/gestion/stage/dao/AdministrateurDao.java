@@ -9,8 +9,10 @@ import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.bean.Administrateur;
 
 @Repository
-
 public interface AdministrateurDao extends JpaRepository<Administrateur, Long>{
-	List<Administrateur> findByProfession(String profession);
+	List<Administrateur> findByProfessionContains(String profession);
 	List<Administrateur> findByEtablissement(Etablissement etablissement);
+	Administrateur findByUtilisateurEmail(String email);
+	Administrateur findByUtilisateurId(Long id);
+	Administrateur findByRef(String ref);
 }

@@ -10,9 +10,9 @@ public interface EtudiantService {
 	Etudiant findByCodeAppoge(String codeAppoge);
 	List<Etudiant> findByFiliere(Filiere filiere);
 	int save(Etudiant etudiant);
-	List<Etudiant> findALL();
+	List<Etudiant> findAll();
 	int Update(Etudiant etudiant);
 	int removeByCin(String cin);
-	
+	Etudiant findByUilisateurEmail(String email);
 
 }

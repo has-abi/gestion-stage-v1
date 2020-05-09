@@ -2,6 +2,8 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,14 @@ import com.gestion.stage.service.PaysService;
 import com.gestion.stage.service.VilleService;
 
 @Service
-public class VilleServiceImpl implements VilleService{
+public class VilleServiceImpl implements VilleService {
 	@Autowired
 	private VilleDao villeDao;
 	@Autowired
 	private PaysService paysService;
 	@Autowired
 	private EtablissementService etablissementService;
+
 	@Override
 	public Ville findbyId(Long id) {
 		return villeDao.findById(id).get();
@@ -35,26 +38,27 @@ public class VilleServiceImpl implements VilleService{
 	public int save(Ville ville) {
 		Pays p = paysService.findByNom(ville.getPays().getNom());
 		Ville v = villeDao.findByPaysNomAndNom(p.getNom(), ville.getNom());
-		if(p == null || v!=null) {
+		if (p == null || v != null) {
 			return -1;
-		}else if(ville.getNom() == null || ville.getNom() == "" || ville.getCodePostal() == 0) {
+		} else if (ville.getNom() == null || ville.getNom() == "" || ville.getCodePostal() == 0) {
 			return -2;
-		}else {
+		} else {
 			ville.setPays(p);
 			villeDao.save(ville);
 			return 1;
 		}
-		
+
 	}
 
+	@Transactional
 	@Override
 	public int removeByid(Long id) {
 		Ville v = findbyId(id);
-		if(v == null) {
+		if (v == null) {
 			return -1;
-		}else {
+		} else {
 			List<Etablissement> etabs = etablissementService.findByVilleId(v.getId());
-			etabs.forEach(etab->etablissementService.removeByLibelle(etab.getLibelle()));
+			etabs.forEach(etab -> etablissementService.removeByLibelle(etab.getLibelle()));
 			villeDao.delete(v);
 			return 1;
 		}
@@ -62,13 +66,20 @@ public class VilleServiceImpl implements VilleService{
 
 	@Override
 	public int update(Ville ville) {
-		Ville v = findbyId(ville.getId());
-		if(v == null) {
-			return -1;
-		}else {
-			villeDao.save(ville);
-			return 1;
+		if (ville.getId() != null && ville.getId() != 0) {
+			Ville v = findbyId(ville.getId());
+			if (v == null || ville.getPays() == null) {
+				return -1;
+			} else if (paysService.findByNom(ville.getPays().getNom()) == null) {
+				return -2;
+			} else { 
+				villeDao.save(ville);
+				return 1;
+			}
+		} else {
+			return -3;
 		}
+
 	}
 
 	@Override

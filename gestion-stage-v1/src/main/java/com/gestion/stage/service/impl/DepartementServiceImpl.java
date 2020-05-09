@@ -2,6 +2,8 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,7 @@ public class DepartementServiceImpl implements DepartementService{
 			return 1;
 		}
 	}
-
+	@Transactional
 	@Override
 	public int removeById(Long id) {
 		Departement dep = departementDao.findById(id).get();

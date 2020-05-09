@@ -10,8 +10,9 @@ import com.gestion.stage.bean.Filiere;
 
 @Repository
 public interface EtudiantDao extends JpaRepository<Etudiant, Long>{
-	List<Etudiant> findByCin(String cin);
-	List<Etudiant> findByCodeAppoge(String codeAppoge);
+	Etudiant findByCin(String cin);
+	Etudiant findByCodeAppoge(String codeAppoge);
 	List<Etudiant> findByFiliere(Filiere filiere);
+	Etudiant findByUtilisateurEmail(String email);
 	
 }

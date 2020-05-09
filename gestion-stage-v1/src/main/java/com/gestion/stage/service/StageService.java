@@ -9,8 +9,10 @@ import com.gestion.stage.bean.TypeStage;
 public interface StageService {
 	List<Stage> findByDateDebut(Date dateDebut);
 	List<Stage> findByDateFin(Date dateFin);
-	List<Stage> findBySujet(String sujet);
 	List<Stage> findByTypeStage(TypeStage typeStage);
-List<Stage> findAll();
-int save(Stage stage);
+	List<Stage> findByDateFinBetween(Date date1, Date date2);
+	List<Stage> findBySujetContains(String sujet);
+	List<Stage> findByOrganismeAccueilRaisonSocial(String raisonSocial);
+	Stage findByid(Long id);
+	int save(Stage stage);
 }

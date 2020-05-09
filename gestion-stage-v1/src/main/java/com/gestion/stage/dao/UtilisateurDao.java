@@ -10,9 +10,9 @@ import com.gestion.stage.bean.Utilisateur;
 
 @Repository
 public interface UtilisateurDao extends JpaRepository<Utilisateur, Long>{
-	List<Utilisateur> findByAdress(String adress);
-	List<Utilisateur> findByDateNaissance(Date dateNaissance);
-	List<Utilisateur> findByEmail(String email);
-	
-
+	List<Utilisateur> findByDateNaissanceGreaterThan(Date dateNaissance);
+	Utilisateur findByEmail(String email);
+	List<Utilisateur> findByNomContains(String nom);
+	List<Utilisateur> findByPrenomContains(String prenom);
+	List<Utilisateur> findByDateJoin(Date dateJoin);
 }

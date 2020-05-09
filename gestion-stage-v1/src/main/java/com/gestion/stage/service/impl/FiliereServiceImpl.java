@@ -2,6 +2,8 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,16 +41,30 @@ public class FiliereServiceImpl implements FiliereService{
 
 	@Override
 	public int save(Filiere filiere) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(filiere.getDepartement() ==  null || filiere.getLibelle() == null || filiere.getLibelle() == "") {
+			return -1;
+		}else {
+			List<Filiere> filiers = findByDepartementId(filiere.getDepartement().getId());
+			for(Filiere fil : filiers) {
+				if(fil.getLibelle().equals(filiere.getLibelle())) return -2;
+			}
+			filiereDao.save(filiere);
+			return 1;
+		}
+		
 	}
 
 	@Override
 	public int update(Filiere filiere) {
-		// TODO Auto-generated method stub
-		return 0;
+		Filiere fil = findById(filiere.getId());
+		if(fil == null) {
+			return -1;
+		}else {
+			filiereDao.save(filiere);
+			return 1;
+		}
 	}
-
+	@Transactional
 	@Override
 	public int removeById(Long id) {
 		Filiere filiere = findById(id);

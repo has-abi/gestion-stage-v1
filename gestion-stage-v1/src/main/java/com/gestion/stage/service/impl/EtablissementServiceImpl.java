@@ -2,6 +2,8 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,7 @@ public class EtablissementServiceImpl implements EtablissementService{
 
 	@Override
 	public int save(Etablissement etablissement) {
-		Ville v = villeService.findByPaysNomAndNom(etablissement.getVille().getNom(), etablissement.getVille().getPays().getNom());
+		Ville v = villeService.findByPaysNomAndNom(etablissement.getVille().getPays().getNom(),etablissement.getVille().getNom());
 		if(v == null) {
 			return -1;
 		}else if(etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
@@ -50,7 +52,7 @@ public class EtablissementServiceImpl implements EtablissementService{
 			}
 		}
 	}
-
+	@Transactional
 	@Override
 	public int removeByLibelle(String libelle) {
 		Etablissement etab = findByLibelle(libelle);

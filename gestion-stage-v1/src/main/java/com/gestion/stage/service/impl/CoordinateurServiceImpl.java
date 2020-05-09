@@ -2,6 +2,8 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,7 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 			return 1;
 		}
 	}
-
+	@Transactional
 	@Override
 	public int removeByReference(String reference) {
 		Coordinateur coord = findByReference(reference);
