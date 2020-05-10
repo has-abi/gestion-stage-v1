@@ -14,5 +14,6 @@ public interface EtudiantService {
 	int Update(Etudiant etudiant);
 	int removeByCin(String cin);
 	Etudiant findByUilisateurEmail(String email);
+	Etudiant findByUtilisateurId(Long id);
 
 }

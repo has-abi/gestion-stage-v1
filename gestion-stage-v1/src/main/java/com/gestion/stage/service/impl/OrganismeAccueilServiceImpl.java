@@ -14,7 +14,7 @@ import com.gestion.stage.service.OrganismeAccueilService;
 import com.gestion.stage.service.TypeOrganismeService;
 import com.gestion.stage.service.TypeServiceOrganismeService;
 import com.gestion.stage.service.VilleService;
-import com.gestion.stage.util.FieldsUtil;
+import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Autowired

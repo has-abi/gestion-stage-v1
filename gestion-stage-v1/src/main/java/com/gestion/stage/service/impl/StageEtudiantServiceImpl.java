@@ -2,48 +2,69 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.StageEtudiant;
+import com.gestion.stage.dao.StageEtudiantDao;
 import com.gestion.stage.service.StageEtudiantService;
+import com.gestion.stage.utils.FieldsUtil;
 
 @Service
 public class StageEtudiantServiceImpl implements StageEtudiantService{
+	@Autowired
+	private StageEtudiantDao stageEtudiantDao;
 
 	@Override
-	public StageEtudiant findByStageId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<StageEtudiant> findByStageReference(String reference) {
+		return stageEtudiantDao.findByStageReference(reference);
 	}
 
 	@Override
-	public StageEtudiant findByEtudiantCin(String cin) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<StageEtudiant> findByEtudiantCin(String cin) {
+		return stageEtudiantDao.findByEtudiantCin(cin);
 	}
 
 	@Override
 	public List<StageEtudiant> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return stageEtudiantDao.findAll();
 	}
 
 	@Override
 	public int save(StageEtudiant stageEtudiant) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(findByStageReferenceAndEtudiantCin(stageEtudiant.getStage().getReference(), stageEtudiant.getEtudiant().getCin()) != null) {
+			return 2;
+		}else {
+			stageEtudiantDao.save(stageEtudiant);
+			return 1;
+		}
 	}
 
 	@Override
 	public int update(StageEtudiant stageEtudiant) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(findByStageReferenceAndEtudiantCin(stageEtudiant.getStage().getReference(), stageEtudiant.getEtudiant().getCin()) == null) {
+			return -1;
+		}else if(FieldsUtil.StageEtudiantFields(stageEtudiant)<0) {
+			return -2;
+		}else {
+				stageEtudiantDao.save(stageEtudiant);
+				return 1;
+		}
+	}
+	
+	@Override
+	public int removeById(Long id) {
+		if(id == null || id == 0) {
+			return -1;
+		}else {
+			stageEtudiantDao.deleteById(id);
+			return 1;
+		}
 	}
 
 	@Override
-	public int removeById(Long id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public StageEtudiant findByStageReferenceAndEtudiantCin(String refernce, String cin) {
+		return stageEtudiantDao.findByStageReferenceAndEtudiantCin(refernce, cin);
 	}
 
 	

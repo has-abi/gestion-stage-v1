@@ -9,13 +9,21 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Administrateur;
 import com.gestion.stage.bean.Etablissement;
+import com.gestion.stage.bean.Utilisateur;
 import com.gestion.stage.dao.AdministrateurDao;
 import com.gestion.stage.service.AdministrateurService;
+import com.gestion.stage.service.EtablissementService;
+import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.utils.FieldsUtil;
 
 @Service
 public class AdministrateurServiceImpl implements AdministrateurService{
 	@Autowired
 	private AdministrateurDao administrateurDao;
+	@Autowired
+	private EtablissementService etablissementService;
+	@Autowired
+	private UtilisateurService utilisateurService;
 	@Override
 	public List<Administrateur> findByProfessionContains(String profession) {
 		return administrateurDao.findByProfessionContains(profession);
@@ -33,8 +41,22 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 
 	@Override
 	public int save(Administrateur administrateur) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(findByRef(administrateur.getRef())!=null) {
+			return -1;
+		}else if(FieldsUtil.utilisateurFields(administrateur.getUtilisateur())<0){
+			return -2;
+		}else if(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()) == null){
+			return -3;
+		}else {
+			administrateur.getUtilisateur().setRole(5);
+			administrateur.setEtablissement(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()));
+			if(utilisateurService.register(administrateur.getUtilisateur())<0) {
+				return -4;
+			}
+			administrateur.setUtilisateur(utilisateurService.findByEmail(administrateur.getUtilisateur().getEmail()));
+			administrateurDao.save(administrateur);
+			return 1;
+		}
 	}
 
 	@Override
@@ -44,14 +66,31 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 
 	@Override
 	public int update(Administrateur administrateur) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(findByRef(administrateur.getRef()) == null) {
+			return -1;
+		}else if(FieldsUtil.utilisateurFields(administrateur.getUtilisateur())<0){
+			return -2;
+		}else if(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()) == null){
+			return -3;
+		}else {
+			administrateur.setEtablissement(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()));
+			administrateur.setUtilisateur(utilisateurService.findByEmail(administrateur.getUtilisateur().getEmail()));
+			administrateurDao.save(administrateur);
+			return 1;
+		}
 	}
 	@Transactional
 	@Override
 	public int removeByRef(String ref) {
-		
-		return 0;
+		Administrateur admin = findByRef(ref);
+		if(admin == null) {
+			return -1;
+		}else {
+			Utilisateur u = admin.getUtilisateur();
+			administrateurDao.delete(admin);
+			utilisateurService.removeById(u.getId());
+			return 1;
+		}
 	}
 
 	@Override

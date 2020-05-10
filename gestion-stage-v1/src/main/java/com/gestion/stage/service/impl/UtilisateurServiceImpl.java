@@ -12,8 +12,8 @@ import com.gestion.stage.bean.Utilisateur;
 import com.gestion.stage.dao.UtilisateurDao;
 
 import com.gestion.stage.service.UtilisateurService;
-import com.gestion.stage.util.DateUtil;
-import com.gestion.stage.util.FieldsUtil;
+import com.gestion.stage.utils.DateUtil;
+import com.gestion.stage.utils.FieldsUtil;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {

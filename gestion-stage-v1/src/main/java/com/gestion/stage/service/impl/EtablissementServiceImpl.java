@@ -59,7 +59,7 @@ public class EtablissementServiceImpl implements EtablissementService{
 		if(etab == null) {
 			return -1;
 		}else {
-			List<Departement> deps = departementService.findByEtablissementLibelle(libelle);
+			List<Departement> deps = etab.getDepartements();
 			deps.forEach(dep->departementService.removeById(dep.getId()));
 			etablissementDao.delete(etab);
 			return 1;
@@ -68,16 +68,21 @@ public class EtablissementServiceImpl implements EtablissementService{
 
 	@Override
 	public int update(Etablissement etablissement) {
-		Etablissement etab = etablissementDao.findById(etablissement.getId()).get();
-		Etablissement etabBylibelle = findByLibelle(etablissement.getLibelle());
-		if(etab == null || etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
-			return -1;
-		}else if(etabBylibelle!=null && etabBylibelle.getId() != etab.getId()) {
-			return -2;
+		if(etablissement.getId() != null || etablissement.getId() != 0) {
+			Etablissement etab = etablissementDao.findById(etablissement.getId()).get();
+			Etablissement etabBylibelle = findByLibelle(etablissement.getLibelle());
+			if(etab == null || etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
+				return -1;
+			}else if(etabBylibelle!=null && etabBylibelle.getId() != etab.getId()) {
+				return -2;
+			}else {
+				etablissementDao.save(etablissement);
+				return 1;
+			}
 		}else {
-			etablissementDao.save(etablissement);
-			return 1;
+			return -3;
 		}
+		
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import com.gestion.stage.dao.EtudiantDao;
 import com.gestion.stage.service.EtudiantService;
 import com.gestion.stage.service.FiliereService;
 import com.gestion.stage.service.UtilisateurService;
-import com.gestion.stage.util.FieldsUtil;
+import com.gestion.stage.utils.FieldsUtil;
 
 
 @Service
@@ -56,7 +56,10 @@ public class EtudiantServiceImpl implements EtudiantService{
 				return -4;
 			}else {
 				etudiant.getUtilisateur().setRole(1);
-				utilisateurService.register(etudiant.getUtilisateur());
+				if(utilisateurService.register(etudiant.getUtilisateur())<0) {
+					return -5;
+				}
+				
 				etudiant.setUtilisateur(utilisateurService.findByEmail(etudiant.getUtilisateur().getEmail()));
 				etudiantDao.save(etudiant);
 				return 1;
@@ -104,6 +107,11 @@ public class EtudiantServiceImpl implements EtudiantService{
 	@Override
 	public Etudiant findByUilisateurEmail(String email) {
 		return etudiantDao.findByUtilisateurEmail(email);
+	}
+
+	@Override
+	public Etudiant findByUtilisateurId(Long id) {
+		return etudiantDao.findByUtilisateurId(id);
 	}
 
 }

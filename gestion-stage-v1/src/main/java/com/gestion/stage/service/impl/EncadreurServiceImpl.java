@@ -12,7 +12,7 @@ import com.gestion.stage.bean.Utilisateur;
 import com.gestion.stage.dao.EncadreurDao;
 import com.gestion.stage.service.EncadreurService;
 import com.gestion.stage.service.UtilisateurService;
-import com.gestion.stage.util.FieldsUtil;
+import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class EncadreurServiceImpl implements EncadreurService{
 	
@@ -39,7 +39,9 @@ public class EncadreurServiceImpl implements EncadreurService{
 			return -2;
 		}else {
 			encadreur.getUtilisateur().setRole(2);
-			utilisateurService.register(encadreur.getUtilisateur());
+			if(utilisateurService.register(encadreur.getUtilisateur())<0) {
+				return -3;
+			}
 			encadreur.setUtilisateur(utilisateurService.findByEmail(encadreur.getUtilisateur().getEmail()));
 			encadreurDao.save(encadreur);
 			return 1;
@@ -58,8 +60,8 @@ public class EncadreurServiceImpl implements EncadreurService{
 	}
 
 	@Override
-	public Encadreur findByUtilisateur(Utilisateur utilisateur) {
-		return encadreurDao.findByUtilisateur(utilisateur);
+	public Encadreur findByUtilisateurId(Long id) {
+		return encadreurDao.findByUtilisateurId(id);
 	}
 
 	@Override
@@ -69,14 +71,29 @@ public class EncadreurServiceImpl implements EncadreurService{
 
 	@Override
 	public int update(Encadreur encadreur) {
-		// TODO Auto-generated method stub
-		return 0;
+		Encadreur foundedencadreur = findByReference(encadreur.getReference());
+		if(foundedencadreur == null) {
+			return -1;
+		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
+			return -2;
+		}else {
+			encadreur.setUtilisateur(utilisateurService.findByEmail(encadreur.getUtilisateur().getEmail()));
+			encadreurDao.save(encadreur);
+			return 1;
+		}
 	}
 	@Transactional
 	@Override
-	public int removeById(Long id) {
-		
-		return 0;
+	public int removeByReference(String reference) {
+		Encadreur encadreur = findByReference(reference);
+		if(encadreur == null) {
+			return -1;
+		}else {
+			Utilisateur u = encadreur.getUtilisateur();
+			encadreurDao.delete(encadreur);
+			utilisateurService.removeById(u.getId());
+			return 1;
+		}
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.gestion.stage.util;
+package com.gestion.stage.utils;
 
 import org.apache.logging.log4j.util.Strings;
 
@@ -7,7 +7,9 @@ import com.gestion.stage.bean.Encadreur;
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.MembreJury;
 import com.gestion.stage.bean.OrganismeAccueil;
+import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.StageEncadreur;
+import com.gestion.stage.bean.StageEtudiant;
 import com.gestion.stage.bean.Utilisateur;
 
 public class FieldsUtil {
@@ -56,6 +58,20 @@ public class FieldsUtil {
 	}
 	public static int StageEncadreurFields(StageEncadreur stageEncadreur) {
 		if(stageEncadreur.getEncadreur().getReference() == null || stageEncadreur.getEncadreur().getReference() == "" || stageEncadreur.getStage().getId() == 0 || stageEncadreur.getStage().getId() == null) {
+			return -1;
+		}else {
+			return 1;
+		}
+	}
+	public static int StageFields(Stage stage) {
+		if( stage.getDateDebut() == null || stage.getDateFin() == null || stage.getTypeStage() == null || Strings.isEmpty(stage.getReference())) {
+			return -1;
+		}else {
+			return 1;
+		}
+	}
+	public static int StageEtudiantFields(StageEtudiant stageEtudiant) {
+		if(Strings.isEmpty(stageEtudiant.getEtudiant().getCin()) || Strings.isEmpty(stageEtudiant.getEtudiant().getCodeAppoge()) || stageEtudiant.getStage().getId() == null || stageEtudiant.getStage().getId() == 0) {
 			return -1;
 		}else {
 			return 1;

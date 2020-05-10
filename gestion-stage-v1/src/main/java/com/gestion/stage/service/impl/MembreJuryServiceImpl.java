@@ -12,7 +12,7 @@ import com.gestion.stage.bean.Utilisateur;
 import com.gestion.stage.dao.MembreJuryDao;
 import com.gestion.stage.service.MembreJuryService;
 import com.gestion.stage.service.UtilisateurService;
-import com.gestion.stage.util.FieldsUtil;
+import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class MembreJuryServiceImpl implements MembreJuryService{
 	@Autowired
@@ -74,8 +74,8 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	}
 	@Transactional
 	@Override
-	public int removeById(Long id) {
-		MembreJury foundedjury = membreJuryDao.findById(id).get();
+	public int removeByReference(String reference) {
+		MembreJury foundedjury = findByReference(reference);
 		if(foundedjury == null) {
 			return -1;
 		}else {

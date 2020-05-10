@@ -21,6 +21,7 @@ public class Tache{
 	private Long id;
 	@Column(columnDefinition = "Text")
 	private String contenu;
+	private String reference;
 	private Date dateCreation;
 	private Date dateLimite;
 	private boolean effectuer;

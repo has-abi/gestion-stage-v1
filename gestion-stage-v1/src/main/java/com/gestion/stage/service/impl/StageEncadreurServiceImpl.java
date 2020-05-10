@@ -5,44 +5,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gestion.stage.bean.Encadreur;
-import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.StageEncadreur;
 import com.gestion.stage.dao.StageEncadrantDao;
-import com.gestion.stage.service.EncadreurService;
 import com.gestion.stage.service.StageEncadrantService;
-import com.gestion.stage.service.StageService;
-import com.gestion.stage.util.FieldsUtil;
+import com.gestion.stage.utils.FieldsUtil;
 
 @Service
 public class StageEncadreurServiceImpl implements StageEncadrantService{
 	@Autowired
 	private StageEncadrantDao stageEncadrantDao;
-	@Autowired
-	private EncadreurService encadreurService;
-	@Autowired
-	private StageService stageService;
 	
-
 	@Override
 	public int save(StageEncadreur stageEncadreur) {
-		Encadreur encadreur = encadreurService.findByReference(stageEncadreur.getEncadreur().getReference());
-		Stage stage = stageService.findByid(stageEncadreur.getStage().getId());
-		if(FieldsUtil.StageEncadreurFields(stageEncadreur)<0) {
-			return -1;
-		}else if(encadreur == null || stage == null) {
-			return -2;
-		}else {
-			StageEncadreur se = findByStageIdAndEncadreurReference(stageEncadreur.getStage().getId(), stageEncadreur.getEncadreur().getReference());
+			StageEncadreur se = findByStageReferenceAndEncadreurReference(stageEncadreur.getStage().getReference(), stageEncadreur.getEncadreur().getReference());
 			if(se != null) {
-				return 2;
+				return -1;
 			}else {
-				stageEncadreur.setEncadreur(encadreur);
-				stageEncadreur.setStage(stage);
 				stageEncadrantDao.save(stageEncadreur);
 				return 1;
 			}
-		}
 	}
 
 	@Override
@@ -52,7 +33,7 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 
 	@Override
 	public int update(StageEncadreur stageEncadreur) {
-		StageEncadreur so = stageEncadrantDao.findById(stageEncadreur.getId()).get();
+		StageEncadreur so = findByStageReferenceAndEncadreurReference(stageEncadreur.getEncadreur().getReference(), stageEncadreur.getStage().getReference());
 		if(so == null) {
 			return -1;
 		}else if(FieldsUtil.StageEncadreurFields(stageEncadreur)<0) {
@@ -75,8 +56,8 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 	}
 
 	@Override
-	public List<StageEncadreur> findByStageId(Long id) {
-		return stageEncadrantDao.findByStageId(id);
+	public List<StageEncadreur> findByStageReference(String reference) {
+		return stageEncadrantDao.findByStageReference(reference);
 	}
 
 	@Override
@@ -85,8 +66,8 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 	}
 
 	@Override
-	public StageEncadreur findByStageIdAndEncadreurReference(Long id, String reference) {
-		return findByStageIdAndEncadreurReference(id, reference);
+	public StageEncadreur findByStageReferenceAndEncadreurReference(String stage, String reference) {
+		return stageEncadrantDao.findByStageReferenceAndEncadreurReference(stage, reference);
 	}
 
 }

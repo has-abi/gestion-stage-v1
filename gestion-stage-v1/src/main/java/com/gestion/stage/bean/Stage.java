@@ -3,6 +3,7 @@ package com.gestion.stage.bean;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,8 @@ import lombok.NoArgsConstructor;
 public class Stage{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(unique = true)
+	private String reference;
 	private String sujet;
 	@Temporal(TemporalType.DATE)
 	private Date dateDebut;

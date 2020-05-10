@@ -1,4 +1,4 @@
-package com.gestion.stage.ws;
+package com.gestion.stage.rest;
 
 import java.util.List;
 

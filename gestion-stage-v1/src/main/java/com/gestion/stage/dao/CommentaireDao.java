@@ -11,12 +11,8 @@ import com.gestion.stage.bean.SujetForum;
 
 @Repository
 public interface CommentaireDao  extends JpaRepository<Commentaire, Long>{
-	List<Commentaire> findByCommentaire(Commentaire commentaire);
      List<Commentaire> findByDateCreation(Date dateCreation);
       List<Commentaire> findBySujetForum(SujetForum sujetForum);
-
-
-
-	
-
+      int deleteByDateCreation(Date dateCreation);
+      
 }

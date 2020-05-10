@@ -12,6 +12,6 @@ public interface MembreJuryService {
 	MembreJury findByReference(String reference);
 	int save(MembreJury membreJury);
 	int update(MembreJury membreJury);
-	int removeById(Long id);
+	int removeByReference(String reference);
 
 }

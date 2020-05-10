@@ -5,9 +5,9 @@ import java.util.List;
 import com.gestion.stage.bean.StageEncadreur;
 
 public interface StageEncadrantService {
-	List<StageEncadreur> findByStageId(Long id);
+	List<StageEncadreur> findByStageReference(String reference);
 	List<StageEncadreur> findByEncadreurReference(String reference);
-	StageEncadreur findByStageIdAndEncadreurReference(Long id,String reference);
+	StageEncadreur findByStageReferenceAndEncadreurReference(String stage,String reference);
 	int save(StageEncadreur stageEncadreur);
 	List<StageEncadreur> findAll();
 	int update(StageEncadreur stageEncadreur);

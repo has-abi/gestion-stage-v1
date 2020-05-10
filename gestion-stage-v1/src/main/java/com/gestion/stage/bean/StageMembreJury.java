@@ -7,6 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,6 +26,8 @@ public class StageMembreJury{
 	@Column(columnDefinition = "Text" )
 	private String remarque;
 	private String role;
+	@Temporal(TemporalType.DATE)
+	private Date dateAffectation;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private MembreJury membreJury;

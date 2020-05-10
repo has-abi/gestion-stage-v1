@@ -64,7 +64,7 @@ public class PaysServiceImpl implements PaysService{
 		if(pays == null) {
 			return -1;
 		}else {
-			List<Ville> villes = villeService.findByPaysNom(nom);
+			List<Ville> villes = pays.getVilles();
 			villes.forEach(ville->villeService.removeByid(ville.getId()));
 			paysDao.delete(pays);
 			return 1;

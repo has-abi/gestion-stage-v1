@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Etablissement;
+import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Pays;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.VilleDao;
 import com.gestion.stage.service.EtablissementService;
+import com.gestion.stage.service.OrganismeAccueilService;
 import com.gestion.stage.service.PaysService;
 import com.gestion.stage.service.VilleService;
 
@@ -23,6 +25,8 @@ public class VilleServiceImpl implements VilleService {
 	private PaysService paysService;
 	@Autowired
 	private EtablissementService etablissementService;
+	@Autowired
+	private OrganismeAccueilService organismeAccueilService;
 
 	@Override
 	public Ville findbyId(Long id) {
@@ -53,15 +57,22 @@ public class VilleServiceImpl implements VilleService {
 	@Transactional
 	@Override
 	public int removeByid(Long id) {
-		Ville v = findbyId(id);
-		if (v == null) {
+		if(id == null || id == 0) {
 			return -1;
-		} else {
-			List<Etablissement> etabs = etablissementService.findByVilleId(v.getId());
-			etabs.forEach(etab -> etablissementService.removeByLibelle(etab.getLibelle()));
-			villeDao.delete(v);
-			return 1;
+		}else {
+			Ville v = findbyId(id);
+			if (v == null) {
+				return -1;
+			} else {
+				List<Etablissement> etabs = v.getEtablissements();
+				etabs.forEach(etab -> etablissementService.removeByLibelle(etab.getLibelle()));
+				List<OrganismeAccueil> orgs = v.getOrganismeAccueils();
+				orgs.forEach(o->organismeAccueilService.removeById(o.getId()));
+				villeDao.delete(v);
+				return 1;
+			}
 		}
+		
 	}
 
 	@Override

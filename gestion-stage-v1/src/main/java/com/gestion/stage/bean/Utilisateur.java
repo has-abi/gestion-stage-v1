@@ -1,12 +1,14 @@
 package com.gestion.stage.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
@@ -46,5 +48,9 @@ public class Utilisateur{
 	@Temporal(TemporalType.DATE)
 	private Date dateJoin;
 	private int role;
+	@OneToMany(mappedBy = "utilisateur")
+	private List<SujetForum> sujetForums;
+	@OneToMany(mappedBy = "utilisateur")
+	private List<Commentaire> commentaires;
 	
 }

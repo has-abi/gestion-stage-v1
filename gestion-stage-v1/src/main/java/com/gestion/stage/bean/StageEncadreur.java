@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +23,8 @@ public class StageEncadreur{
 	private Long id;
 	@Column(columnDefinition = "Text")
 	private String remarque;
+	@Temporal(TemporalType.DATE)
+	private Date dateAffectation;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Encadreur encadreur;

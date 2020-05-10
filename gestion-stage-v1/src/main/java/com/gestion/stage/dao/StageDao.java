@@ -17,6 +17,6 @@ public interface StageDao extends JpaRepository<Stage, Long> {
 	List<Stage> findByDateFinBetween(Date date1, Date date2);
 	List<Stage> findBySujetContains(String sujet);
 	List<Stage> findByOrganismeAccueilRaisonSociale(String raisonSocial);
-	Stage findByid(Long id);
+	Stage findByReference(String reference);
 
 }

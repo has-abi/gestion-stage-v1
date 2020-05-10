@@ -13,6 +13,10 @@ public interface StageService {
 	List<Stage> findByDateFinBetween(Date date1, Date date2);
 	List<Stage> findBySujetContains(String sujet);
 	List<Stage> findByOrganismeAccueilRaisonSocial(String raisonSocial);
-	Stage findByid(Long id);
 	int save(Stage stage);
+	Stage findByid(Long id);
+	int update(Stage stage);
+	int removeByReference(String reference);
+	List<Stage> findAll();
+	Stage findByReference(String reference);
 }
