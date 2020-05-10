@@ -8,6 +8,5 @@ import com.gestion.stage.bean.TypeOrganisme;
 
 @Repository
 public interface TypeOrganismeDao extends JpaRepository<TypeOrganisme, Long>{
-
-
+	 TypeOrganisme findByType(String type);
 }

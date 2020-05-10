@@ -4,11 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.Coordinateur;
-import com.gestion.stage.bean.Filiere;
-import com.gestion.stage.bean.Utilisateur;
 @Repository
 public interface CoordinateurDao extends JpaRepository<Coordinateur, Long>{
 	Coordinateur findByReference(String reference);
-	Coordinateur findByFiliere(Filiere filiere);
-	Coordinateur findByUtilisateur(Utilisateur utilisateur);
+	Coordinateur findByFiliereId(Long id);
+	Coordinateur findByUtilisateurId(Long id);
 }

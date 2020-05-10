@@ -2,6 +2,8 @@ package com.gestion.stage.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,7 @@ public class EtablissementServiceImpl implements EtablissementService{
 
 	@Override
 	public int save(Etablissement etablissement) {
-		Ville v = villeService.findByPaysNomAndNom(etablissement.getVille().getNom(), etablissement.getVille().getPays().getNom());
+		Ville v = villeService.findByPaysNomAndNom(etablissement.getVille().getPays().getNom(),etablissement.getVille().getNom());
 		if(v == null) {
 			return -1;
 		}else if(etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
@@ -50,14 +52,14 @@ public class EtablissementServiceImpl implements EtablissementService{
 			}
 		}
 	}
-
+	@Transactional
 	@Override
 	public int removeByLibelle(String libelle) {
 		Etablissement etab = findByLibelle(libelle);
 		if(etab == null) {
 			return -1;
 		}else {
-			List<Departement> deps = departementService.findByEtablissementLibelle(libelle);
+			List<Departement> deps = etab.getDepartements();
 			deps.forEach(dep->departementService.removeById(dep.getId()));
 			etablissementDao.delete(etab);
 			return 1;
@@ -66,16 +68,21 @@ public class EtablissementServiceImpl implements EtablissementService{
 
 	@Override
 	public int update(Etablissement etablissement) {
-		Etablissement etab = etablissementDao.findById(etablissement.getId()).get();
-		Etablissement etabBylibelle = findByLibelle(etablissement.getLibelle());
-		if(etab == null || etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
-			return -1;
-		}else if(etabBylibelle!=null && etabBylibelle.getId() != etab.getId()) {
-			return -2;
+		if(etablissement.getId() != null || etablissement.getId() != 0) {
+			Etablissement etab = etablissementDao.findById(etablissement.getId()).get();
+			Etablissement etabBylibelle = findByLibelle(etablissement.getLibelle());
+			if(etab == null || etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
+				return -1;
+			}else if(etabBylibelle!=null && etabBylibelle.getId() != etab.getId()) {
+				return -2;
+			}else {
+				etablissementDao.save(etablissement);
+				return 1;
+			}
 		}else {
-			etablissementDao.save(etablissement);
-			return 1;
+			return -3;
 		}
+		
 	}
 
 	@Override

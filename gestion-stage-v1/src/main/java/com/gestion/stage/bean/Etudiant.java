@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +37,7 @@ public class Etudiant{
 	@ManyToOne
 	private Filiere filiere;
 	@OneToMany(mappedBy = "etudiant")
+	private List<StageEtudiant> stageEtudiants;
 	private List<EtudiantDocument>  etudiantDocuments;
 	
 }

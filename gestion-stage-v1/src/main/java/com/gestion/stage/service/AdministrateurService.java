@@ -6,9 +6,13 @@ import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.bean.Administrateur;
 
 public interface AdministrateurService {
-	List<Administrateur> findByProfession(String profession);
+	List<Administrateur> findByProfessionContains(String profession);
 	List<Administrateur> findByEtablissement(Etablissement etablissement);
 	List<Administrateur> findAll();
 	int save(Administrateur administrateur);
-
+	int update(Administrateur administrateur);
+	int removeByRef(String ref);
+	Administrateur findByUtilisateurEmail(String email);
+	Administrateur findByUtilisateurId(Long id);
+	Administrateur findByRef(String ref);
 }

@@ -7,4 +7,5 @@ import com.gestion.stage.bean.TypeServiceOrganisme;
 
 @Repository
 public interface TypeServiceOrganismeDao extends JpaRepository<TypeServiceOrganisme, Long> {
+	TypeServiceOrganisme findByType(String type);
 }
