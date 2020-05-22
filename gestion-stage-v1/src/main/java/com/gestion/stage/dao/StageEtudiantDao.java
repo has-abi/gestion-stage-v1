@@ -11,5 +11,6 @@ import com.gestion.stage.bean.StageEtudiant;
 public interface StageEtudiantDao extends JpaRepository<StageEtudiant, Long> {
 	List<StageEtudiant> findByStageReference(String reference);
 	List<StageEtudiant> findByEtudiantCin(String cin);
+	List<StageEtudiant> findByEtudiantUtilisateurNomContainsOrEtudiantUtilisateurPrenomContains(String nom,String prenom);
 	StageEtudiant findByStageReferenceAndEtudiantCin(String refernce,String cin);
 }

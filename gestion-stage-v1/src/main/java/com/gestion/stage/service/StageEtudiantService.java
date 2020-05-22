@@ -12,4 +12,5 @@ public interface StageEtudiantService {
 	int update(StageEtudiant stageEtudiant);
 	int removeById(Long id);
 	StageEtudiant findByStageReferenceAndEtudiantCin(String refernce,String cin);
+	List<StageEtudiant> findByEtudiantUtilisateurNomContainsOrEtudiantUtilisateurPrenomContains(String nom,String prenom);
 }

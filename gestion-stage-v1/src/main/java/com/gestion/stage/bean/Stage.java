@@ -30,8 +30,8 @@ public class Stage{
 	@Temporal(TemporalType.DATE)
 	private Date dateFin;
 	private boolean statu;
-	@ManyToOne
-	private TypeStage typeStage;
+	
+	
 	@ManyToOne
 	private OrganismeAccueil organismeAccueil;
 	@Temporal(TemporalType.DATE)

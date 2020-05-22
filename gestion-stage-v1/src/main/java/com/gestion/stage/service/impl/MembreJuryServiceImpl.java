@@ -5,6 +5,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.MembreJury;
@@ -25,8 +30,8 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	}
 
 	@Override
-	public List<MembreJury> findByProfession(String profession) {
-		return membreJuryDao.findByProfession(profession);
+	public Page<MembreJury> findByProfession(String profession,int page,int size) {
+		return membreJuryDao.findByProfession(profession,PageRequest.of(page, size));
 	}
 
 	@Override
@@ -94,6 +99,22 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	@Override
 	public MembreJury findByReference(String reference) {
 		return membreJuryDao.findByReference(reference);
+	}
+
+	@Override
+	public Page<MembreJury> findAllWithPaginition(int page, int size) {
+		return membreJuryDao.findAll(PageRequest.of(page, size));
+	}
+
+	@Override
+	public Page<MembreJury> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom, String prenom, int page,
+			int size) {
+		return membreJuryDao.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<MembreJury>> searchForJuries(Specification<MembreJury> spec) {
+		return new ResponseEntity<>(membreJuryDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
 }

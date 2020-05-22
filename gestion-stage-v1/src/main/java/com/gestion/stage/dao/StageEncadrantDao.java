@@ -12,6 +12,7 @@ import com.gestion.stage.bean.StageEncadreur;
 public interface StageEncadrantDao extends JpaRepository<StageEncadreur, Long> {
 	List<StageEncadreur> findByStageReference(String reference);
 	List<StageEncadreur> findByEncadreurReference(String reference);
+	List<StageEncadreur> findByEncadreurUtilisateurNomContainsOrEncadreurUtilisateurPrenomContains(String nom,String prenom);
 	StageEncadreur findByStageReferenceAndEncadreurReference(String stage,String reference);
 	
 }

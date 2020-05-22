@@ -109,4 +109,25 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		return utilisateurDao.findAll();
 	}
 
+	@Override
+	public int save(Utilisateur utilisateur) {
+		
+		Utilisateur u = findByReference(utilisateur.getReference());
+		if(u != null) {
+			return -1;
+		}else if (utilisateur.getNom() == "" || utilisateur.getNom() == null || utilisateur.getPrenom() == ""
+				|| utilisateur.getPrenom() == null) {
+			return -2;
+		}else{
+			utilisateurDao.save(utilisateur);	
+			return 1;
+		}
+	}
+
+	@Override
+	public Utilisateur findByReference(String reference) {
+		return utilisateurDao.findByReference(reference);
+	}
+	
+
 }

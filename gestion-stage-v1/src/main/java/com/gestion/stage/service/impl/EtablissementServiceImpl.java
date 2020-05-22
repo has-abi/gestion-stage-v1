@@ -9,17 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etablissement;
-import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.EtablissementDao;
 import com.gestion.stage.service.DepartementService;
 import com.gestion.stage.service.EtablissementService;
-import com.gestion.stage.service.VilleService;
 @Service
 public class EtablissementServiceImpl implements EtablissementService{
 	@Autowired
 	private EtablissementDao etablissementDao;
-	@Autowired
-	private VilleService villeService;
+
 	@Autowired
 	private DepartementService departementService;
 
@@ -28,25 +25,18 @@ public class EtablissementServiceImpl implements EtablissementService{
 		return etablissementDao.findByLibelle(libelle);
 	}
 
-	@Override
-	public List<Etablissement> findByVilleId(Long id) {
-		return etablissementDao.findByVilleId(id);
-	}
+
 
 	@Override
 	public int save(Etablissement etablissement) {
-		Ville v = villeService.findByPaysNomAndNom(etablissement.getVille().getPays().getNom(),etablissement.getVille().getNom());
-		if(v == null) {
+		 if(etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
 			return -1;
-		}else if(etablissement.getLibelle() == null || etablissement.getLibelle() == "") {
-			return -2;
 		}
 		else {
 			Etablissement etab = findByLibelle(etablissement.getLibelle());
 			if(etab!=null) {
 				return -3;
 			}else {
-				etablissement.setVille(v);
 				etablissementDao.save(etablissement);
 				return 1;
 			}

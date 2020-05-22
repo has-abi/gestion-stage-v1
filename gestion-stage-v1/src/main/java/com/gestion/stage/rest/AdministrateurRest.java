@@ -18,7 +18,7 @@ import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.service.AdministrateurService;
 
 @RestController
-@RequestMapping("gestion-stage-api/stage-encadreur")
+@RequestMapping("gestion-stage-api/administrateur")
 @CrossOrigin({"http://localhost:4200"})
 public class AdministrateurRest {
 	@Autowired

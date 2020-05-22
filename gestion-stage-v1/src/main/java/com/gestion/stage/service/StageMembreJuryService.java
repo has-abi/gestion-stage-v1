@@ -12,4 +12,5 @@ public interface StageMembreJuryService {
 	int save(StageMembreJury stageMembreJury);
 	int update(StageMembreJury stageMembreJury);
 	int removeByid(Long id);
+	List<StageMembreJury> findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(String nom,String prenom);
 }

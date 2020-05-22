@@ -3,6 +3,9 @@ package com.gestion.stage.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.MembreJury;
 import com.gestion.stage.service.MembreJuryService;
+import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/jury")
@@ -22,13 +26,26 @@ import com.gestion.stage.service.MembreJuryService;
 public class MembreJuryRest {
 	@Autowired
 	private MembreJuryService membreJuryService;
+	@GetMapping("/utilisateur/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
+	public Page<MembreJury> findByUtilisateurNomContainsOrUtilisateurPrenomContains(@PathVariable String nom,@PathVariable String prenom,
+			@PathVariable int page,@PathVariable int size) {
+		return membreJuryService.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, page, size);
+	}
+	@GetMapping("/search")
+	public ResponseEntity<List<MembreJury>> searchForJuries(@SearchSpec Specification<MembreJury> spec) {
+		return membreJuryService.searchForJuries(spec);
+	}
+	@GetMapping("/page/{page}/size/{size}")
+	public Page<MembreJury> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+		return membreJuryService.findAllWithPaginition(page, size);
+	}
 	@GetMapping("/utilisateur/{id}")
 	public MembreJury findByUtilisateurId(@PathVariable Long id) {
 		return membreJuryService.findByUtilisateurId(id);
 	}
-	@GetMapping("/profession/{profession}")
-	public List<MembreJury> findByProfession(@PathVariable String profession) {
-		return membreJuryService.findByProfession(profession);
+	@GetMapping("/profession/{profession}/page/{page}/size/{size}")
+	public Page<MembreJury> findByProfession(@PathVariable String profession,@PathVariable int page,@PathVariable int size) {
+		return membreJuryService.findByProfession(profession,page,size);
 	}
 	@GetMapping("/")
 	public List<MembreJury> findAll() {

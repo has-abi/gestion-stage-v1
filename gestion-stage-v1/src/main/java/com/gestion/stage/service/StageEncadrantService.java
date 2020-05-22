@@ -12,4 +12,5 @@ public interface StageEncadrantService {
 	List<StageEncadreur> findAll();
 	int update(StageEncadreur stageEncadreur);
 	int removeById(Long id);
+	List<StageEncadreur> findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(String nom,String prenom);
 }

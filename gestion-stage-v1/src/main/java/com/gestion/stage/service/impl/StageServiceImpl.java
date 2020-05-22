@@ -1,11 +1,15 @@
 package com.gestion.stage.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.OrganismeAccueil;
@@ -13,7 +17,6 @@ import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.StageEncadreur;
 import com.gestion.stage.bean.StageEtudiant;
 import com.gestion.stage.bean.StageMembreJury;
-import com.gestion.stage.bean.TypeStage;
 import com.gestion.stage.dao.StageDao;
 import com.gestion.stage.service.EncadreurService;
 import com.gestion.stage.service.EtudiantService;
@@ -44,33 +47,31 @@ public class StageServiceImpl implements StageService{
 	@Autowired
 	private MembreJuryService membreJuryService;
 	@Override
-	public List<Stage> findByDateDebut(Date dateDebut) {
-		return stageDao.findByDateDebut(dateDebut);
+	public Page<Stage> findByDateDebut(String dateDebut,int page,int size) {
+		System.out.println(dateDebut);
+		return stageDao.findByDateDebut(dateDebut,PageRequest.of(page,size));
 	}
 
 	@Override
-	public List<Stage> findByDateFin(Date dateFin) {
-		return stageDao.findByDateFin(dateFin);
+	public Page<Stage> findByDateFin(String dateFin,int page,int size) {
+		return stageDao.findByDateFin(dateFin,PageRequest.of(page, size));
 	}
 
-	@Override
-	public List<Stage> findByTypeStage(TypeStage typeStage) {
-		return stageDao.findByTypeStage(typeStage);
-	}
+	
 
 	@Override
-	public List<Stage> findByDateFinBetween(Date date1, Date date2) {
+	public List<Stage> findByDateFinBetween(String date1, String date2) {
 		return stageDao.findByDateFinBetween(date1, date2);
 	}
 
 	@Override
-	public List<Stage> findBySujetContains(String sujet) {
-		return stageDao.findBySujetContains(sujet);
+	public Page<Stage> findBySujetContains(String sujet,int page,int size) {
+		return stageDao.findBySujetContains(sujet,PageRequest.of(page, size));
 	}
 
 	@Override
-	public List<Stage> findByOrganismeAccueilRaisonSocial(String raisonSocial) {
-		return stageDao.findByOrganismeAccueilRaisonSociale(raisonSocial);
+	public Page<Stage> findByOrganismeAccueilRaisonSocial(String raisonSocial,int page,int size) {
+		return stageDao.findByOrganismeAccueilRaisonSociale(raisonSocial,PageRequest.of(page, size));
 	}
 
 	@Override
@@ -87,6 +88,7 @@ public class StageServiceImpl implements StageService{
 		}else if(DateUtil.compareDates(stage.getDateDebut(), stage.getDateFin())<=0){
 			return -3;
 		}else {
+			
 			if(stage.getOrganismeAccueil() != null) {
 				organismeAccueilService.save(stage.getOrganismeAccueil());
 				OrganismeAccueil oa = organismeAccueilService.findByRaisonSocial(stage.getOrganismeAccueil().getRaisonSociale());
@@ -106,7 +108,7 @@ public class StageServiceImpl implements StageService{
 					stageEtudiantService.save(se);
 				}
 			}
-			if(stage.getStageEncadreurs() !=null) {
+			if(stage.getStageEncadreurs() != null) {
 				for(StageEncadreur se : stage.getStageEncadreurs()) {
 					if(encadreurService.findByReference(se.getEncadreur().getReference()) == null) {
 						encadreurService.save(se.getEncadreur());
@@ -175,6 +177,16 @@ public class StageServiceImpl implements StageService{
 	@Override
 	public Stage findByReference(String reference) {
 		return stageDao.findByReference(reference);
+	}
+
+	@Override
+	public Page<Stage> findAllWithPaginition(int page,int size) {
+		return stageDao.findAll(PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<Stage>> searchForStages(Specification<Stage> spec) {
+		return  new ResponseEntity<>(stageDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
 }

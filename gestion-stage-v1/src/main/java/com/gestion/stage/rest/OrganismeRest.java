@@ -2,6 +2,9 @@ package com.gestion.stage.rest;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,23 +17,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.service.OrganismeAccueilService;
+import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/organismeAccueil")
 @CrossOrigin({"http://localhost:4200"})
 public class OrganismeRest {
 	private OrganismeAccueilService organismeAccueilService;
-	@GetMapping("/type/{type}")
-	public List<OrganismeAccueil> findByTypeOrganismeType(@PathVariable String type) {
-		return organismeAccueilService.findByTypeOrganismeType(type);
+	@GetMapping("/page/{page}/size/{size}")
+	public Page<OrganismeAccueil> findAllWithPagination(@PathVariable int page,@PathVariable int size) {
+		return organismeAccueilService.findAllWithPagination(page, size);
 	}
-	@GetMapping("/typeService/{type}")
-	public List<OrganismeAccueil> findByTypeServiceOrganismeType(@PathVariable String type) {
-		return organismeAccueilService.findByTypeServiceOrganismeType(type);
+	@GetMapping("/search")
+	public ResponseEntity<List<OrganismeAccueil>> searchForOrganismes(@SearchSpec Specification<OrganismeAccueil> spec) {
+		return organismeAccueilService.searchForOrganismes(spec);
 	}
-	@GetMapping("/ville/{nom}")
-	public List<OrganismeAccueil> findByVilleNom(@PathVariable String nom) {
-		return organismeAccueilService.findByVilleNom(nom);
+	@GetMapping("/type/{type}/page/{page}/size/{size}")
+	public Page<OrganismeAccueil> findByTypeOrganismeType(@PathVariable String type,@PathVariable int page,@PathVariable int size) {
+		return organismeAccueilService.findByTypeOrganismeType(type,page,size);
+	}
+	@GetMapping("/typeService/{type}/page/{page}/size/{size}")
+	public Page<OrganismeAccueil> findByTypeServiceOrganismeType(@PathVariable String type,@PathVariable int page,@PathVariable int size) {
+		return organismeAccueilService.findByTypeServiceOrganismeType(type,page,size);
+	}
+	@GetMapping("/ville/{nom}/page/{page}/size/{size}")
+	public Page<OrganismeAccueil> findByVilleNom(@PathVariable String nom,@PathVariable int page,@PathVariable int size) {
+		return organismeAccueilService.findByVilleNom(nom,page,size);
 	}
 	@GetMapping("/raisonSociale/{raisonSocial}")
 	public OrganismeAccueil findByRaisonSocial(@PathVariable String raisonSocial) {

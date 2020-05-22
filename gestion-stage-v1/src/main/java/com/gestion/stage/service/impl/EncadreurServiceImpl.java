@@ -5,6 +5,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Encadreur;
@@ -21,8 +26,8 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Autowired
 	private UtilisateurService utilisateurService;
 	@Override
-	public List<Encadreur> findByProfession(String profession) {
-		return encadreurDao.findByProfession(profession);
+	public Page<Encadreur> findByProfession(String profession,int page,int size) {
+		return encadreurDao.findByProfession(profession,PageRequest.of(page, size));
 	}
 
 	@Override
@@ -50,13 +55,13 @@ public class EncadreurServiceImpl implements EncadreurService{
 
 
 	@Override
-	public List<Encadreur> findByType(String type) {
-		return encadreurDao.findByType(type);
+	public Page<Encadreur> findByType(String type,int page,int size) {
+		return encadreurDao.findByType(type,PageRequest.of(page, size));
 	}
 
 	@Override
-	public List<Encadreur> findByQualite(String qualite) {
-		return encadreurDao.findByQualite(qualite);
+	public Page<Encadreur> findByQualite(String qualite,int page,int size) {
+		return encadreurDao.findByQualite(qualite,PageRequest.of(page, size));
 	}
 
 	@Override
@@ -101,4 +106,21 @@ public class EncadreurServiceImpl implements EncadreurService{
 		return encadreurDao.findByReference(reference);
 	}
 
+	@Override
+	public Page<Encadreur> findAllWithPaginition(int page, int size) {
+		return encadreurDao.findAll(PageRequest.of(page, size));
+	}
+
+
+	@Override
+	public Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom, String prenom, int page,
+			int size) {
+		return encadreurDao.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<Encadreur>> searchForEncadreurs(Specification<Encadreur> spec) {
+		return new ResponseEntity<>(encadreurDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+	
 }

@@ -22,6 +22,11 @@ import com.gestion.stage.service.StageEncadrantService;
 public class StageEncadreurRest {
 	@Autowired
 	private StageEncadrantService stageEncadrantService;
+	@GetMapping("/encadreur/nom/{nom}/prenom/{prenom}")
+	public List<StageEncadreur> findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(@PathVariable String nom,
+			@PathVariable String prenom) {
+		return stageEncadrantService.findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(nom, prenom);
+	}
 	@GetMapping("/stage/reference/{reference}")
 	public List<StageEncadreur> findByStageReference(@PathVariable String reference) {
 		return stageEncadrantService.findByStageReference(reference);

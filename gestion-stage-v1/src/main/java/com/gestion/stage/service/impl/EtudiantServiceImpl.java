@@ -5,6 +5,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Etudiant;
@@ -14,6 +19,7 @@ import com.gestion.stage.dao.EtudiantDao;
 import com.gestion.stage.service.EtudiantService;
 import com.gestion.stage.service.FiliereService;
 import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 
 
@@ -55,12 +61,14 @@ public class EtudiantServiceImpl implements EtudiantService{
 			}else if(filiere == null) {
 				return -4;
 			}else {
+				etudiant.getUtilisateur().setReference("u"+DateUtil.getDate().getTime());
 				etudiant.getUtilisateur().setRole(1);
-				if(utilisateurService.register(etudiant.getUtilisateur())<0) {
+				etudiant.getUtilisateur().setActive(false);
+				if(utilisateurService.save(etudiant.getUtilisateur())<0) {
 					return -5;
 				}
 				
-				etudiant.setUtilisateur(utilisateurService.findByEmail(etudiant.getUtilisateur().getEmail()));
+				etudiant.setUtilisateur(utilisateurService.findByReference(etudiant.getUtilisateur().getReference()));
 				etudiantDao.save(etudiant);
 				return 1;
 			}
@@ -112,6 +120,27 @@ public class EtudiantServiceImpl implements EtudiantService{
 	@Override
 	public Etudiant findByUtilisateurId(Long id) {
 		return etudiantDao.findByUtilisateurId(id);
+	}
+
+	@Override
+	public Page<Etudiant> findAllWithPaginition(int page, int size) {
+		return etudiantDao.findAll(PageRequest.of(page, size));
+	}
+
+	@Override
+	public Page<Etudiant> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom, String prenom, int page,
+			int size) {
+		return etudiantDao.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, PageRequest.of(page, size));
+	}
+
+	@Override
+	public Page<Etudiant> findByNiveau(String niveau, int page, int size) {
+		return etudiantDao.findByNiveau(niveau, PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<Etudiant>> searchForEtudiants(Specification<Etudiant> spec) {
+		return new ResponseEntity<>(etudiantDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
 }

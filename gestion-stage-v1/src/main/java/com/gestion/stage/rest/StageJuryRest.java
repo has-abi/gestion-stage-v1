@@ -22,6 +22,12 @@ import com.gestion.stage.service.StageMembreJuryService;
 public class StageJuryRest {
 	@Autowired
 	private StageMembreJuryService stageMembreJuryService;
+	@GetMapping("/jury/nom/{nom}/prenom/{prenom}")
+	public List<StageMembreJury> findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(String nom,
+			String prenom) {
+		return stageMembreJuryService.findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(nom,
+				prenom);
+	}
 	@GetMapping("/stage/reference/{reference}")
 	public List<StageMembreJury> findByStageReference(@PathVariable String reference) {
 		return stageMembreJuryService.findByStageReference(reference);

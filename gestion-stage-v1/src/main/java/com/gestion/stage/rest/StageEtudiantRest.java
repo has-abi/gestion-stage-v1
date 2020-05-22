@@ -22,6 +22,12 @@ import com.gestion.stage.service.StageEtudiantService;
 public class StageEtudiantRest {
 	@Autowired
 	private StageEtudiantService stageEtudiantService;
+	@GetMapping("/etudiant/nom/etudiant/prenom")
+	public List<StageEtudiant> findByEtudiantUtilisateurNomContainsOrEtudiantUtilisateurPrenomContains(@PathVariable String nom,
+			@PathVariable String prenom) {
+		return stageEtudiantService.findByEtudiantUtilisateurNomContainsOrEtudiantUtilisateurPrenomContains(nom,
+				prenom);
+	}
 	@GetMapping("/stage/reference/{reference}")
 	public List<StageEtudiant> findByStageReference(@PathVariable String reference) {
 		return stageEtudiantService.findByStageReference(reference);

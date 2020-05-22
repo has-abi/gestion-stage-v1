@@ -3,6 +3,9 @@ package com.gestion.stage.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Encadreur;
 import com.gestion.stage.service.EncadreurService;
+import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/encadreur")
@@ -22,17 +26,30 @@ import com.gestion.stage.service.EncadreurService;
 public class EncadreurRest {
 	@Autowired
 	private EncadreurService encadreurService;
-	@GetMapping("/profession/{profession}")
-	public List<Encadreur> findByProfession(@PathVariable String profession) {
-		return encadreurService.findByProfession(profession);
+	@GetMapping("/utilisateur/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
+	public Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(@PathVariable String nom,@PathVariable String prenom,
+			@PathVariable int page,@PathVariable int size) {
+		return encadreurService.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, page, size);
 	}
-	@GetMapping("/type/{type}")
-	public List<Encadreur> findByType(String type) {
-		return encadreurService.findByType(type);
+	@GetMapping("/search")
+	public ResponseEntity<List<Encadreur>> searchForEncadreurs(@SearchSpec Specification<Encadreur> spec) {
+		return encadreurService.searchForEncadreurs(spec);
 	}
-	@GetMapping("/qualite/{qualite}")
-	public List<Encadreur> findByQualite(@PathVariable String qualite) {
-		return encadreurService.findByQualite(qualite);
+	@GetMapping("/page/{page}/size/{size}")
+	public Page<Encadreur> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+		return encadreurService.findAllWithPaginition(page, size);
+	}
+	@GetMapping("/profession/{profession}/page/{page}/size/{size}")
+	public Page<Encadreur> findByProfession(@PathVariable String profession,@PathVariable int page,@PathVariable int size) {
+		return encadreurService.findByProfession(profession,page,size);
+	}
+	@GetMapping("/type/{type}/page/{page}/size/{size}")
+	public Page<Encadreur> findByType(String type,@PathVariable int page,@PathVariable int size) {
+		return encadreurService.findByType(type,page,size);
+	}
+	@GetMapping("/qualite/{qualite}/page/{page}/size/{size}")
+	public Page<Encadreur> findByQualite(@PathVariable String qualite,@PathVariable int page,@PathVariable int size) {
+		return encadreurService.findByQualite(qualite,page,size);
 	}
 	@GetMapping("/utlisateur/id/{id}")
 	public Encadreur findByUtilisateurId(@PathVariable Long id) {
@@ -55,7 +72,7 @@ public class EncadreurRest {
 		return encadreurService.update(encadreur);
 	}
 	@DeleteMapping("/reference/{reference}")
-	public int removeById(String reference) {
+	public int removeByReference(String reference) {
 		return encadreurService.removeByReference(reference);
 	}
 	@GetMapping("/reference/{reference}")

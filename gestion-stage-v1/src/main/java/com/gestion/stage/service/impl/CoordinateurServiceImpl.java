@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Coordinateur;
@@ -84,6 +86,11 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	@Override
 	public Coordinateur findByUtilisateurId(Long id) {
 		return coordinateurDao.findByUtilisateurId(id);
+	}
+
+	@Override
+	public Page<Coordinateur> findAllWithPaginition(int page, int size) {
+		return coordinateurDao.findAll(PageRequest.of(page, size));
 	}
 
 }

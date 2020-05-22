@@ -12,5 +12,5 @@ public interface StageMembreJuryDao extends JpaRepository<StageMembreJury, Long>
 	List<StageMembreJury> findByStageReference(String reference);
 	List<StageMembreJury> findByMembreJuryReference(String reference);
 	StageMembreJury findByMembreJuryReferenceAndStageReference(String reference,String stage);
-
+	List<StageMembreJury> findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(String nom,String prenom);
 }

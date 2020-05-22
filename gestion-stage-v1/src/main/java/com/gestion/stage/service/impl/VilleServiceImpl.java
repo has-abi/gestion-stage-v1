@@ -7,12 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Pays;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.VilleDao;
-import com.gestion.stage.service.EtablissementService;
 import com.gestion.stage.service.OrganismeAccueilService;
 import com.gestion.stage.service.PaysService;
 import com.gestion.stage.service.VilleService;
@@ -23,8 +21,7 @@ public class VilleServiceImpl implements VilleService {
 	private VilleDao villeDao;
 	@Autowired
 	private PaysService paysService;
-	@Autowired
-	private EtablissementService etablissementService;
+
 	@Autowired
 	private OrganismeAccueilService organismeAccueilService;
 
@@ -64,8 +61,7 @@ public class VilleServiceImpl implements VilleService {
 			if (v == null) {
 				return -1;
 			} else {
-				List<Etablissement> etabs = v.getEtablissements();
-				etabs.forEach(etab -> etablissementService.removeByLibelle(etab.getLibelle()));
+			
 				List<OrganismeAccueil> orgs = v.getOrganismeAccueils();
 				orgs.forEach(o->organismeAccueilService.removeById(o.getId()));
 				villeDao.delete(v);

@@ -8,10 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,9 +32,7 @@ public class Etablissement{
 	private String email;
 	@Column(length = 25)
 	private String doyen;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne
-	private Ville ville;
+	
 	@OneToMany(mappedBy = "etablissement")
 	private List<Departement> departements;
 	

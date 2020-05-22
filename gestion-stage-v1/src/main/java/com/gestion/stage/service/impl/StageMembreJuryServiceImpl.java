@@ -66,4 +66,10 @@ public class StageMembreJuryServiceImpl  implements StageMembreJuryService{
 		return stageMembreJuryDao.findByMembreJuryReferenceAndStageReference(reference, stage);
 	}
 
+	@Override
+	public List<StageMembreJury> findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(String nom,
+			String prenom) {
+		return stageMembreJuryDao.findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(nom, prenom);
+	}
+
 }

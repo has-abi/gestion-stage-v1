@@ -64,7 +64,7 @@ public class FieldsUtil {
 		}
 	}
 	public static int StageFields(Stage stage) {
-		if( stage.getDateDebut() == null || stage.getDateFin() == null || stage.getTypeStage() == null || Strings.isEmpty(stage.getReference())) {
+		if( stage.getDateDebut() == null || stage.getDateFin() == null  || Strings.isEmpty(stage.getReference()) ) {
 			return -1;
 		}else {
 			return 1;

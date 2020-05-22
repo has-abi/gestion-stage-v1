@@ -26,10 +26,7 @@ public class EtablissementRest {
 	public Etablissement findByLibelle(@PathVariable String libelle) {
 		return etablissementService.findByLibelle(libelle);
 	}
-	@GetMapping("/ville/{id}")
-	public List<Etablissement> findByVilleId(@PathVariable Long id) {
-		return etablissementService.findByVilleId(id);
-	}
+
 	@PostMapping("/")
 	public int save(@RequestBody Etablissement etablissement) {
 		return etablissementService.save(etablissement);

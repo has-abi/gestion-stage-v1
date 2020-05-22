@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c09eeab-46ce-4cd9-899b-4dee625cb34a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="organisme" uuid="e4c4e06d-8c72-47f2-b8f0-17f7ac262505">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<queryString>
+		<![CDATA[select u.nom,u.prenom,o.raison_sociale,o.adress,o.tele,e.cin from etudiant e,organisme_accueil o,utilisateur u,stage_etudiant se,stage s where s.id=1 and se.stage = s.id and e.id=se.etudiant and e.utilisateur = u.id and o.id = s.organisme_accueil]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="107" splitType="Stretch">
+			<image>
+				<reportElement x="180" y="10" width="170" height="70" uuid="8a293682-894c-438b-8faa-4619bf872874"/>
+				<imageExpression><![CDATA["C:/Users/21261/Desktop/other/unnamed.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="10" width="230" height="40" uuid="42f180dd-0b06-4c7f-8a1b-46e4e9d5a0a2"/>
+				<textElement>
+					<font fontName="Calibri" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONVENTION DE STAGE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="545" height="1" uuid="d2821301-f9d3-498b-a9ea-014d391d8019"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="210" splitType="Stretch">
+			<staticText>
+				<reportElement x="-2" y="10" width="554" height="200" uuid="99c69cb3-28b8-471e-a919-ad7cc4657e56"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Article 1 : Objet de la convention
+La présente convention de stage a pour objet de  régler les rapports entre:
+-La Faculté des Sciences et Techniques de Marrakech, représentée par son Doyen Monsieur Moha
+TAOURIRTE
+Adresse            : BP 549, AV. Abdelkrim Elkhattabi, Guéliz, Marrakech, Maroc,
+Téléphone       : +212 524 43 34 04
+Fax: +212 524 43 31 70
+et désignée ci après par Etablissement.
+Et ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="150" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="-10" width="200" height="20" uuid="baa46a69-4095-4f3d-ad49-97399aec1b7c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[-L’Organisme ci-dessous mentionné:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="13" width="110" height="21" uuid="4ea3a98b-4ef0-4dab-bb90-29f7bff495bb"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Nom               :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-2" y="30" width="112" height="21" uuid="0882323a-33d6-4b46-9bae-5a4b20d24408"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Adresse           :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="50" width="112" height="21" uuid="a3f79fbd-83aa-4736-bfb6-9a4cebf1292d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Téléphone       :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="110" height="21" uuid="9239fc17-be30-4f83-b6f0-0ce3cddb8a58"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Fax                 :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="130" height="21" uuid="5c0e2f07-2369-46e7-8aff-787298522aa4"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Représenté par     :]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

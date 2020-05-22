@@ -12,8 +12,10 @@ public interface UtilisateurService {
 	List<Utilisateur> findByPrenomContains(String prenom);
 	List<Utilisateur> findByDateJoin(Date dateJoin);
 	int login(Utilisateur utilisateur);
+	int save(Utilisateur utilisateur);
 	int register(Utilisateur utilisateur);
 	int update(Utilisateur utilisateur);
 	int removeById(Long id);
 	List<Utilisateur> findAll();
+	Utilisateur findByReference(String reference);
 }

@@ -2,12 +2,16 @@ package com.gestion.stage.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
+
 import com.gestion.stage.bean.Encadreur;
 
 public interface EncadreurService {
-	List<Encadreur> findByProfession(String profession);
-	List<Encadreur> findByType(String type);
-	List<Encadreur> findByQualite(String qualite);
+	Page<Encadreur> findByProfession(String profession,int page,int size);
+	Page<Encadreur> findByType(String type,int page,int size);
+	Page<Encadreur> findByQualite(String qualite,int page,int size);
 	Encadreur findByUtilisateurId(Long id);
 	Encadreur findById(Long id);
 	List<Encadreur> findAll();
@@ -15,5 +19,7 @@ public interface EncadreurService {
 	int update(Encadreur encadreur);
 	int removeByReference(String reference);
 	Encadreur findByReference(String reference);
-
+	Page<Encadreur> findAllWithPaginition(int page,int size);
+	Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom,String prenom,int page,int size);
+	ResponseEntity<List<Encadreur>> searchForEncadreurs(Specification<Encadreur> spec);
 }

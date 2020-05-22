@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +23,8 @@ public class Utilisateur{
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(unique = true)
+	private String reference;
 	@Column(length = 60)
 	private String nom;
 	@Column(length = 60)
@@ -38,7 +39,7 @@ public class Utilisateur{
 	@Email
 	@Column(unique = true,length = 100,nullable = true)
 	private String email;
-	@NotNull
+	
 	@Column(length = 100)
 	private String motPass;
 	private String photo;

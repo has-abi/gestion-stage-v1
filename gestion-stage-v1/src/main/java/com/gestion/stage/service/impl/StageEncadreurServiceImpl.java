@@ -70,4 +70,10 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 		return stageEncadrantDao.findByStageReferenceAndEncadreurReference(stage, reference);
 	}
 
+	@Override
+	public List<StageEncadreur> findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(String nom,
+			String prenom) {
+		return stageEncadrantDao.findByEncadreurUtilisateurNomContainsOrEncadreurUtilisateurPrenomContains(nom, prenom);
+	}
+
 }

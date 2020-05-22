@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,10 +29,13 @@ public class Commentaire{
 	private Date dateCreation;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateModification;
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Utilisateur utilisateur;
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private SujetForum sujetForum;
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Commentaire commentaire;
 	

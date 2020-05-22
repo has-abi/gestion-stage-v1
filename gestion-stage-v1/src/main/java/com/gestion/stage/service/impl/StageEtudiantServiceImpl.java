@@ -67,6 +67,12 @@ public class StageEtudiantServiceImpl implements StageEtudiantService{
 		return stageEtudiantDao.findByStageReferenceAndEtudiantCin(refernce, cin);
 	}
 
+	@Override
+	public List<StageEtudiant> findByEtudiantUtilisateurNomContainsOrEtudiantUtilisateurPrenomContains(String nom,
+			String prenom) {
+		return stageEtudiantDao.findByEtudiantUtilisateurNomContainsOrEtudiantUtilisateurPrenomContains(nom, prenom);
+	}
+
 	
 
 }

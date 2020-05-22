@@ -3,6 +3,7 @@ package com.gestion.stage.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,10 @@ import com.gestion.stage.service.CoordinateurService;
 public class CoordinateurRest {
 	@Autowired
 	private CoordinateurService coordinateurService;
+	@GetMapping("/page/{page}/size/{size}")
+	public Page<Coordinateur> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+		return coordinateurService.findAllWithPaginition(page, size);
+	}
 	@GetMapping("/reference/{reference}")
 	public Coordinateur findByReference(@PathVariable String reference) {
 		return coordinateurService.findByReference(reference);

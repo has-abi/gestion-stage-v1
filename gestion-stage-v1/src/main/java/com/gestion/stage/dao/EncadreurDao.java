@@ -1,20 +1,22 @@
 package com.gestion.stage.dao;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.Encadreur;
 
 @Repository
-public interface EncadreurDao extends JpaRepository<Encadreur, Long> {
+public interface EncadreurDao extends JpaRepository<Encadreur, Long>,JpaSpecificationExecutor<Encadreur>{
 	
-	List<Encadreur> findByProfession(String profession);
-	List<Encadreur> findByType(String type);
-	List<Encadreur> findByQualite(String qualite);
+	Page<Encadreur> findByProfession(String profession,Pageable pageable);
+	Page<Encadreur> findByType(String type,Pageable pageable);
+	Page<Encadreur> findByQualite(String qualite,Pageable pageable);
 	Encadreur findByUtilisateurId(Long id);
 	Encadreur findByReference(String reference);
+	Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom,String prenom,Pageable pageable);
 	
 
 }
