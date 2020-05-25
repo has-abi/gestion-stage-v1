@@ -23,7 +23,7 @@ public class Administrateur{
 	@Column(length = 20)
 	private String profession;
 	@OneToOne
-	private Utilisateur utilisateur;
+	private User user;
 	@ManyToOne
 	private Etablissement etablissement;
 	

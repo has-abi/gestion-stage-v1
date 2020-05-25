@@ -28,7 +28,6 @@ public class StageMembreJury{
 	private String role;
 	@Temporal(TemporalType.DATE)
 	private Date dateAffectation;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private MembreJury membreJury;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)

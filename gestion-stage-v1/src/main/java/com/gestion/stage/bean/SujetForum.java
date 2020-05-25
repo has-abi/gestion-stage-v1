@@ -28,7 +28,7 @@ public class SujetForum{
 	private boolean suprimer;
 	private String reference;
 	@ManyToOne
-	private Utilisateur utilisateur;
+	private User user;
 	@ManyToOne
 	private Stage stage;
 	

@@ -8,5 +8,5 @@ import com.gestion.stage.bean.Coordinateur;
 public interface CoordinateurDao extends JpaRepository<Coordinateur, Long>{
 	Coordinateur findByReference(String reference);
 	Coordinateur findByFiliereId(Long id);
-	Coordinateur findByUtilisateurId(Long id);
+	Coordinateur findByUserId(Long id);
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.SujetForum;
 import com.gestion.stage.dao.SujetForumDao;
-import com.gestion.stage.service.SujetForumService;
+import com.gestion.stage.service.facade.SujetForumService;
 
 @Service
 public class SujetForumServiceImpl implements SujetForumService {

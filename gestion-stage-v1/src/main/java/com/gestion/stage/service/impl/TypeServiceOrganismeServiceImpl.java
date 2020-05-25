@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.TypeServiceOrganisme;
 import com.gestion.stage.dao.TypeServiceOrganismeDao;
-import com.gestion.stage.service.TypeServiceOrganismeService;
+import com.gestion.stage.service.facade.TypeServiceOrganismeService;
 @Service
 public class TypeServiceOrganismeServiceImpl implements TypeServiceOrganismeService{
 	@Autowired

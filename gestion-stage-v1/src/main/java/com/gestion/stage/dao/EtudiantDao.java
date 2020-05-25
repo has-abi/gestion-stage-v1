@@ -16,9 +16,9 @@ public interface EtudiantDao extends JpaRepository<Etudiant, Long>,JpaSpecificat
 	Etudiant findByCin(String cin);
 	Etudiant findByCodeAppoge(String codeAppoge);
 	List<Etudiant> findByFiliere(Filiere filiere);
-	Etudiant findByUtilisateurEmail(String email);
-	Etudiant findByUtilisateurId(Long id);
-	Page<Etudiant> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom,String prenom,Pageable pageable);
+	Etudiant findByUserEmail(String email);
+	Etudiant findByUserId(Long id);
+	Page<Etudiant> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
 	Page<Etudiant> findByNiveau(String niveau,Pageable pageable);
 	
 }

@@ -13,10 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Encadreur;
-import com.gestion.stage.bean.Utilisateur;
+import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.EncadreurDao;
-import com.gestion.stage.service.EncadreurService;
-import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.service.facade.EncadreurService;
+import com.gestion.stage.service.facade.RoleService;
+import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class EncadreurServiceImpl implements EncadreurService{
@@ -24,7 +25,9 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Autowired
 	private EncadreurDao encadreurDao;
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 	@Override
 	public Page<Encadreur> findByProfession(String profession,int page,int size) {
 		return encadreurDao.findByProfession(profession,PageRequest.of(page, size));
@@ -43,11 +46,11 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
-			encadreur.getUtilisateur().setRole(2);
-			if(utilisateurService.register(encadreur.getUtilisateur())<0) {
+			encadreur.getUser().setRole(roleService.getEncadreurRole());
+			if(userService.register(encadreur.getUser())<0) {
 				return -3;
 			}
-			encadreur.setUtilisateur(utilisateurService.findByEmail(encadreur.getUtilisateur().getEmail()));
+			encadreur.setUser(userService.findByReference(encadreur.getUser().getReference()));
 			encadreurDao.save(encadreur);
 			return 1;
 		}
@@ -65,8 +68,8 @@ public class EncadreurServiceImpl implements EncadreurService{
 	}
 
 	@Override
-	public Encadreur findByUtilisateurId(Long id) {
-		return encadreurDao.findByUtilisateurId(id);
+	public Encadreur findByUserId(Long id) {
+		return encadreurDao.findByUserId(id);
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
-			encadreur.setUtilisateur(utilisateurService.findByEmail(encadreur.getUtilisateur().getEmail()));
+			encadreur.setUser(userService.findByReference(encadreur.getReference()));
 			encadreurDao.save(encadreur);
 			return 1;
 		}
@@ -94,9 +97,9 @@ public class EncadreurServiceImpl implements EncadreurService{
 		if(encadreur == null) {
 			return -1;
 		}else {
-			Utilisateur u = encadreur.getUtilisateur();
+			User u = encadreur.getUser();
 			encadreurDao.delete(encadreur);
-			utilisateurService.removeById(u.getId());
+			userService.removeById(u.getId());
 			return 1;
 		}
 	}
@@ -113,9 +116,9 @@ public class EncadreurServiceImpl implements EncadreurService{
 
 
 	@Override
-	public Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom, String prenom, int page,
+	public Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page,
 			int size) {
-		return encadreurDao.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, PageRequest.of(page, size));
+		return encadreurDao.findByUserNomContainsOrUserPrenomContains(nom, prenom, PageRequest.of(page, size));
 	}
 
 	@Override

@@ -15,10 +15,10 @@ import com.gestion.stage.bean.TypeOrganisme;
 import com.gestion.stage.bean.TypeServiceOrganisme;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.OrganismeAccueilDao;
-import com.gestion.stage.service.OrganismeAccueilService;
-import com.gestion.stage.service.TypeOrganismeService;
-import com.gestion.stage.service.TypeServiceOrganismeService;
-import com.gestion.stage.service.VilleService;
+import com.gestion.stage.service.facade.OrganismeAccueilService;
+import com.gestion.stage.service.facade.TypeOrganismeService;
+import com.gestion.stage.service.facade.TypeServiceOrganismeService;
+import com.gestion.stage.service.facade.VilleService;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{

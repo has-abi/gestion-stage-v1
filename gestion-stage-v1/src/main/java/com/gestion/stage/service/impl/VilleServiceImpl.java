@@ -11,9 +11,9 @@ import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Pays;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.VilleDao;
-import com.gestion.stage.service.OrganismeAccueilService;
-import com.gestion.stage.service.PaysService;
-import com.gestion.stage.service.VilleService;
+import com.gestion.stage.service.facade.OrganismeAccueilService;
+import com.gestion.stage.service.facade.PaysService;
+import com.gestion.stage.service.facade.VilleService;
 
 @Service
 public class VilleServiceImpl implements VilleService {

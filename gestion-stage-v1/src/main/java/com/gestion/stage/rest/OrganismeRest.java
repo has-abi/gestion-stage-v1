@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.OrganismeAccueil;
-import com.gestion.stage.service.OrganismeAccueilService;
+import com.gestion.stage.service.facade.OrganismeAccueilService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController

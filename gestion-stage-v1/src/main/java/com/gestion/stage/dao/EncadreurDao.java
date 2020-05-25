@@ -14,9 +14,9 @@ public interface EncadreurDao extends JpaRepository<Encadreur, Long>,JpaSpecific
 	Page<Encadreur> findByProfession(String profession,Pageable pageable);
 	Page<Encadreur> findByType(String type,Pageable pageable);
 	Page<Encadreur> findByQualite(String qualite,Pageable pageable);
-	Encadreur findByUtilisateurId(Long id);
+	Encadreur findByUserId(Long id);
 	Encadreur findByReference(String reference);
-	Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom,String prenom,Pageable pageable);
+	Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
 	
 
 }

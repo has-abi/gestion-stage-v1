@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Filiere;
-import com.gestion.stage.service.FiliereService;
+import com.gestion.stage.service.facade.FiliereService;
 
 @RestController
 @RequestMapping("gestion-stage-api/filiere")

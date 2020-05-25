@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.TypeDocument;
 import com.gestion.stage.dao.TypeDocumentDao;
-import com.gestion.stage.service.TypeDocumentService;
+import com.gestion.stage.service.facade.TypeDocumentService;
 
 @Service
 public class TypeDocumentServiceImpl implements TypeDocumentService{

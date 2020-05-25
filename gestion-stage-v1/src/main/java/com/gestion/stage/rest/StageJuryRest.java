@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.StageMembreJury;
-import com.gestion.stage.service.StageMembreJuryService;
+import com.gestion.stage.service.facade.StageMembreJuryService;
 
 @RestController
 @RequestMapping("gestion-stage-api/stage-jury")
@@ -23,9 +23,9 @@ public class StageJuryRest {
 	@Autowired
 	private StageMembreJuryService stageMembreJuryService;
 	@GetMapping("/jury/nom/{nom}/prenom/{prenom}")
-	public List<StageMembreJury> findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(String nom,
+	public List<StageMembreJury> findByMembreJuryUserNomContainsOrMembreJuryUserPrenomContains(String nom,
 			String prenom) {
-		return stageMembreJuryService.findByMembreJuryUtilisateurNomContainsOrMembreJuryUtilisateurPrenomContains(nom,
+		return stageMembreJuryService.findByMembreJuryUserNomContainsOrMembreJuryUserPrenomContains(nom,
 				prenom);
 	}
 	@GetMapping("/stage/reference/{reference}")

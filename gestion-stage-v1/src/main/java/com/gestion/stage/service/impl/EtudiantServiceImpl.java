@@ -14,11 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
-import com.gestion.stage.bean.Utilisateur;
+import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.EtudiantDao;
-import com.gestion.stage.service.EtudiantService;
-import com.gestion.stage.service.FiliereService;
-import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.service.facade.EtudiantService;
+import com.gestion.stage.service.facade.FiliereService;
+import com.gestion.stage.service.facade.RoleService;
+import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 
@@ -28,9 +29,11 @@ public class EtudiantServiceImpl implements EtudiantService{
 	@Autowired
 	private EtudiantDao etudiantDao;
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private UserService userService;
 	@Autowired
 	private FiliereService filiereService;
+	@Autowired
+	private RoleService roleService;
 	@Override
 	public Etudiant findByCin(String cin) {
 		return etudiantDao.findByCin(cin);
@@ -61,14 +64,14 @@ public class EtudiantServiceImpl implements EtudiantService{
 			}else if(filiere == null) {
 				return -4;
 			}else {
-				etudiant.getUtilisateur().setReference("u"+DateUtil.getDate().getTime());
-				etudiant.getUtilisateur().setRole(1);
-				etudiant.getUtilisateur().setActive(false);
-				if(utilisateurService.save(etudiant.getUtilisateur())<0) {
+				etudiant.getUser().setReference("u"+DateUtil.getDate().getTime());
+				etudiant.getUser().setRole(roleService.getEtudiantRole());
+				etudiant.getUser().setActive(false);
+				if(userService.save(etudiant.getUser())<0) {
 					return -5;
 				}
 				
-				etudiant.setUtilisateur(utilisateurService.findByReference(etudiant.getUtilisateur().getReference()));
+				etudiant.setUser(userService.findByReference(etudiant.getUser().getReference()));
 				etudiantDao.save(etudiant);
 				return 1;
 			}
@@ -105,21 +108,21 @@ public class EtudiantServiceImpl implements EtudiantService{
 		if(etud == null) {
 			return -1;
 		}else {
-			Utilisateur u = etud.getUtilisateur();
+			User u = etud.getUser();
 			etudiantDao.delete(etud);
-			utilisateurService.removeById(u.getId());
+			userService.removeById(u.getId());
 			return 1;
 		}
 	}
 
 	@Override
-	public Etudiant findByUilisateurEmail(String email) {
-		return etudiantDao.findByUtilisateurEmail(email);
+	public Etudiant findByUserEmail(String email) {
+		return etudiantDao.findByUserEmail(email);
 	}
 
 	@Override
-	public Etudiant findByUtilisateurId(Long id) {
-		return etudiantDao.findByUtilisateurId(id);
+	public Etudiant findByUserId(Long id) {
+		return etudiantDao.findByUserId(id);
 	}
 
 	@Override
@@ -128,9 +131,9 @@ public class EtudiantServiceImpl implements EtudiantService{
 	}
 
 	@Override
-	public Page<Etudiant> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom, String prenom, int page,
+	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page,
 			int size) {
-		return etudiantDao.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, PageRequest.of(page, size));
+		return etudiantDao.findByUserNomContainsOrUserPrenomContains(nom, prenom, PageRequest.of(page, size));
 	}
 
 	@Override

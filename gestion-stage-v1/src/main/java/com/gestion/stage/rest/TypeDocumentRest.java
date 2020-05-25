@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.TypeDocument;
-import com.gestion.stage.service.TypeDocumentService;
+import com.gestion.stage.service.facade.TypeDocumentService;
 
 @RestController
 @RequestMapping("/stage/typeDocument")

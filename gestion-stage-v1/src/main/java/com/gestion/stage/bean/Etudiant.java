@@ -35,7 +35,7 @@ public class Etudiant{
 	@Column(length = 15)
 	private String Situation_familial;
 	@OneToOne
-	private Utilisateur utilisateur;
+	private User user;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Filiere filiere;

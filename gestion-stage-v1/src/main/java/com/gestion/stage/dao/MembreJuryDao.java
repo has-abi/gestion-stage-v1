@@ -12,9 +12,9 @@ import com.gestion.stage.bean.MembreJury;
 @Repository
 public interface MembreJuryDao  extends JpaRepository<MembreJury, Long>,JpaSpecificationExecutor<MembreJury>{
 	
-	MembreJury findByUtilisateurId(Long id);
-	MembreJury findByUtilisateurEmail(String email);
+	MembreJury findByUserId(Long id);
+	MembreJury findByUserEmail(String email);
 	Page<MembreJury> findByProfession(String profession,Pageable pageable);
-	Page<MembreJury> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom,String prenom,Pageable pageable);
+	Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
 	MembreJury findByReference(String reference);
 }

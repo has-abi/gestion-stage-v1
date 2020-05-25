@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.StageEncadreur;
-import com.gestion.stage.service.StageEncadrantService;
+import com.gestion.stage.service.facade.StageEncadrantService;
 
 @RestController
 @RequestMapping("gestion-stage-api/stage-encadreur")
@@ -23,9 +23,9 @@ public class StageEncadreurRest {
 	@Autowired
 	private StageEncadrantService stageEncadrantService;
 	@GetMapping("/encadreur/nom/{nom}/prenom/{prenom}")
-	public List<StageEncadreur> findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(@PathVariable String nom,
+	public List<StageEncadreur> findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(@PathVariable String nom,
 			@PathVariable String prenom) {
-		return stageEncadrantService.findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(nom, prenom);
+		return stageEncadrantService.findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(nom, prenom);
 	}
 	@GetMapping("/stage/reference/{reference}")
 	public List<StageEncadreur> findByStageReference(@PathVariable String reference) {

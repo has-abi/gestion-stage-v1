@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Document;
-import com.gestion.stage.service.DocumentService;
+import com.gestion.stage.service.facade.DocumentService;
 
 @RestController
 @RequestMapping("/stage/document")

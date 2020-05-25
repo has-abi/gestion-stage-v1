@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Stage;
-import com.gestion.stage.service.StageService;
+import com.gestion.stage.service.facade.StageService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController

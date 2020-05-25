@@ -31,7 +31,7 @@ public class Commentaire{
 	private Date dateModification;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	private Utilisateur utilisateur;
+	private User user;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private SujetForum sujetForum;

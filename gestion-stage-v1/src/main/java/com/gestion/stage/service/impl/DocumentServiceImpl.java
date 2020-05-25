@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.gestion.stage.bean.Document;
 import com.gestion.stage.dao.DocumentDao;
-import com.gestion.stage.service.DocumentService;
+import com.gestion.stage.service.facade.DocumentService;
+import com.gestion.stage.service.facade.FileStorageService;
 
 @Service
 public class DocumentServiceImpl  implements DocumentService{
 	@Autowired
 	private DocumentDao documentDao;
-
+	@Autowired
+	private FileStorageService fileStorageService;
 	@Override
 	public Document findByTitre(String titre) {
 		return documentDao.findByTitre(titre);
@@ -38,6 +40,7 @@ public class DocumentServiceImpl  implements DocumentService{
 		Document documentFounded=findByReference(document.getReference());
 		if(documentFounded!=null) {return -1;
 		}else {
+			
 			documentDao.save(document);
 			return 1;
 		}

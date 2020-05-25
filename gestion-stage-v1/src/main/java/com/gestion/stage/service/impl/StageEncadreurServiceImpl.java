@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.StageEncadreur;
 import com.gestion.stage.dao.StageEncadrantDao;
-import com.gestion.stage.service.StageEncadrantService;
+import com.gestion.stage.service.facade.StageEncadrantService;
 import com.gestion.stage.utils.FieldsUtil;
 
 @Service
@@ -71,9 +71,9 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 	}
 
 	@Override
-	public List<StageEncadreur> findByEncadreurUtlisateurNomContainsOrEncadreurPrenomContains(String nom,
+	public List<StageEncadreur> findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(String nom,
 			String prenom) {
-		return stageEncadrantDao.findByEncadreurUtilisateurNomContainsOrEncadreurUtilisateurPrenomContains(nom, prenom);
+		return stageEncadrantDao.findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(nom, prenom);
 	}
 
 }

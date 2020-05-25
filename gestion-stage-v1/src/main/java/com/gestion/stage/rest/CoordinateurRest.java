@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Coordinateur;
-import com.gestion.stage.service.CoordinateurService;
+import com.gestion.stage.service.facade.CoordinateurService;
 
 @RestController
 @RequestMapping("gestion-stage-api/coordinateur")
@@ -51,8 +51,8 @@ public class CoordinateurRest {
 	public List<Coordinateur> findAll() {
 		return coordinateurService.findAll();
 	}
-	@GetMapping("/utilisateur/id/{id}")
-	public Coordinateur findByUtilisateurId(@PathVariable Long id) {
-		return coordinateurService.findByUtilisateurId(id);
+	@GetMapping("/user/id/{id}")
+	public Coordinateur findByUserId(@PathVariable Long id) {
+		return coordinateurService.findByUserId(id);
 	}
 }

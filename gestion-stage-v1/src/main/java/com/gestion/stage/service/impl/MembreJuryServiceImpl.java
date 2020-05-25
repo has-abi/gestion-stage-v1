@@ -13,20 +13,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.MembreJury;
-import com.gestion.stage.bean.Utilisateur;
+import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.MembreJuryDao;
-import com.gestion.stage.service.MembreJuryService;
-import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.service.facade.MembreJuryService;
+import com.gestion.stage.service.facade.RoleService;
+import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class MembreJuryServiceImpl implements MembreJuryService{
 	@Autowired
 	private MembreJuryDao membreJuryDao;
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 	@Override
-	public MembreJury findByUtilisateurId(Long id) {
-		return membreJuryDao.findByUtilisateurId(id);
+	public MembreJury findByUserId(Long id) {
+		return membreJuryDao.findByUserId(id);
 	}
 
 	@Override
@@ -48,11 +52,12 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 			if(foundedJury != null) {
 				return -2;
 			}else {
-				membreJury.getUtilisateur().setRole(3);
-				if (utilisateurService.register(membreJury.getUtilisateur())<0) {
+				membreJury.getUser().setReference("u"+DateUtil.getDate().getTime());
+				membreJury.getUser().setRole(roleService.getJuryRole());
+				if (userService.register(membreJury.getUser())<0) {
 					return -3;
 				};
-				membreJury.setUtilisateur(utilisateurService.findByEmail(membreJury.getUtilisateur().getEmail()));
+				membreJury.setUser(userService.findByReference(membreJury.getUser().getReference()));
 				membreJuryDao.save(membreJury);
 				return 1;
 			}
@@ -84,16 +89,16 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 		if(foundedjury == null) {
 			return -1;
 		}else {
-			Utilisateur u = foundedjury.getUtilisateur();
+			User u = foundedjury.getUser();
 			membreJuryDao.delete(foundedjury);
-			utilisateurService.removeById(u.getId());
+			userService.removeById(u.getId());
 			return 1;
 		}
 	}
 
 	@Override
-	public MembreJury findByUtilisateurEmail(String email) {
-		return membreJuryDao.findByUtilisateurEmail(email);
+	public MembreJury findByUserEmail(String email) {
+		return membreJuryDao.findByUserEmail(email);
 	}
 
 	@Override
@@ -107,9 +112,9 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	}
 
 	@Override
-	public Page<MembreJury> findByUtilisateurNomContainsOrUtilisateurPrenomContains(String nom, String prenom, int page,
+	public Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page,
 			int size) {
-		return membreJuryDao.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, PageRequest.of(page, size));
+		return membreJuryDao.findByUserNomContainsOrUserPrenomContains(nom, prenom, PageRequest.of(page, size));
 	}
 
 	@Override

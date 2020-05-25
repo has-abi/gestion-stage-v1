@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.gestion.stage.bean.Pays;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.PaysDao;
-import com.gestion.stage.service.PaysService;
-import com.gestion.stage.service.VilleService;
+import com.gestion.stage.service.facade.PaysService;
+import com.gestion.stage.service.facade.VilleService;
 
 @Service
 public class PaysServiceImpl implements PaysService{

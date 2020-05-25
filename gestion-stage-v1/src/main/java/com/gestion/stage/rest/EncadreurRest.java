@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Encadreur;
-import com.gestion.stage.service.EncadreurService;
+import com.gestion.stage.service.facade.EncadreurService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
@@ -26,10 +26,10 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EncadreurRest {
 	@Autowired
 	private EncadreurService encadreurService;
-	@GetMapping("/utilisateur/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
-	public Page<Encadreur> findByUtilisateurNomContainsOrUtilisateurPrenomContains(@PathVariable String nom,@PathVariable String prenom,
+	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
+	public Page<Encadreur> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,
 			@PathVariable int page,@PathVariable int size) {
-		return encadreurService.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, page, size);
+		return encadreurService.findByUserNomContainsOrUserPrenomContains(nom, prenom, page, size);
 	}
 	@GetMapping("/search")
 	public ResponseEntity<List<Encadreur>> searchForEncadreurs(@SearchSpec Specification<Encadreur> spec) {
@@ -51,9 +51,9 @@ public class EncadreurRest {
 	public Page<Encadreur> findByQualite(@PathVariable String qualite,@PathVariable int page,@PathVariable int size) {
 		return encadreurService.findByQualite(qualite,page,size);
 	}
-	@GetMapping("/utlisateur/id/{id}")
-	public Encadreur findByUtilisateurId(@PathVariable Long id) {
-		return encadreurService.findByUtilisateurId(id);
+	@GetMapping("/user/id/{id}")
+	public Encadreur findByUserId(@PathVariable Long id) {
+		return encadreurService.findByUserId(id);
 	}
 	@GetMapping("/id/{id}")
 	public Encadreur findById(@PathVariable Long id) {

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Coordinateur;
 import com.gestion.stage.dao.CoordinateurDao;
-import com.gestion.stage.service.CoordinateurService;
-import com.gestion.stage.service.FiliereService;
-import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.service.facade.CoordinateurService;
+import com.gestion.stage.service.facade.FiliereService;
+import com.gestion.stage.service.facade.RoleService;
+import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class CoordinateurServiceImpl implements CoordinateurService{
@@ -21,9 +23,11 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	@Autowired
 	private CoordinateurDao coordinateurDao;
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private UserService userService;
 	@Autowired
 	private FiliereService filiereService;
+	@Autowired
+	private RoleService roleService;
 	@Override
 	public Coordinateur findByReference(String reference) {
 		return coordinateurDao.findByReference(reference);
@@ -41,12 +45,16 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 			return -1;
 		}else if(coordinateur.getFiliere().getLibelle()==null || coordinateur.getFiliere().getLibelle()=="") {
 			return -2;
-		}else if(FieldsUtil.utilisateurFields(coordinateur.getUtilisateur())<0){
+		}else if(FieldsUtil.utilisateurFields(coordinateur.getUser())<0){
 			return -3;
 		}else {
-			coordinateur.getUtilisateur().setRole(4);
-			utilisateurService.register(coordinateur.getUtilisateur());
-			coordinateur.setUtilisateur(utilisateurService.findByEmail(coordinateur.getUtilisateur().getEmail()));
+			coordinateur.getUser().setReference("u"+DateUtil.getDate().getTime());
+			coordinateur.getUser().setRole(roleService.getCoordinateurRole());
+			
+			if(userService.register(coordinateur.getUser())<0) {
+				return -4;
+			}
+			coordinateur.setUser(userService.findByReference(coordinateur.getUser().getReference()));
 			coordinateur.setFiliere(filiereService.findById(coordinateur.getFiliere().getId()));
 			coordinateurDao.save(coordinateur);
 			return 1;
@@ -60,7 +68,7 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 			return -1;
 		}else {
 			coordinateurDao.delete(coord);
-			utilisateurService.removeById(coord.getUtilisateur().getId());
+			userService.removeById(coord.getUser().getId());
 			return 1;
 		}
 	}
@@ -68,9 +76,9 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	@Override
 	public int update(Coordinateur coordinateur) {
 		Coordinateur coord = findByReference(coordinateur.getReference());
-		if(coord == null || coordinateur.getFiliere() == null || coordinateur.getUtilisateur() == null) {
+		if(coord == null || coordinateur.getFiliere() == null || coordinateur.getUser() == null) {
 			return -1;
-		}else if(FieldsUtil.utilisateurFields(coordinateur.getUtilisateur())<0){
+		}else if(FieldsUtil.utilisateurFields(coordinateur.getUser())<0){
 			return -2;
 		}else {
 			coordinateurDao.save(coord);
@@ -84,8 +92,8 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	}
 
 	@Override
-	public Coordinateur findByUtilisateurId(Long id) {
-		return coordinateurDao.findByUtilisateurId(id);
+	public Coordinateur findByUserId(Long id) {
+		return coordinateurDao.findByUserId(id);
 	}
 
 	@Override

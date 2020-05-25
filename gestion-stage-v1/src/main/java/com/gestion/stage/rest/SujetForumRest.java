@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.SujetForum;
-import com.gestion.stage.service.SujetForumService;
+import com.gestion.stage.service.facade.SujetForumService;
 
 @RestController
 @RequestMapping("/stage/sujetForum")

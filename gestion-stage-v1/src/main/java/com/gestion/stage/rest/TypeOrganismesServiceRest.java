@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.TypeServiceOrganisme;
-import com.gestion.stage.service.TypeServiceOrganismeService;
+import com.gestion.stage.service.facade.TypeServiceOrganismeService;
 
 @RestController
 @RequestMapping("gestion-stage-api/typeServiceOrganisme")

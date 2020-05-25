@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Commentaire;
 import com.gestion.stage.bean.SujetForum;
-import com.gestion.stage.service.CommentaireService;
+import com.gestion.stage.service.facade.CommentaireService;
 
 @RestController
 @RequestMapping("/stage/commentaire")

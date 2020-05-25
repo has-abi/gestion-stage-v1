@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
-import com.gestion.stage.service.EtudiantService;
+import com.gestion.stage.service.facade.EtudiantService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
@@ -27,10 +27,11 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
-	@GetMapping("/utilisateur/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
-	public Page<Etudiant> findByUtilisateurNomContainsOrUtilisateurPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable
+	
+	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
+	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable
 			int size) {
-		return etudiantService.findByUtilisateurNomContainsOrUtilisateurPrenomContains(nom, prenom, page, size);
+		return etudiantService.findByUserNomContainsOrUserPrenomContains(nom, prenom, page, size);
 	}
 	@GetMapping("/niveau/{niveau}/page/{page}/size/{size}")
 	public Page<Etudiant> findByNiveau(@PathVariable String niveau,@PathVariable int page,@PathVariable int size) {
@@ -71,6 +72,10 @@ public class EtudiantRest {
 	@DeleteMapping("/cin/{cin}")
 	public int removeByCin(@PathVariable String cin) {
 		return etudiantService.removeByCin(cin);
+	}
+	@GetMapping("user/id/{id}")
+	public Etudiant findByUserId(Long id) {
+		return etudiantService.findByUserId(id);
 	}
 	
 }

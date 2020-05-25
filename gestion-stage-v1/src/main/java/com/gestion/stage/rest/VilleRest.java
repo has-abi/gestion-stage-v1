@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Ville;
-import com.gestion.stage.service.VilleService;
+import com.gestion.stage.service.facade.VilleService;
 
 @RestController
 @RequestMapping("gestion-stage-api/ville")

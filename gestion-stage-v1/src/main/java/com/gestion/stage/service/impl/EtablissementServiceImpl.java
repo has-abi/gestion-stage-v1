@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.dao.EtablissementDao;
-import com.gestion.stage.service.DepartementService;
-import com.gestion.stage.service.EtablissementService;
+import com.gestion.stage.service.facade.DepartementService;
+import com.gestion.stage.service.facade.EtablissementService;
 @Service
 public class EtablissementServiceImpl implements EtablissementService{
 	@Autowired
