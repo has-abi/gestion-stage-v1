@@ -12,7 +12,6 @@ import com.gestion.stage.bean.SujetForum;
 public interface SujetForumDao extends JpaRepository<SujetForum, Long>{
 	List<SujetForum> findByDateCreation(Date dateCreation);
 	List<SujetForum> findByDateModification(Date dateModification);
-	int remove(SujetForum sujetForum);
 	SujetForum  findByReference(String reference);
 	
 	

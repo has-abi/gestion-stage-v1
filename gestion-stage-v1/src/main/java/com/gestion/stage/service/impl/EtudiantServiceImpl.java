@@ -82,7 +82,8 @@ public class EtudiantServiceImpl implements EtudiantService{
 		}else {
 			List<Etudiant> etuds = findAll();
 			for(Etudiant e : etuds) {
-				if(e.getId()!=etudiant.getId() && (e.getCin().equals(etudiant.getCin()) || e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
+				if(e.getId()!=etudiant.getId() && (e.getCin().equals(etudiant.getCin()) 
+						|| e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
 					return -3;
 				}
 			}

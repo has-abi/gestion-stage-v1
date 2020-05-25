@@ -38,6 +38,7 @@ public class Etudiant{
 	private Filiere filiere;
 	@OneToMany(mappedBy = "etudiant")
 	private List<StageEtudiant> stageEtudiants;
+	@OneToMany(mappedBy = "etudiant")
 	private List<EtudiantDocument>  etudiantDocuments;
 	
 }
