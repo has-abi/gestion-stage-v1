@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.StageEtudiant;
 import com.gestion.stage.dao.StageEtudiantDao;
-import com.gestion.stage.service.StageEtudiantService;
+import com.gestion.stage.service.facade.StageEtudiantService;
 import com.gestion.stage.utils.FieldsUtil;
 
 @Service
@@ -65,6 +65,12 @@ public class StageEtudiantServiceImpl implements StageEtudiantService{
 	@Override
 	public StageEtudiant findByStageReferenceAndEtudiantCin(String refernce, String cin) {
 		return stageEtudiantDao.findByStageReferenceAndEtudiantCin(refernce, cin);
+	}
+
+	@Override
+	public List<StageEtudiant> findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(String nom,
+			String prenom) {
+		return stageEtudiantDao.findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(nom, prenom);
 	}
 
 	

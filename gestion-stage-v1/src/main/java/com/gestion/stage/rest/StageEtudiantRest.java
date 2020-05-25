@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.StageEtudiant;
-import com.gestion.stage.service.StageEtudiantService;
+import com.gestion.stage.service.facade.StageEtudiantService;
 
 @RestController
 @RequestMapping("gestion-stage-api/stage-etudiant")
@@ -22,6 +22,12 @@ import com.gestion.stage.service.StageEtudiantService;
 public class StageEtudiantRest {
 	@Autowired
 	private StageEtudiantService stageEtudiantService;
+	@GetMapping("/etudiant/nom/etudiant/prenom")
+	public List<StageEtudiant> findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(@PathVariable String nom,
+			@PathVariable String prenom) {
+		return stageEtudiantService.findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(nom,
+				prenom);
+	}
 	@GetMapping("/stage/reference/{reference}")
 	public List<StageEtudiant> findByStageReference(@PathVariable String reference) {
 		return stageEtudiantService.findByStageReference(reference);

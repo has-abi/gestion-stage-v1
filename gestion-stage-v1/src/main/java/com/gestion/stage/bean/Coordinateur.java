@@ -21,5 +21,5 @@ public class Coordinateur {
 	@OneToOne
 	private Filiere filiere;
 	@OneToOne
-	private Utilisateur utilisateur;
+	private User user;
 }

@@ -3,6 +3,9 @@ package com.gestion.stage.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
-import com.gestion.stage.service.EtudiantService;
+import com.gestion.stage.service.facade.EtudiantService;
+import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/etudiant")
@@ -23,6 +27,24 @@ import com.gestion.stage.service.EtudiantService;
 public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
+	
+	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
+	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable
+			int size) {
+		return etudiantService.findByUserNomContainsOrUserPrenomContains(nom, prenom, page, size);
+	}
+	@GetMapping("/niveau/{niveau}/page/{page}/size/{size}")
+	public Page<Etudiant> findByNiveau(@PathVariable String niveau,@PathVariable int page,@PathVariable int size) {
+		return etudiantService.findByNiveau(niveau, page, size);
+	}
+	@GetMapping("/search")
+	public ResponseEntity<List<Etudiant>> searchForEtudiants(@SearchSpec Specification<Etudiant> spec) {
+		return etudiantService.searchForEtudiants(spec);
+	}
+	@GetMapping("/page/{page}/size/{size}")
+	public Page<Etudiant> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+		return etudiantService.findAllWithPaginition(page, size);
+	}
 	@GetMapping("/cin/{cin}")
 	public Etudiant findByCin(@PathVariable String cin) {
 		return etudiantService.findByCin(cin);
@@ -50,6 +72,10 @@ public class EtudiantRest {
 	@DeleteMapping("/cin/{cin}")
 	public int removeByCin(@PathVariable String cin) {
 		return etudiantService.removeByCin(cin);
+	}
+	@GetMapping("user/id/{id}")
+	public Etudiant findByUserId(Long id) {
+		return etudiantService.findByUserId(id);
 	}
 	
 }

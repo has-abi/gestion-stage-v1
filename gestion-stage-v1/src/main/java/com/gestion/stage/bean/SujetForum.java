@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.catalina.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +30,7 @@ public class SujetForum{
 	private boolean suprimer;
 	private String reference;
 	@ManyToOne
-	private Utilisateur utilisateur;
+	private User user;
 	@ManyToOne
 	private Stage stage;
 	

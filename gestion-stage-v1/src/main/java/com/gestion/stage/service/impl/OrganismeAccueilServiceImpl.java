@@ -3,6 +3,11 @@ package com.gestion.stage.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.OrganismeAccueil;
@@ -10,10 +15,10 @@ import com.gestion.stage.bean.TypeOrganisme;
 import com.gestion.stage.bean.TypeServiceOrganisme;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.OrganismeAccueilDao;
-import com.gestion.stage.service.OrganismeAccueilService;
-import com.gestion.stage.service.TypeOrganismeService;
-import com.gestion.stage.service.TypeServiceOrganismeService;
-import com.gestion.stage.service.VilleService;
+import com.gestion.stage.service.facade.OrganismeAccueilService;
+import com.gestion.stage.service.facade.TypeOrganismeService;
+import com.gestion.stage.service.facade.TypeServiceOrganismeService;
+import com.gestion.stage.service.facade.VilleService;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
@@ -26,18 +31,18 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Autowired
 	private VilleService villeService;
 	@Override
-	public List<OrganismeAccueil> findByTypeOrganismeType(String type) {
-		return organismeAccueilDao.findByTypeOrganismeType(type);
+	public Page<OrganismeAccueil> findByTypeOrganismeType(String type,int page,int size) {
+		return organismeAccueilDao.findByTypeOrganismeType(type,PageRequest.of(page, size));
 	}
 
 	@Override
-	public List<OrganismeAccueil> findByTypeServiceOrganismeType(String type) {
-		return findByTypeServiceOrganismeType(type);
+	public Page<OrganismeAccueil> findByTypeServiceOrganismeType(String type,int page,int size) {
+		return organismeAccueilDao.findByTypeServiceOrganismeType(type, PageRequest.of(page, size));
 	}
 
 	@Override
-	public List<OrganismeAccueil> findByVilleNom(String nom) {
-		return organismeAccueilDao.findByVilleNom(nom);
+	public Page<OrganismeAccueil> findByVilleNom(String nom,int page,int size) {
+		return organismeAccueilDao.findByVilleNom(nom,PageRequest.of(page, size));
 	}
 
 	@Override
@@ -100,6 +105,16 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 			organismeAccueilDao.delete(orgaAccueil);
 			return 1;
 		}
+	}
+
+	@Override
+	public Page<OrganismeAccueil> findAllWithPagination(int page, int size) {
+		return organismeAccueilDao.findAll(PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<OrganismeAccueil>> searchForOrganismes(Specification<OrganismeAccueil> spec) {
+		return new ResponseEntity<>(organismeAccueilDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Administrateur;
 import com.gestion.stage.bean.Etablissement;
-import com.gestion.stage.service.AdministrateurService;
+import com.gestion.stage.service.facade.AdministrateurService;
 
 @RestController
 @RequestMapping("gestion-stage-api/administrateur")
@@ -47,9 +47,9 @@ public class AdministrateurRest {
 	public int removeByRef(String ref) {
 		return administrateurService.removeByRef(ref);
 	}
-	@GetMapping("/utilisateur/id/{id}")
-	public Administrateur findByUtilisateurId(@PathVariable Long id) {
-		return administrateurService.findByUtilisateurId(id);
+	@GetMapping("/user/id/{id}")
+	public Administrateur findByUserId(@PathVariable Long id) {
+		return administrateurService.findByUserId(id);
 	}
 	@GetMapping("/ref/{ref}")
 	public Administrateur findByRef(@PathVariable String ref) {

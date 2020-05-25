@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.StageMembreJury;
 import com.gestion.stage.dao.StageMembreJuryDao;
-import com.gestion.stage.service.StageMembreJuryService;
+import com.gestion.stage.service.facade.StageMembreJuryService;
 
 @Service
 public class StageMembreJuryServiceImpl  implements StageMembreJuryService{
@@ -64,6 +64,12 @@ public class StageMembreJuryServiceImpl  implements StageMembreJuryService{
 	@Override
 	public StageMembreJury findByMembreJuryReferenceAndStageReference(String reference, String stage) {
 		return stageMembreJuryDao.findByMembreJuryReferenceAndStageReference(reference, stage);
+	}
+
+	@Override
+	public List<StageMembreJury> findByMembreJuryUserNomContainsOrMembreJuryUserPrenomContains(String nom,
+			String prenom) {
+		return stageMembreJuryDao.findByMembreJuryUserNomContainsOrMembreJuryUserPrenomContains(nom, prenom);
 	}
 
 }

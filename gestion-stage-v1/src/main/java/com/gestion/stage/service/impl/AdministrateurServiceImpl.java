@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Administrateur;
 import com.gestion.stage.bean.Etablissement;
-import com.gestion.stage.bean.Utilisateur;
+import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.AdministrateurDao;
-import com.gestion.stage.service.AdministrateurService;
-import com.gestion.stage.service.EtablissementService;
-import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.service.facade.AdministrateurService;
+import com.gestion.stage.service.facade.EtablissementService;
+import com.gestion.stage.service.facade.RoleService;
+import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 
 @Service
@@ -23,7 +25,9 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 	@Autowired
 	private EtablissementService etablissementService;
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 	@Override
 	public List<Administrateur> findByProfessionContains(String profession) {
 		return administrateurDao.findByProfessionContains(profession);
@@ -43,38 +47,38 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 	public int save(Administrateur administrateur) {
 		if(findByRef(administrateur.getRef())!=null) {
 			return -1;
-		}else if(FieldsUtil.utilisateurFields(administrateur.getUtilisateur())<0){
+		}else if(FieldsUtil.utilisateurFields(administrateur.getUser())<0){
 			return -2;
 		}else if(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()) == null){
 			return -3;
 		}else {
-			administrateur.getUtilisateur().setRole(5);
-			administrateur.setEtablissement(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()));
-			if(utilisateurService.register(administrateur.getUtilisateur())<0) {
+			administrateur.getUser().setReference("u"+DateUtil.getDate().getTime());
+			administrateur.getUser().setRole(roleService.getAdminRole());
+			if(userService.register(administrateur.getUser())<0) {
 				return -4;
 			}
-			administrateur.setUtilisateur(utilisateurService.findByEmail(administrateur.getUtilisateur().getEmail()));
+			administrateur.setUser(userService.findByReference(administrateur.getUser().getReference()));
 			administrateurDao.save(administrateur);
 			return 1;
 		}
 	}
 
 	@Override
-	public Administrateur findByUtilisateurEmail(String email) {
-		return administrateurDao.findByUtilisateurEmail(email);
+	public Administrateur findByUserEmail(String email) {
+		return administrateurDao.findByUserEmail(email);
 	}
 
 	@Override
 	public int update(Administrateur administrateur) {
 		if(findByRef(administrateur.getRef()) == null) {
 			return -1;
-		}else if(FieldsUtil.utilisateurFields(administrateur.getUtilisateur())<0){
+		}else if(FieldsUtil.utilisateurFields(administrateur.getUser())<0){
 			return -2;
 		}else if(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()) == null){
 			return -3;
 		}else {
 			administrateur.setEtablissement(etablissementService.findByLibelle(administrateur.getEtablissement().getLibelle()));
-			administrateur.setUtilisateur(utilisateurService.findByEmail(administrateur.getUtilisateur().getEmail()));
+			administrateur.setUser(userService.findByReference(administrateur.getUser().getReference()));
 			administrateurDao.save(administrateur);
 			return 1;
 		}
@@ -86,16 +90,16 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 		if(admin == null) {
 			return -1;
 		}else {
-			Utilisateur u = admin.getUtilisateur();
+			User u = admin.getUser();
 			administrateurDao.delete(admin);
-			utilisateurService.removeById(u.getId());
+			userService.removeById(u.getId());
 			return 1;
 		}
 	}
 
 	@Override
-	public Administrateur findByUtilisateurId(Long id) {
-		return administrateurDao.findByUtilisateurId(id);
+	public Administrateur findByUserId(Long id) {
+		return administrateurDao.findByUserId(id);
 	}
 
 	@Override

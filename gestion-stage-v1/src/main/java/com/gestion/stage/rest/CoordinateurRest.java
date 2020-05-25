@@ -3,6 +3,7 @@ package com.gestion.stage.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Coordinateur;
-import com.gestion.stage.service.CoordinateurService;
+import com.gestion.stage.service.facade.CoordinateurService;
 
 @RestController
 @RequestMapping("gestion-stage-api/coordinateur")
@@ -22,6 +23,10 @@ import com.gestion.stage.service.CoordinateurService;
 public class CoordinateurRest {
 	@Autowired
 	private CoordinateurService coordinateurService;
+	@GetMapping("/page/{page}/size/{size}")
+	public Page<Coordinateur> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+		return coordinateurService.findAllWithPaginition(page, size);
+	}
 	@GetMapping("/reference/{reference}")
 	public Coordinateur findByReference(@PathVariable String reference) {
 		return coordinateurService.findByReference(reference);
@@ -46,8 +51,8 @@ public class CoordinateurRest {
 	public List<Coordinateur> findAll() {
 		return coordinateurService.findAll();
 	}
-	@GetMapping("/utilisateur/id/{id}")
-	public Coordinateur findByUtilisateurId(@PathVariable Long id) {
-		return coordinateurService.findByUtilisateurId(id);
+	@GetMapping("/user/id/{id}")
+	public Coordinateur findByUserId(@PathVariable Long id) {
+		return coordinateurService.findByUserId(id);
 	}
 }

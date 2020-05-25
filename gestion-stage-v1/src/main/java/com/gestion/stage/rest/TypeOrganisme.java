@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gestion.stage.service.TypeOrganismeService;
+import com.gestion.stage.service.facade.TypeOrganismeService;
 @RestController
 @RequestMapping("gestion-stage-api/typeOrganisme")
 @CrossOrigin({"http://localhost:4200"})

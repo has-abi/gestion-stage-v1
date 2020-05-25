@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Tache;
-import com.gestion.stage.service.TacheService;
+import com.gestion.stage.service.facade.TacheService;
 
 @RestController
 @RequestMapping("/stage/tache")

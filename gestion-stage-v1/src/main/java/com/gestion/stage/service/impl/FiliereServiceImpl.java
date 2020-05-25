@@ -12,10 +12,10 @@ import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
 import com.gestion.stage.dao.FiliereDao;
-import com.gestion.stage.service.CoordinateurService;
-import com.gestion.stage.service.DepartementService;
-import com.gestion.stage.service.EtudiantService;
-import com.gestion.stage.service.FiliereService;
+import com.gestion.stage.service.facade.CoordinateurService;
+import com.gestion.stage.service.facade.DepartementService;
+import com.gestion.stage.service.facade.EtudiantService;
+import com.gestion.stage.service.facade.FiliereService;
 @Service
 public class FiliereServiceImpl implements FiliereService{
 	

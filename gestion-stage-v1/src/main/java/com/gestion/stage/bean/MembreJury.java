@@ -25,7 +25,5 @@ public class MembreJury{
 	@Column(length = 20)
 	private String profession;
 	@OneToOne
-	private Utilisateur utilisateur;
-	@OneToMany(mappedBy = "membreJury")
-	private List<StageMembreJury> stageMembreJuries;
+	private User user;
 }

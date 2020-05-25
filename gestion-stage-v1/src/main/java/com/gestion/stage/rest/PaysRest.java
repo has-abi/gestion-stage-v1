@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Pays;
-import com.gestion.stage.service.PaysService;
+import com.gestion.stage.service.facade.PaysService;
 
 @RestController
 @RequestMapping("gestion-stage-api/pays")

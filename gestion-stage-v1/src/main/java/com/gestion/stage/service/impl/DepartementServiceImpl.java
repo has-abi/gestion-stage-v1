@@ -11,9 +11,9 @@ import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.bean.Filiere;
 import com.gestion.stage.dao.DepartementDao;
-import com.gestion.stage.service.DepartementService;
-import com.gestion.stage.service.EtablissementService;
-import com.gestion.stage.service.FiliereService;
+import com.gestion.stage.service.facade.DepartementService;
+import com.gestion.stage.service.facade.EtablissementService;
+import com.gestion.stage.service.facade.FiliereService;
 
 @Service
 public class DepartementServiceImpl implements DepartementService {

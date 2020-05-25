@@ -31,8 +31,6 @@ public class Ville{
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	private Pays pays;
 	@OneToMany(mappedBy = "ville")
-	private List<Etablissement> etablissements;
-	@OneToMany(mappedBy = "ville")
 	private List<OrganismeAccueil> organismeAccueils;
 	
 }

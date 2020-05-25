@@ -28,8 +28,5 @@ public class Encadreur{
 	private String qualite;
 	private String type;
 	@OneToOne	
-	private Utilisateur utilisateur;
-	@OneToMany(mappedBy = "encadreur")
-	private List<StageEncadreur> stageEncadreurs;
-	
+	private User user;
 }	

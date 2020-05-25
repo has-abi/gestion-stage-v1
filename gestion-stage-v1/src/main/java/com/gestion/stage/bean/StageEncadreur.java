@@ -25,7 +25,6 @@ public class StageEncadreur{
 	private String remarque;
 	@Temporal(TemporalType.DATE)
 	private Date dateAffectation;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Encadreur encadreur;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)

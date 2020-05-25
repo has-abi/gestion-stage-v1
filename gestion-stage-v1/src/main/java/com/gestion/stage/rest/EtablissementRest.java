@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Etablissement;
-import com.gestion.stage.service.EtablissementService;
+import com.gestion.stage.service.facade.EtablissementService;
 
 @RestController
 @RequestMapping("gestion-stage-api/etablissement")
@@ -26,10 +26,7 @@ public class EtablissementRest {
 	public Etablissement findByLibelle(@PathVariable String libelle) {
 		return etablissementService.findByLibelle(libelle);
 	}
-	@GetMapping("/ville/{id}")
-	public List<Etablissement> findByVilleId(@PathVariable Long id) {
-		return etablissementService.findByVilleId(id);
-	}
+
 	@PostMapping("/")
 	public int save(@RequestBody Etablissement etablissement) {
 		return etablissementService.save(etablissement);

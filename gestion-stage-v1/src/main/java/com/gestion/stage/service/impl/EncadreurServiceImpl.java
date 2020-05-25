@@ -5,13 +5,19 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Encadreur;
-import com.gestion.stage.bean.Utilisateur;
+import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.EncadreurDao;
-import com.gestion.stage.service.EncadreurService;
-import com.gestion.stage.service.UtilisateurService;
+import com.gestion.stage.service.facade.EncadreurService;
+import com.gestion.stage.service.facade.RoleService;
+import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class EncadreurServiceImpl implements EncadreurService{
@@ -19,10 +25,12 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Autowired
 	private EncadreurDao encadreurDao;
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private UserService userService;
+	@Autowired
+	private RoleService roleService;
 	@Override
-	public List<Encadreur> findByProfession(String profession) {
-		return encadreurDao.findByProfession(profession);
+	public Page<Encadreur> findByProfession(String profession,int page,int size) {
+		return encadreurDao.findByProfession(profession,PageRequest.of(page, size));
 	}
 
 	@Override
@@ -38,11 +46,11 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
-			encadreur.getUtilisateur().setRole(2);
-			if(utilisateurService.register(encadreur.getUtilisateur())<0) {
+			encadreur.getUser().setRole(roleService.getEncadreurRole());
+			if(userService.register(encadreur.getUser())<0) {
 				return -3;
 			}
-			encadreur.setUtilisateur(utilisateurService.findByEmail(encadreur.getUtilisateur().getEmail()));
+			encadreur.setUser(userService.findByReference(encadreur.getUser().getReference()));
 			encadreurDao.save(encadreur);
 			return 1;
 		}
@@ -50,18 +58,18 @@ public class EncadreurServiceImpl implements EncadreurService{
 
 
 	@Override
-	public List<Encadreur> findByType(String type) {
-		return encadreurDao.findByType(type);
+	public Page<Encadreur> findByType(String type,int page,int size) {
+		return encadreurDao.findByType(type,PageRequest.of(page, size));
 	}
 
 	@Override
-	public List<Encadreur> findByQualite(String qualite) {
-		return encadreurDao.findByQualite(qualite);
+	public Page<Encadreur> findByQualite(String qualite,int page,int size) {
+		return encadreurDao.findByQualite(qualite,PageRequest.of(page, size));
 	}
 
 	@Override
-	public Encadreur findByUtilisateurId(Long id) {
-		return encadreurDao.findByUtilisateurId(id);
+	public Encadreur findByUserId(Long id) {
+		return encadreurDao.findByUserId(id);
 	}
 
 	@Override
@@ -77,7 +85,7 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
-			encadreur.setUtilisateur(utilisateurService.findByEmail(encadreur.getUtilisateur().getEmail()));
+			encadreur.setUser(userService.findByReference(encadreur.getReference()));
 			encadreurDao.save(encadreur);
 			return 1;
 		}
@@ -89,9 +97,9 @@ public class EncadreurServiceImpl implements EncadreurService{
 		if(encadreur == null) {
 			return -1;
 		}else {
-			Utilisateur u = encadreur.getUtilisateur();
+			User u = encadreur.getUser();
 			encadreurDao.delete(encadreur);
-			utilisateurService.removeById(u.getId());
+			userService.removeById(u.getId());
 			return 1;
 		}
 	}
@@ -101,4 +109,21 @@ public class EncadreurServiceImpl implements EncadreurService{
 		return encadreurDao.findByReference(reference);
 	}
 
+	@Override
+	public Page<Encadreur> findAllWithPaginition(int page, int size) {
+		return encadreurDao.findAll(PageRequest.of(page, size));
+	}
+
+
+	@Override
+	public Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page,
+			int size) {
+		return encadreurDao.findByUserNomContainsOrUserPrenomContains(nom, prenom, PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<Encadreur>> searchForEncadreurs(Specification<Encadreur> spec) {
+		return new ResponseEntity<>(encadreurDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+	
 }

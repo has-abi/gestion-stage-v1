@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Tache;
 import com.gestion.stage.dao.TacheDao;
-import com.gestion.stage.service.TacheService;
+import com.gestion.stage.service.facade.TacheService;
 
 @Service
 public class TacheServiceImpl implements TacheService{

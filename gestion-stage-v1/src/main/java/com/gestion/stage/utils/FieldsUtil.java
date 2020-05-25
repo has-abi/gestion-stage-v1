@@ -10,7 +10,7 @@ import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.StageEncadreur;
 import com.gestion.stage.bean.StageEtudiant;
-import com.gestion.stage.bean.Utilisateur;
+import com.gestion.stage.bean.User;
 
 public class FieldsUtil {
 	
@@ -21,8 +21,8 @@ public class FieldsUtil {
 			return 1;
 		}
 	}
-	public static int utilisateurFields(Utilisateur utilisateur) {
-		if(Strings.isEmpty(utilisateur.getEmail()) || Strings.isEmpty(utilisateur.getMotPass()) || Strings.isEmpty(utilisateur.getNom()) || Strings.isEmpty(utilisateur.getPrenom())) {
+	public static int utilisateurFields(User user) {
+		if(Strings.isEmpty(user.getEmail()) || Strings.isEmpty(user.getMotPass()) || Strings.isEmpty(user.getNom()) || Strings.isEmpty(user.getPrenom())) {
 			return -1;
 		}else {
 			return 1;
@@ -64,7 +64,7 @@ public class FieldsUtil {
 		}
 	}
 	public static int StageFields(Stage stage) {
-		if( stage.getDateDebut() == null || stage.getDateFin() == null || stage.getTypeStage() == null || Strings.isEmpty(stage.getReference())) {
+		if( stage.getDateDebut() == null || stage.getDateFin() == null  || Strings.isEmpty(stage.getReference()) ) {
 			return -1;
 		}else {
 			return 1;

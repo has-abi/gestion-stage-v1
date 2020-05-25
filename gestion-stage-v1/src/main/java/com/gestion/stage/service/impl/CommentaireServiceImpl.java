@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.gestion.stage.bean.Commentaire;
 import com.gestion.stage.bean.SujetForum;
 import com.gestion.stage.dao.CommentaireDao;
-import com.gestion.stage.service.CommentaireService;
+import com.gestion.stage.service.facade.CommentaireService;
 import com.gestion.stage.utils.Utils;
 
 @Service

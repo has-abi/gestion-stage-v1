@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,9 +35,11 @@ public class Etudiant{
 	@Column(length = 15)
 	private String Situation_familial;
 	@OneToOne
-	private Utilisateur utilisateur;
+	private User user;
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Filiere filiere;
+	
 	@OneToMany(mappedBy = "etudiant")
 	private List<StageEtudiant> stageEtudiants;
 	@OneToMany(mappedBy = "etudiant")

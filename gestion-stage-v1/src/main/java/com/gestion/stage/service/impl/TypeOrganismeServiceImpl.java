@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.TypeOrganisme;
 import com.gestion.stage.dao.TypeOrganismeDao;
-import com.gestion.stage.service.TypeOrganismeService;
+import com.gestion.stage.service.facade.TypeOrganismeService;
 
 @Service
 public class TypeOrganismeServiceImpl implements TypeOrganismeService{
