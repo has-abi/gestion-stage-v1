@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +36,15 @@ public class EncadreurServiceImpl implements EncadreurService{
 	}
 
 	@Override
-	public List<Encadreur> findAll() {
-		return encadreurDao.findAll();
+	public Page<Encadreur> findAll(int page,int size,String sort) {
+		if(sort.equals("asc")) {
+			return encadreurDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
+		}else if(sort.equals("desc")) {
+			return encadreurDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
+		}else {
+			return null;
+		}
+		
 	}
 
 	@Override
@@ -124,6 +133,22 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Override
 	public ResponseEntity<List<Encadreur>> searchForEncadreurs(Specification<Encadreur> spec) {
 		return new ResponseEntity<>(encadreurDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+
+	@Override
+	public Page<Encadreur> findByCoordinateur(Long id, int page, int size,String sort) {
+		if(sort.equals("asc")) {
+			return encadreurDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
+		} if(sort.equals("desc")) {
+			return encadreurDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public Encadreur findByUserEmail(String email) {
+		return findByUserEmail(email);
 	}
 	
 }

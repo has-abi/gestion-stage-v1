@@ -27,7 +27,10 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
-	
+	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
+	public Page<Etudiant> findByCoordinateur(@PathVariable long id,@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
+		return etudiantService.findByCoordinateur(id, page, size,sort);
+	}
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
 	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable
 			int size) {
@@ -61,9 +64,9 @@ public class EtudiantRest {
 	public int save(@RequestBody Etudiant etudiant) {
 		return etudiantService.save(etudiant);
 	}
-	@GetMapping("/")
-	public List<Etudiant> findAll() {
-		return etudiantService.findAll();
+	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
+	public Page<Etudiant> findAll(@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
+		return etudiantService.findAll(page,size,sort);
 	}
 	@PutMapping("/")
 	public int Update(@RequestBody Etudiant etudiant) {

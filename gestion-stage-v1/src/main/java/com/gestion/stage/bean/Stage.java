@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -30,10 +31,10 @@ public class Stage{
 	@Temporal(TemporalType.DATE)
 	private Date dateFin;
 	private boolean statu;
-	
-	
 	@ManyToOne
 	private OrganismeAccueil organismeAccueil;
+	@OneToOne
+	private Rapport rapport;
 	@Temporal(TemporalType.DATE)
 	private Date dateCreation;
 	@OneToMany(mappedBy = "stage")
@@ -42,4 +43,6 @@ public class Stage{
 	private List<StageEncadreur> stageEncadreurs;
 	@OneToMany(mappedBy = "stage")
 	private List<StageMembreJury> stageMembreJuries;
+	@ManyToOne
+	private Coordinateur coordinateur;
 }

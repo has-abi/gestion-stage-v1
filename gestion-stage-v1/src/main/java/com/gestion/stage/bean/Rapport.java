@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,6 +21,7 @@ public class Rapport{
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String reference;
 	@Temporal(TemporalType.DATE)
 	private Date dateDepot;
 	@Temporal(TemporalType.DATE)
@@ -35,6 +35,5 @@ public class Rapport{
 	private String localeSoutenance;
 	@OneToOne
 	private Document document;
-	@ManyToOne
-	private Stage stage;
+	
 }

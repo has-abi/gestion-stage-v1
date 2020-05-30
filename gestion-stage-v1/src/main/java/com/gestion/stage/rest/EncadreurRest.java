@@ -26,6 +26,14 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EncadreurRest {
 	@Autowired
 	private EncadreurService encadreurService;
+	@GetMapping("/user/email/{email}")
+	public Encadreur findByUserEmail(@PathVariable String email) {
+		return encadreurService.findByUserEmail(email);
+	}
+	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
+	public Page<Encadreur> findByCoordinateur(@PathVariable Long id,@PathVariable int page,@PathVariable int size,String sort) {
+		return encadreurService.findByCoordinateur(id, page, size,sort);
+	}
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
 	public Page<Encadreur> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,
 			@PathVariable int page,@PathVariable int size) {
@@ -59,9 +67,9 @@ public class EncadreurRest {
 	public Encadreur findById(@PathVariable Long id) {
 		return encadreurService.findById(id);
 	}	
-	@GetMapping("/")
-	public List<Encadreur> findAll() {
-		return encadreurService.findAll();
+	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
+	public Page<Encadreur> findAll(@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
+		return encadreurService.findAll(page,size,sort);
 	}
 	@PostMapping("/")
 	public int save(@RequestBody Encadreur encadreur) {

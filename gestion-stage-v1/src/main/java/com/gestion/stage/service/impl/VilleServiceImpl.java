@@ -7,11 +7,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Pays;
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.VilleDao;
-import com.gestion.stage.service.facade.OrganismeAccueilService;
 import com.gestion.stage.service.facade.PaysService;
 import com.gestion.stage.service.facade.VilleService;
 
@@ -21,9 +19,8 @@ public class VilleServiceImpl implements VilleService {
 	private VilleDao villeDao;
 	@Autowired
 	private PaysService paysService;
+	
 
-	@Autowired
-	private OrganismeAccueilService organismeAccueilService;
 
 	@Override
 	public Ville findbyId(Long id) {
@@ -61,9 +58,6 @@ public class VilleServiceImpl implements VilleService {
 			if (v == null) {
 				return -1;
 			} else {
-			
-				List<OrganismeAccueil> orgs = v.getOrganismeAccueils();
-				orgs.forEach(o->organismeAccueilService.removeById(o.getId()));
 				villeDao.delete(v);
 				return 1;
 			}
@@ -73,20 +67,14 @@ public class VilleServiceImpl implements VilleService {
 
 	@Override
 	public int update(Ville ville) {
-		if (ville.getId() != null && ville.getId() != 0) {
+		
+		
 			Ville v = findbyId(ville.getId());
-			if (v == null || ville.getPays() == null) {
-				return -1;
-			} else if (paysService.findByNom(ville.getPays().getNom()) == null) {
+			if(v==null) {
 				return -2;
-			} else { 
-				villeDao.save(ville);
-				return 1;
 			}
-		} else {
-			return -3;
-		}
-
+				villeDao.save(ville);
+		return 1;
 	}
 
 	@Override

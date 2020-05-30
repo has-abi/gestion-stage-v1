@@ -1,11 +1,14 @@
 package com.gestion.stage.rest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +27,18 @@ import com.google.common.net.HttpHeaders;
 public class FileRest {
 	 @Autowired
 	  FileStorageService storageService;
+	 @GetMapping("/file/display/{filename:.+}")
+	public ResponseEntity<Resource> displayFile(@PathVariable String filename) 
+		 throws IOException {
+				Resource file = storageService.loadDocs(filename);
+		        return ResponseEntity
+		                .ok()
+		                .contentType(MediaType.APPLICATION_PDF)
+		                .body(new InputStreamResource(file .getInputStream()));
+		    }
+	
 
-	  @PostMapping("/upload")
+	@PostMapping("/upload")
 	  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
 	    String message = "";
 	    try {
@@ -54,7 +67,7 @@ public class FileRest {
 	  @GetMapping("/files/{filename:.+}")
 	  @ResponseBody
 	  public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-	    Resource file = storageService.load(filename);
+	    Resource file = storageService.loadDocs(filename);
 	    return ResponseEntity.ok()
 	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	  }

@@ -14,7 +14,7 @@ public interface EncadreurService {
 	Page<Encadreur> findByQualite(String qualite,int page,int size);
 	Encadreur findByUserId(Long id);
 	Encadreur findById(Long id);
-	List<Encadreur> findAll();
+	Page<Encadreur> findAll(int page,int size,String sort);
 	int save(Encadreur encadreur);
 	int update(Encadreur encadreur);
 	int removeByReference(String reference);
@@ -22,4 +22,6 @@ public interface EncadreurService {
 	Page<Encadreur> findAllWithPaginition(int page,int size);
 	Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,int page,int size);
 	ResponseEntity<List<Encadreur>> searchForEncadreurs(Specification<Encadreur> spec);
+	Page<Encadreur> findByCoordinateur(Long id,int page ,int size,String sort);
+	Encadreur findByUserEmail(String email);
 }

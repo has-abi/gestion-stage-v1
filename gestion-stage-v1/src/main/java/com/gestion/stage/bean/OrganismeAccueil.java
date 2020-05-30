@@ -28,10 +28,8 @@ public class OrganismeAccueil{
 	private String responsable;
 	@ManyToOne
 	private Ville ville;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private TypeOrganisme typeOrganisme;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private TypeServiceOrganisme typeServiceOrganisme;
 	

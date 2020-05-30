@@ -16,14 +16,15 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.service.facade.FileStorageService;
+import com.gestion.stage.utils.FileUtil;
 @Service
 public class FileStorageServiceImpl implements FileStorageService{
 	@Autowired
 	ResourceLoader resourceLoader;
-	private final Path root = Paths.get("uploads");
-
+	private  Path root ;
 	  @Override
 	  public void save(MultipartFile file) {
+		 this.root = FileUtil.getPathFormFile(file);
 	    try {
 	      Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
 	    } catch (Exception e) {
@@ -31,21 +32,7 @@ public class FileStorageServiceImpl implements FileStorageService{
 	    }
 	  }
 
-	  @Override
-	  public Resource load(String filename) {
-	    try {
-	      Path file = root.resolve(filename);
-	      Resource resource = new UrlResource(file.toUri());
 
-	      if (resource.exists() || resource.isReadable()) {
-	        return resource;
-	      } else {
-	        throw new RuntimeException("Could not read the file!");
-	      }
-	    } catch (MalformedURLException e) {
-	      throw new RuntimeException("Error: " + e.getMessage());
-	    }
-	  }
 
 	  @Override
 	  public void deleteAll() {
@@ -60,4 +47,42 @@ public class FileStorageServiceImpl implements FileStorageService{
 	      throw new RuntimeException("Could not load the files!");
 	    }
 	  }
+
+	@Override
+	public Resource loadDocs(String filename) {
+		this.root = Paths.get("uploads/documents");
+		try {
+		      Path file = root.resolve(filename);
+		      Resource resource = new UrlResource(file.toUri());
+
+		      if (resource.exists() || resource.isReadable()) {
+		        return resource;
+		      } else {
+		        throw new RuntimeException("Could not read the file!");
+		      }
+		    } catch (MalformedURLException e) {
+		      throw new RuntimeException("Error: " + e.getMessage());
+		    }
+	}
+
+	@Override
+	public Resource loadPics(String filename) {
+		this.root = Paths.get("uploads/profile_pictures");
+		try {
+		      Path file = root.resolve(filename);
+		      Resource resource = new UrlResource(file.toUri());
+
+		      if (resource.exists() || resource.isReadable()) {
+		        return resource;
+		      } else {
+		        throw new RuntimeException("Could not read the file!");
+		      }
+		    } catch (MalformedURLException e) {
+		      throw new RuntimeException("Error: " + e.getMessage());
+		    }
+	}
+
+
+
+
 }
