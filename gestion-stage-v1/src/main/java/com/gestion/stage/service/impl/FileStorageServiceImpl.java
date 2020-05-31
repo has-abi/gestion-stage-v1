@@ -1,11 +1,14 @@
 package com.gestion.stage.service.impl;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
+import java.io.ByteArrayInputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,11 +18,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gestion.stage.bean.Etudiant;
+import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.service.facade.FileStorageService;
+import com.gestion.stage.utils.ExcelUtil;
 @Service
 public class FileStorageServiceImpl implements FileStorageService{
 	@Autowired
 	ResourceLoader resourceLoader;
+	@Autowired
+	private EtudiantService etudiantService;
 	private final Path root = Paths.get("uploads");
 
 	  @Override
@@ -60,4 +68,10 @@ public class FileStorageServiceImpl implements FileStorageService{
 	      throw new RuntimeException("Could not load the files!");
 	    }
 	  }
+	  public ByteArrayInputStream loadPV() {
+		    List<Etudiant> tutorials = etudiantService.findAll();
+
+		    ByteArrayInputStream in = ExcelUtil.tutorialsToExcel(tutorials);
+		    return in;
+		  }
 }

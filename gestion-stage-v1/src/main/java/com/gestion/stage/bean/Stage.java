@@ -42,4 +42,5 @@ public class Stage{
 	private List<StageEncadreur> stageEncadreurs;
 	@OneToMany(mappedBy = "stage")
 	private List<StageMembreJury> stageMembreJuries;
+	
 }

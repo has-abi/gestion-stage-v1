@@ -44,5 +44,18 @@ public class Etudiant{
 	private List<StageEtudiant> stageEtudiants;
 	@OneToMany(mappedBy = "etudiant")
 	private List<EtudiantDocument>  etudiantDocuments;
+	public void setNom(String nom) {
+		this.user.setNom(nom);
+	}
+	public String getNom() {
+		return this.user.getNom();
+	}
+	public void setPrenom(String prenom) {
+		this.user.setPrenom(prenom);
+	}
+	public String getPrenom() {
+		return this.user.getPrenom();
+	}
+	
 	
 }

@@ -1,5 +1,6 @@
 package com.gestion.stage.rest;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
@@ -28,6 +31,10 @@ public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
 	
+	@PostMapping("/import")	
+	public List<Etudiant> readXsl() throws IOException {
+		return etudiantService.readXsl();
+	}
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
 	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable
 			int size) {
