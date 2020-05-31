@@ -8,17 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Pays;
-import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.PaysDao;
 import com.gestion.stage.service.facade.PaysService;
-import com.gestion.stage.service.facade.VilleService;
 
 @Service
 public class PaysServiceImpl implements PaysService{
 	@Autowired
 	private PaysDao paysDao;
-	@Autowired
-	private VilleService villeService;
 	@Override
 	public Pays findByNom(String nom) {
 		return paysDao.findByNom(nom);
@@ -64,8 +60,6 @@ public class PaysServiceImpl implements PaysService{
 		if(pays == null) {
 			return -1;
 		}else {
-			List<Ville> villes = pays.getVilles();
-			villes.forEach(ville->villeService.removeByid(ville.getId()));
 			paysDao.delete(pays);
 			return 1;
 		}

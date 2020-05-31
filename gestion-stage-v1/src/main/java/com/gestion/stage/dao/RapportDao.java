@@ -11,8 +11,8 @@ import com.gestion.stage.bean.Rapport;
 @Repository
 public interface RapportDao extends JpaRepository<Rapport, Long> {
 	List<Rapport> findByDateDepot(Date dateDepot);
-
+	Rapport findByReference(String reference);
 	List<Rapport> findByDateSoutenance(Date dateSoutenance);
 
-	List<Rapport> findByDescreption(String descreption);
+	List<Rapport> findByDescreptionContains(String descreption);
 }

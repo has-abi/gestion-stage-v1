@@ -1,10 +1,15 @@
 package com.gestion.stage.rest;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.User;
+import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.ResponseMessage;
 
 @RestController
 @RequestMapping("gestion-stage-api/user")
@@ -24,6 +33,19 @@ import com.gestion.stage.service.facade.UserService;
 public class UserRest {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FileStorageService fileStorageService;
+	@GetMapping("/reference/{reference}")
+	public User findByReference(@PathVariable String reference) {
+		return userService.findByReference(reference);
+	}
+	@PutMapping("/photo")
+	public ResponseEntity<ResponseMessage> uploadProfilePic(@RequestParam("ref") String ref, @RequestParam("file") MultipartFile file) {
+		return userService.uploadProfilePic(ref, file);
+	}
+	public ResponseEntity<Resource> loadImage(String filename) {
+		return userService.loadImage(filename);
+	}
 	@GetMapping("/dateNaissance/{dateNaissance}")
 	public List<User> findByDateNaissanceGreaterThan(@PathVariable @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateNaissance) {
 		return userService.findByDateNaissanceGreaterThan(dateNaissance);
@@ -60,4 +82,12 @@ public class UserRest {
 	public List<User> findAll() {
 		return userService.findAll();
 	}
+	@GetMapping("/image/{image}")
+	public ResponseEntity<InputStreamResource> getImage(@PathVariable String image) throws IOException {
+		Resource imgFile = fileStorageService.loadPics(image);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new InputStreamResource(imgFile.getInputStream()));
+    }
 }

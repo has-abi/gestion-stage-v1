@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.MembreJury;
@@ -17,4 +19,6 @@ public interface MembreJuryDao  extends JpaRepository<MembreJury, Long>,JpaSpeci
 	Page<MembreJury> findByProfession(String profession,Pageable pageable);
 	Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
 	MembreJury findByReference(String reference);
+	@Query(value = "Select membre_jury.* from membre_jury,stage_membre_jury,stage where stage.coordinateur = :id and stage_membre_jury.stage = stage.id and membre_jury.id = stage_membre_jury.membre_jury ",nativeQuery = true)
+	Page<MembreJury> findByCoordinateur(@Param("id")Long id,Pageable pageable);
 }

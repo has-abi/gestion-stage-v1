@@ -26,6 +26,14 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class MembreJuryRest {
 	@Autowired
 	private MembreJuryService membreJuryService;
+	@GetMapping("/user/email/{email}")
+	public MembreJury findByUserEmail(@PathVariable String email) {
+		return membreJuryService.findByUserEmail(email);
+	}
+	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
+	public Page<MembreJury> findByCoordinateur(@PathVariable Long id,@PathVariable int page,@PathVariable int size,String sort) {
+		return membreJuryService.findByCoordinateur(id, page, size,sort);
+	}
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
 	public Page<MembreJury> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,
 			@PathVariable int page,@PathVariable int size) {
@@ -47,9 +55,9 @@ public class MembreJuryRest {
 	public Page<MembreJury> findByProfession(@PathVariable String profession,@PathVariable int page,@PathVariable int size) {
 		return membreJuryService.findByProfession(profession,page,size);
 	}
-	@GetMapping("/")
-	public List<MembreJury> findAll() {
-		return membreJuryService.findAll();
+	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
+	public Page<MembreJury> findAll(@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
+		return membreJuryService.findAll(page,size,sort);
 	}
 	@GetMapping("/reference/{reference}")
 	public MembreJury findByReference(@PathVariable String reference) {

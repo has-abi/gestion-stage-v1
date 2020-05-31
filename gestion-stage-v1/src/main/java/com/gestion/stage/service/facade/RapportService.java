@@ -3,16 +3,20 @@ package com.gestion.stage.service.facade;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.gestion.stage.bean.Rapport;
+import com.gestion.stage.utils.ResponseMessage;
 
 public interface RapportService {
 	List<Rapport> findByDateDepot(Date dateDepot);
-
 	List<Rapport> findByDateSoutenance(Date dateSoutenance);
-
 	List<Rapport> findByDescreption(String descreption);
-	int save(Rapport rapport);
-	int updateRapport(Rapport rapport);
+	ResponseEntity<ResponseMessage>  save(String titre,String description,String StageRef ,MultipartFile file);
+	ResponseEntity<ResponseMessage> updateRapport(String titre,String description,String ref,MultipartFile file);
 	List<Rapport> findAll();
+	Rapport findByReference(String reference);
+	int validerRapport(String ref);
 
 }

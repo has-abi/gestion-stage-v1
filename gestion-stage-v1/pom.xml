@@ -20,6 +20,7 @@
 	</properties>
 
 	<dependencies>
+<<<<<<< HEAD
 
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -38,6 +39,19 @@
         <version>3.1.0</version>
 </dependency>
 
+=======
+		<dependency> <!-- needed by jasperreports to build -->
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+
+		<dependency> <!-- refered from http://mojo.codehaus.org/jasperreports-maven-plugin/usage.html -->
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+>>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -100,6 +114,7 @@
 
 	</dependencies>
 	<build>
+<<<<<<< HEAD
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -107,6 +122,36 @@
 			</plugin>
 
 		</plugins>
+=======
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jasperreports-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile-reports</goal>
+							</goals>
+						</execution>
+					</executions>
+
+					<dependencies>
+						<!--note this must be repeated here to pick up correct xml validation -->
+						<dependency>
+							<groupId>net.sf.jasperreports</groupId>
+							<artifactId>jasperreports</artifactId>
+							<version>5.1.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+>>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 	</build>
 
 </project>

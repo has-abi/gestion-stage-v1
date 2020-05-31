@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Convention_de_stage2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b891238b-809a-4197-8f52-4558db40eb57">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="405" height="23" uuid="f3426ef4-09c7-48a6-bda8-07e1af5216af"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 4 : Statut du stagiaire –Accueil et encadrement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="550" height="80" uuid="2bcf2237-a8c5-4f05-94d3-e34f1d5040ab"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[L’étudiant, pendant la durée de son stage dans l’Organisme,demeure étudiant de         l’Établissement ; il est suivi régulièrement parl’Établissement. L’Organisme nomme un Encadrantchargéd’assurer le suivi technique et d’optimiser les conditions deréalisation du stage.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="189" height="19" uuid="cc032338-2e86-44f5-98f1-7124c4ac2c35"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 5 : Intitulé du stage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="30" uuid="b33a1d9b-a1fe-4d78-b8e1-a1583f8417ef"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Le projet de stage est intitulé:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="-10" width="560" height="60" uuid="5f17ee3c-a952-4163-b07b-1dd08dca793e"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Et son programme est établi en fonction de la spécialisation de l’étudiant.                             Dans l’organisme d’accueil, le responsable de stage, chargé du suivi des travaux du stagiaire est:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="404" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<staticText>
+				<reportElement x="5" y="116" width="90" height="24" uuid="9fb79030-a2c1-4142-9958-06f04d4d01c4"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Monsieur    :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="35" width="90" height="25" uuid="50bd9dfd-1ba5-4a56-aed8-b46e80c1b674"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Téléphone  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="290" width="315" height="23" uuid="f184d083-408c-4329-b08e-6ef20bbab49a"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 7 : Responsabilité civile et assurances]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="15" width="80" height="20" uuid="35117331-ec99-4fd3-90ef-750dd4513da6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Qualité       : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="310" width="550" height="61" uuid="0a8af9ae-eba5-42fa-90d9-dc7b5406fc60"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Le stagiaire s’engage à se couvrir par un contrat d’assurance individuelle.                           Lorsque l’Organisme met un véhicule à la disposition du stagiaire,il lui incombe de vérifier préalablement que la police d’assurancedu véhicule couvre son utilisation par un étudiant .]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="205" width="170" height="20" uuid="dfb6b022-1944-4596-8a3b-11367f341cf3"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 6 : Gratification]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="55" width="90" height="20" uuid="3b8ea2ce-4744-435f-b24d-2c54a53119a3"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[E-mail        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="176" width="90" height="19" uuid="51980483-71d7-4249-8651-65a88e3bbc78"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[E-mail        :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="156" width="90" height="25" uuid="2d8c97d4-3c1e-4fe9-b363-bd2665b75032"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Téléphone  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="136" width="80" height="20" uuid="9a4797c3-36a9-45f7-bd20-b5f27f83a8e6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Qualité       : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="-5" width="90" height="24" uuid="3f1d8157-18fd-44e2-b708-ef9ad2bf305c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Monsieur    :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="225" width="550" height="61" uuid="460fc554-46ea-4990-be85-657221b0f098"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[L’étudiant ne peut prétendre à rémunération, cependant il peut bénéficier d’une gratification. Les frais de déplacement et d’hébergement engagés par l’étudiant àla demande de l’Organisme, ainsi que les frais de formationéventuellement nécessités par le stage, seront intégralement pris encharge par l’Organisme selon les modalités qui y sont en vigueur.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="75" width="560" height="40" uuid="fcdd8e2f-fde7-4f41-bac9-d2b38735db8e"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[A la Faculté des Sciences et Techniques de Marrakech, le responsable de stage, chargé du suivi des travaux du stagiaire est:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="380" width="150" height="20" uuid="c3ce6102-a6c0-46e6-bf13-122a8ffb2e0c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 8 : Discipline]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="682" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="190" width="230" height="30" uuid="635dcb15-1e3f-4713-942c-ebb6798c794b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 9 : Fin de stage –Rapport –Evaluation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="177" uuid="883e9f91-ec03-47bf-94ef-b022fd7d8f05"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Durant son stage, l’étudiant est soumis à la discipline et aurèglement intérieur de l’Organisme, notamment en ce qui concerneles horaires, et les règles d’hygièneet de sécurité en vigueur dans l’Organisme.                                                                                         Toute sanction disciplinaire ne peut être décidée que parl’Établissement. Dans ce cas, l’Organisme informe l’Établissementdes manquements et lui fournit éventuellement les éléments constitutifs.                                                                                                              En cas de manquement particulièrement grave à la discipline,l’Organisme se réserve le droit de mettre fin au stage de l’étudianttout en respectant les dispositions fixées à l’article 10 de la présenteconvention.]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

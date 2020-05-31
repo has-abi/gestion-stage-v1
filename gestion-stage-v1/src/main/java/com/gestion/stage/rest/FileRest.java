@@ -1,5 +1,6 @@
 package com.gestion.stage.rest;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ import com.google.common.net.HttpHeaders;
 public class FileRest {
 	 @Autowired
 	  FileStorageService storageService;
+<<<<<<< HEAD
 	 
 	 @GetMapping("/download")
 	  public ResponseEntity<Resource> getFile() {
@@ -38,6 +40,20 @@ public class FileRest {
 	        .body(file);
 	  }
 	  @PostMapping("/upload")
+=======
+	 @GetMapping("/file/display/{filename:.+}")
+	public ResponseEntity<Resource> displayFile(@PathVariable String filename) 
+		 throws IOException {
+				Resource file = storageService.loadDocs(filename);
+		        return ResponseEntity
+		                .ok()
+		                .contentType(MediaType.APPLICATION_PDF)
+		                .body(new InputStreamResource(file .getInputStream()));
+		    }
+	
+
+	@PostMapping("/upload")
+>>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 	  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
 	    String message = "";
 	    try {
@@ -66,7 +82,7 @@ public class FileRest {
 	  @GetMapping("/files/{filename:.+}")
 	  @ResponseBody
 	  public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-	    Resource file = storageService.load(filename);
+	    Resource file = storageService.loadDocs(filename);
 	    return ResponseEntity.ok()
 	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	  }

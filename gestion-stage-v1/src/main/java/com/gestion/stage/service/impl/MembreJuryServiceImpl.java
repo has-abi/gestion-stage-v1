@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +41,15 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	}
 
 	@Override
-	public List<MembreJury> findAll() {
-		return membreJuryDao.findAll();
+	public Page<MembreJury> findAll(int page,int size,String sort) {
+		if(sort.equals("asc")) {
+			return membreJuryDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
+		}else if(sort.equals("desc")) {
+			return membreJuryDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
+		}else {
+			return null;
+		}
+		
 	}
 
 	@Override
@@ -72,7 +81,7 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 		}else if(FieldsUtil.juryFields(membreJury)<0) {
 			return -2;
 		}else {
-			List<MembreJury> memJuries = findAll();
+			List<MembreJury> memJuries = membreJuryDao.findAll();
 			for(MembreJury m : memJuries) {
 				if(m.getId() == membreJury.getId() && m.getReference().equals(membreJury.getReference())) {
 					return -3;
@@ -120,6 +129,17 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	@Override
 	public ResponseEntity<List<MembreJury>> searchForJuries(Specification<MembreJury> spec) {
 		return new ResponseEntity<>(membreJuryDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+
+	@Override
+	public Page<MembreJury> findByCoordinateur(Long id, int page, int size,String sort) {
+		if(sort.equals("asc")) {
+			return membreJuryDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
+		} if(sort.equals("desc")) {
+			return membreJuryDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
+		}else {
+			return null;
+		}
 	}
 
 }

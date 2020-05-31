@@ -6,18 +6,28 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.UserDao;
+import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
+import com.gestion.stage.utils.FileUtil;
+import com.gestion.stage.utils.ResponseMessage;
+import com.google.common.net.HttpHeaders;
 
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private FileStorageService fileStorageService;
 
 	@Override
 	public List<User> findByDateNaissanceGreaterThan(Date dateNaissance) {
@@ -127,6 +137,37 @@ public class UserServiceImpl implements UserService {
 	public User findByReference(String reference) {
 		return userDao.findByReference(reference);
 	}
+
+	@Override
+	public ResponseEntity<ResponseMessage> uploadProfilePic(String ref, MultipartFile file) {
+		String message = "";
+		User u = findByReference(ref);
+		if(u == null) {
+			message += "utilisateur n'existe pas";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}else {
+			MultipartFile fileToStore = FileUtil.getNewFile(FileUtil.getEditedName(file), file);
+			try {
+				message = "la photo : " + fileToStore.getOriginalFilename() + " enregister avec succée!";
+				fileStorageService.save(fileToStore);
+				u.setPhoto(fileToStore.getOriginalFilename());
+				userDao.save(u);
+				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+			}catch(Exception e) {
+				message = "on ne peut pas uploader la photo: " + fileToStore.getOriginalFilename() + "!";
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			}
+		}
+		
+	}
+
+	@Override
+	public ResponseEntity<Resource> loadImage(String filename) {
+		 Resource file = fileStorageService.loadPics(filename);
+		    return ResponseEntity.ok()
+		        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+	
 	
 
 }

@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.Encadreur;
@@ -17,6 +19,9 @@ public interface EncadreurDao extends JpaRepository<Encadreur, Long>,JpaSpecific
 	Encadreur findByUserId(Long id);
 	Encadreur findByReference(String reference);
 	Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
+	@Query(value = "Select encadreur.* from encadreur,stage_encadreur,stage where stage.coordinateur = :id and stage_encadreur.stage = stage.id and encadreur.id = stage_encadreur.encadreur ",nativeQuery = true)
+	Page<Encadreur> findByCoordinateur(@Param("id")Long id,Pageable pageable);
+	Encadreur findByUserEmail(String email);
 	
 
 }

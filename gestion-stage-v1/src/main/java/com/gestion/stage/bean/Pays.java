@@ -20,6 +20,5 @@ public class Pays{
 	private Long id;
 	@Column(length = 30)
 	private String nom;
-	@OneToMany(mappedBy = "pays")
-	private List<Ville> villes;
+	
 }

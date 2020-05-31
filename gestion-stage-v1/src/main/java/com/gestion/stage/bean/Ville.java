@@ -1,17 +1,12 @@
 package com.gestion.stage.bean;
 
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,11 +21,8 @@ public class Ville{
 	@Column(length = 50)
 	private String nom;
 	private int codePostal;
-
 	@ManyToOne
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	private Pays pays;
-	@OneToMany(mappedBy = "ville")
-	private List<OrganismeAccueil> organismeAccueils;
+
 	
 }

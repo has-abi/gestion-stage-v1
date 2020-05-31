@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,8 +100,15 @@ public class EtudiantServiceImpl implements EtudiantService {
 	}
 
 	@Override
-	public List<Etudiant> findAll() {
-		return etudiantDao.findAll();
+	public Page<Etudiant> findAll(int page,int size,String sort) {
+		if(sort.equals("asc")) {
+			return etudiantDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));	
+		}else if(sort.equals("desc")) {
+			return etudiantDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
+		}else {
+			return null;
+		}
+		
 	}
 
 	@Override
@@ -109,11 +118,18 @@ public class EtudiantServiceImpl implements EtudiantService {
 			return -1;
 		} else if (FieldsUtil.etudiantFields(etudiant) < 0) {
 			return -2;
+<<<<<<< HEAD
 		} else {
 			List<Etudiant> etuds = findAll();
 			for (Etudiant e : etuds) {
 				if (e.getId() != etudiant.getId() && (e.getCin().equals(etudiant.getCin())
 						|| e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
+=======
+		}else {
+			List<Etudiant> etuds = etudiantDao.findAll();
+			for(Etudiant e : etuds) {
+				if(e.getId()!=etudiant.getId() && (e.getCin().equals(etudiant.getCin()) || e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
+>>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 					return -3;
 				}
 			}
@@ -238,6 +254,18 @@ public class EtudiantServiceImpl implements EtudiantService {
 	@Override
 	public ResponseEntity<List<Etudiant>> searchForEtudiants(Specification<Etudiant> spec) {
 		return new ResponseEntity<>(etudiantDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+
+	@Override
+	public Page<Etudiant> findByCoordinateur(long id, int page, int size,String sort) {
+		if(sort.equals("asc")) {
+			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
+		} if(sort.equals("desc")) {
+			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
+		}else {
+			return null;
+		}
+		
 	}
 
 }

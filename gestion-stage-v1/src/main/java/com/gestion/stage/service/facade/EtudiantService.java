@@ -16,7 +16,7 @@ public interface EtudiantService {
 	Etudiant findByCodeAppoge(String codeAppoge);
 	List<Etudiant> findByFiliere(Filiere filiere);
 	int save(Etudiant etudiant);
-	List<Etudiant> findAll();
+	Page<Etudiant> findAll(int page,int size,String sort);
 	int Update(Etudiant etudiant);
 	int removeByCin(String cin);
 	Etudiant findByUserEmail(String email);
@@ -25,5 +25,10 @@ public interface EtudiantService {
 	Page<Etudiant> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,int page,int size);
 	Page<Etudiant> findByNiveau(String niveau,int page,int size);
 	ResponseEntity<List<Etudiant>> searchForEtudiants(Specification<Etudiant> spec);
+<<<<<<< HEAD
 	List<Etudiant> readXsl() throws IOException;
+=======
+	Page<Etudiant> findByCoordinateur(long id,int page,int size,String sort);
+	
+>>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 }

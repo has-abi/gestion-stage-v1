@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Convention_de_stage" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="177dbecb-db8f-4d45-a757-083aa6112433">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="177" splitType="Stretch">
+			<image>
+				<reportElement x="160" y="-10" width="210" height="90" uuid="a2912ad5-1dc9-412d-aca4-64bb8ad17f8c"/>
+				<imageExpression><![CDATA["/src/main/resources/assets/fstgLogo.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="100" width="550" height="1" forecolor="#006FFF" uuid="1b0828bf-15af-46c9-8957-f54a3d9a3251">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="101" width="550" height="1" forecolor="#006FFF" uuid="42f467fc-480c-4ab9-8805-bfa5e9b12a5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="97" width="550" height="1" forecolor="#006FFF" uuid="ada2da8d-e9e6-4c9a-b36d-95bac9da9762">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="150" y="120" width="230" height="40" uuid="4f5daa1b-4144-4073-bcae-8f2dccf449ba"/>
+				<textElement>
+					<font fontName="Calibri" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONVENTION DE STAGE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="210" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="554" height="170" uuid="43bc1ca0-1832-4e72-a5bd-edb137414b4a"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[La présente convention de stage a pour objet de  régler les rapports entre:
+-La Faculté des Sciences et Techniques de Marrakech, représentée par son Doyen Monsieur Moha
+TAOURIRTE
+Adresse            : BP 549, AV. Abdelkrim Elkhattabi, Guéliz, Marrakech, Maroc,
+Téléphone       : +212 524 43 34 04
+Fax: +212 524 43 31 70
+et désignée ci après par Etablissement.
+Et ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="10" width="240" height="20" uuid="a4f8f001-70a9-4e4a-9724-17c30a288af6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 1 : Objet de la convention]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="-10" width="200" height="20" uuid="7c4f20a4-6134-4529-baa3-9aec8cbad1e0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[-L’Organisme ci-dessous mentionné:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="13" width="110" height="21" uuid="42109602-b7ca-48ea-8186-2d00c81656e7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Nom               :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-2" y="30" width="112" height="21" uuid="0c6a2734-6bf3-4a92-ad44-d3a5da835429"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Adresse           :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="50" width="112" height="21" uuid="0447bc0f-395a-47bd-9417-406bdd4929c9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Téléphone       :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="70" width="110" height="21" uuid="9ed4d7c3-41d5-40ee-bc34-87311719b095"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Fax                 :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="130" height="21" uuid="2672a8ef-bd29-46a7-b6be-57ff96bb8f93"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Représenté par     :]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="240" height="21" uuid="80b9259a-2625-419b-95d6-d8e4b601a10c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Et désigné ci-après par l’Organisme.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="170" height="20" uuid="6f782e1f-cb98-4c9d-b47e-d797a3442394"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Elle concerne:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="575" height="20" uuid="c0b754e1-21c7-4444-a494-250f766325db"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Étudiant(e) régulièrement inscrit(e) dans l’établissementpour l’année universitaire ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-2" y="60" width="452" height="22" uuid="940ad0e4-4a47-4eab-994b-377287136c47"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[2019/2020 et dont la carte d’étudiant porte le numéro du CNE suivant: ]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="235" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="0" width="221" height="22" uuid="ecc469ce-4d97-4e13-b15e-3136f550e293"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Et dénommé ci-après le stagiaire .]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="190" height="19" uuid="a528a4f6-1ae0-4f76-babf-a3132b2f0103"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 2 : Objectif du stage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="50" width="560" height="100" uuid="3c9d07f7-4ecc-49e2-8ed3-c816cab3e4b6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Le stage de formation a pour objet de permettre à l’étudiant demettre en pratique les outils théoriques et méthodologiques acquisau cours de sa formation, d'identifier ses compétences et de conforter son objectif professionnel.Le stage s'inscrit dans le cadre de la formation et du projetpersonnel et professionnel de l’étudiant.Il entre dans son cursus pédagogique et est obligatoire en vue de la délivrance du diplôme.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="150" width="240" height="20" uuid="53788fed-d4d3-43bc-989b-e397df0a6d57"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Article 3 : Lieu et période du stage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="170" width="156" height="20" uuid="9cb0da57-62c7-4b30-81c8-c75efee16194"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Le stage d’une durée de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="170" width="150" height="19" uuid="4867c355-e4b5-4cf1-92a7-486785c952b9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[mois et se déroulera du ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="170" width="16" height="25" uuid="931cebdb-c98f-4ff5-a183-35ad2828635f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[au]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="189" width="196" height="25" uuid="54956d9d-395c-48e7-8661-f8a2c1cca881"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<text><![CDATA[Le stage aura lieu à]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<line>
+				<reportElement x="2" y="10" width="550" height="1" forecolor="#363636" uuid="20808452-bf78-462d-b1c8-5a13a07ebd8e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="10" y="10" width="197" height="20" uuid="c6b69b5b-4366-4c12-ae9b-96d5d9db7c62"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Convention de stage FSTG/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="11" width="90" height="22" uuid="eb1093be-bef6-4efa-b204-b36cd30004ba"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[- Etudiant –]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
