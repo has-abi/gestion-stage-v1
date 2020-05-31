@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
@@ -30,16 +28,16 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
-<<<<<<< HEAD
+
 	
 	@PostMapping("/import")	
 	public List<Etudiant> readXsl() throws IOException {
 		return etudiantService.readXsl();
-=======
+		}
+
 	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
 	public Page<Etudiant> findByCoordinateur(@PathVariable long id,@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
 		return etudiantService.findByCoordinateur(id, page, size,sort);
->>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 	}
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
 	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable

@@ -27,7 +27,6 @@ import com.google.common.net.HttpHeaders;
 public class FileRest {
 	 @Autowired
 	  FileStorageService storageService;
-<<<<<<< HEAD
 	 
 	 @GetMapping("/download")
 	  public ResponseEntity<Resource> getFile() {
@@ -40,7 +39,6 @@ public class FileRest {
 	        .body(file);
 	  }
 	  @PostMapping("/upload")
-=======
 	 @GetMapping("/file/display/{filename:.+}")
 	public ResponseEntity<Resource> displayFile(@PathVariable String filename) 
 		 throws IOException {
@@ -53,7 +51,6 @@ public class FileRest {
 	
 
 	@PostMapping("/upload")
->>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 	  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
 	    String message = "";
 	    try {
