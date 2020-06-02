@@ -1,8 +1,5 @@
 package com.gestion.stage.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,7 +14,6 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.aspectj.apache.bcel.util.ClassPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -28,7 +24,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
@@ -40,9 +35,6 @@ import com.gestion.stage.service.facade.RoleService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
-
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 
 @Service
 public class EtudiantServiceImpl implements EtudiantService {
@@ -118,18 +110,10 @@ public class EtudiantServiceImpl implements EtudiantService {
 			return -1;
 		} else if (FieldsUtil.etudiantFields(etudiant) < 0) {
 			return -2;
-<<<<<<< HEAD
 		} else {
-			List<Etudiant> etuds = findAll();
-			for (Etudiant e : etuds) {
-				if (e.getId() != etudiant.getId() && (e.getCin().equals(etudiant.getCin())
-						|| e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
-=======
-		}else {
 			List<Etudiant> etuds = etudiantDao.findAll();
 			for(Etudiant e : etuds) {
 				if(e.getId()!=etudiant.getId() && (e.getCin().equals(etudiant.getCin()) || e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
->>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 					return -3;
 				}
 			}
@@ -164,10 +148,10 @@ public class EtudiantServiceImpl implements EtudiantService {
 
 			XSSFRow row = worksheet.getRow(i);
 
-			tempStudent.setCodeAppoge(row.getCell(0).getStringCellValue());
-			tempStudent.setNom(row.getCell(1).getStringCellValue());
-			tempStudent.setPrenom(row.getCell(2).getStringCellValue());
-			tempStudentList.add(tempStudent);
+//			tempStudent.setCodeAppoge(row.getCell(0).getStringCellValue());
+//			tempStudent.setNom(row.getCell(1).getStringCellValue());
+//			tempStudent.setPrenom(row.getCell(2).getStringCellValue());
+//			tempStudentList.add(tempStudent);
 		}
 		return tempStudentList;
 	}

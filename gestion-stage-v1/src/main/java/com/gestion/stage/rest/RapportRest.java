@@ -32,7 +32,7 @@ public class RapportRest {
 		return rapportService.updateRapport(titre, description, ref, file);
 	}
 	@PutMapping("/reference")
-	public int validerRapport(@RequestBody String ref) {
+	public int validerRapport(@PathVariable  String ref) {
 		return rapportService.validerRapport(ref);
 	}
 

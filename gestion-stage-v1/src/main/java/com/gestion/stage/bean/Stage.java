@@ -45,5 +45,4 @@ public class Stage{
 	private List<StageMembreJury> stageMembreJuries;
 	@ManyToOne
 	private Coordinateur coordinateur;
-
 }

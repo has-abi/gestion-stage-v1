@@ -1,14 +1,13 @@
 package com.gestion.stage.service.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
-import java.io.ByteArrayInputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -19,25 +18,18 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.Etudiant;
-import com.gestion.stage.service.facade.EtudiantService;
+import com.gestion.stage.dao.EtudiantDao;
 import com.gestion.stage.service.facade.FileStorageService;
-<<<<<<< HEAD
 import com.gestion.stage.utils.ExcelUtil;
-=======
 import com.gestion.stage.utils.FileUtil;
->>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 @Service
 public class FileStorageServiceImpl implements FileStorageService{
 	@Autowired
 	ResourceLoader resourceLoader;
-<<<<<<< HEAD
 	@Autowired
-	private EtudiantService etudiantService;
-	private final Path root = Paths.get("uploads");
-
-=======
+	private EtudiantDao etudiantService;
 	private  Path root ;
->>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
+
 	  @Override
 	  public void save(MultipartFile file) {
 		 this.root = FileUtil.getPathFormFile(file);
@@ -63,14 +55,12 @@ public class FileStorageServiceImpl implements FileStorageService{
 	      throw new RuntimeException("Could not load the files!");
 	    }
 	  }
-<<<<<<< HEAD
 	  public ByteArrayInputStream loadPV() {
 		    List<Etudiant> tutorials = etudiantService.findAll();
 
 		    ByteArrayInputStream in = ExcelUtil.tutorialsToExcel(tutorials);
 		    return in;
 		  }
-=======
 
 	@Override
 	public Resource loadDocs(String filename) {
@@ -109,5 +99,4 @@ public class FileStorageServiceImpl implements FileStorageService{
 
 
 
->>>>>>> 9362e5c87f7b3f060e411db6315776fd883ad4fe
 }

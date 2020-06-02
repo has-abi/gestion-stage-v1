@@ -24,6 +24,7 @@ public class Tache{
 	private String reference;
 	private Date dateCreation;
 	private Date dateLimite;
+	private Date dateValidation;
 	private boolean effectuer;
 	private boolean valider;
 	@ManyToOne

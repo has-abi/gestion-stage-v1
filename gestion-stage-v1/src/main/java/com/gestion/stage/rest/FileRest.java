@@ -38,7 +38,6 @@ public class FileRest {
 	        .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
 	        .body(file);
 	  }
-	  @PostMapping("/upload")
 	 @GetMapping("/file/display/{filename:.+}")
 	public ResponseEntity<Resource> displayFile(@PathVariable String filename) 
 		 throws IOException {
@@ -52,7 +51,7 @@ public class FileRest {
 
 	@PostMapping("/upload")
 	  public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-	    String message = "";
+	    String message = ""; 
 	    try {
 	      storageService.save(file);
 
@@ -76,6 +75,7 @@ public class FileRest {
 	    return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
 	  }
 
+	  
 	  @GetMapping("/files/{filename:.+}")
 	  @ResponseBody
 	  public ResponseEntity<Resource> getFile(@PathVariable String filename) {

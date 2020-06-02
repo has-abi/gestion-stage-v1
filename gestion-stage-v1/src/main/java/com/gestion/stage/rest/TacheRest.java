@@ -51,6 +51,11 @@ public class TacheRest {
 	public List<Tache> findAll() {
 		return tacheService.findAll();
 	}
+@PutMapping("/reference")
+public int validerTache(@PathVariable String reference) {
+	return tacheService.validerTache(reference);
+}
+
 	
 
 }
