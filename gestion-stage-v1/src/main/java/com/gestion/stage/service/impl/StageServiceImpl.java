@@ -14,12 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.gestion.stage.bean.Coordinateur;
 import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.StageEncadreur;
 import com.gestion.stage.bean.StageEtudiant;
 import com.gestion.stage.bean.StageMembreJury;
 import com.gestion.stage.dao.StageDao;
+import com.gestion.stage.service.facade.CoordinateurService;
 import com.gestion.stage.service.facade.EncadreurService;
 import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.service.facade.MembreJuryService;
@@ -49,7 +51,9 @@ public class StageServiceImpl implements StageService {
 	private EncadreurService encadreurService;
 	@Autowired
 	private MembreJuryService membreJuryService;
-	
+	@Autowired
+	private CoordinateurService coordinateurService;
+
 	@Override
 	public Page<Stage> findByDateDebut(String dateDebut, int page, int size) {
 		System.out.println(dateDebut);
@@ -83,12 +87,15 @@ public class StageServiceImpl implements StageService {
 
 	@Override
 	public int save(Stage stage) {
+		Coordinateur c = coordinateurService.findByReference(stage.getCoordinateur().getReference());
 		if (FieldsUtil.StageFields(stage) < 0) {
 			return -1;
 		} else if (findByReference(stage.getReference()) != null) {
 			return -2;
 		} else if (DateUtil.compareDates(stage.getDateDebut(), stage.getDateFin()) <= 0) {
 			return -3;
+		} else if (c == null) {
+			return -4;
 		} else {
 
 			if (stage.getOrganismeAccueil() != null) {
@@ -98,6 +105,7 @@ public class StageServiceImpl implements StageService {
 				stage.setOrganismeAccueil(oa);
 			}
 			stage.setStatu(false);
+			stage.setCoordinateur(c);
 			stage.setDateCreation(DateUtil.getDate());
 			stageDao.save(stage);
 			if (stage.getStageEtudiants().size() > 0) {
@@ -157,14 +165,15 @@ public class StageServiceImpl implements StageService {
 							.findByRaisonSocial(stage.getOrganismeAccueil().getRaisonSociale());
 					stage.setOrganismeAccueil(oa);
 				}
-					
 
 				stageDao.save(stage);
 				if (stage.getStageEtudiants().size() > 0) {
 					for (StageEtudiant se : stage.getStageEtudiants()) {
 						if (etudiantService.findByCin(se.getEtudiant().getCin()) == null) {
 							etudiantService.save(se.getEtudiant());
-						}if(stageEtudiantService.findByStageReferenceAndEtudiantCin(stage.getReference(), se.getEtudiant().getCin()) == null) {
+						}
+						if (stageEtudiantService.findByStageReferenceAndEtudiantCin(stage.getReference(),
+								se.getEtudiant().getCin()) == null) {
 							se.setStage(findByReference(stage.getReference()));
 							se.setEtudiant(etudiantService.findByCin(se.getEtudiant().getCin()));
 							se.setDateAffectation(DateUtil.getDate());
@@ -176,7 +185,9 @@ public class StageServiceImpl implements StageService {
 					for (StageEncadreur se : stage.getStageEncadreurs()) {
 						if (encadreurService.findByUserEmail(se.getEncadreur().getUser().getEmail()) == null) {
 							encadreurService.save(se.getEncadreur());
-						}if(stageEncadrantService.findByStageReferenceAndEncadreurReference(stage.getReference(), se.getEncadreur().getReference()) == null) {
+						}
+						if (stageEncadrantService.findByStageReferenceAndEncadreurReference(stage.getReference(),
+								se.getEncadreur().getReference()) == null) {
 							se.setDateAffectation(DateUtil.getDate());
 							se.setStage(findByReference(stage.getReference()));
 							se.setEncadreur(encadreurService.findByReference(se.getEncadreur().getReference()));
@@ -189,7 +200,9 @@ public class StageServiceImpl implements StageService {
 					for (StageMembreJury sm : stage.getStageMembreJuries()) {
 						if (membreJuryService.findByReference(sm.getMembreJury().getReference()) == null) {
 							membreJuryService.save(sm.getMembreJury());
-						}if(stageMembreJuryService.findByMembreJuryReferenceAndStageReference(sm.getMembreJury().getReference(), stage.getReference()) == null) {
+						}
+						if (stageMembreJuryService.findByMembreJuryReferenceAndStageReference(
+								sm.getMembreJury().getReference(), stage.getReference()) == null) {
 							sm.setDateAffectation(DateUtil.getDate());
 							sm.setStage(findByReference(stage.getReference()));
 							sm.setMembreJury(membreJuryService.findByReference(sm.getMembreJury().getReference()));
@@ -242,41 +255,46 @@ public class StageServiceImpl implements StageService {
 		Stage foundedStage = findByReference(ref);
 		if (foundedStage == null) {
 			return -1;
-		} else if(foundedStage.getOrganismeAccueil() == null) {
+		} else if (foundedStage.getOrganismeAccueil() == null) {
 			return -2;
-		}else if(foundedStage.getSujet() == null || foundedStage.getSujet() == "") {
+		} else if (foundedStage.getSujet() == null || foundedStage.getSujet() == "") {
 			return -3;
-		}else if(foundedStage.getStageEtudiants().size() == 0) {
+		} else if (foundedStage.getStageEtudiants().size() == 0) {
 			return -4;
-		}else if(foundedStage.getStageEncadreurs().size() == 0){
+		} else if (foundedStage.getStageEncadreurs().size() == 0) {
 			return -5;
-		}else {
+		} else {
 			foundedStage.setStatu(true);
 			stageDao.save(foundedStage);
 			return 1;
 		}
 	}
-	
+
 	@Override
-	public Page<Stage> findByCoordinateurReference(String reference, int page, int size,String sort) {
-		if(sort.equals("asc")) {
-			return stageDao.findByCoordinateurReference(reference, PageRequest.of(page, size,Sort.by(Direction.ASC, "id")));
-		}else if(sort.equals("desc")) {
-			return stageDao.findByCoordinateurReference(reference, PageRequest.of(page, size,Sort.by(Direction.DESC, "id")));
-		}else if(sort.equals("sujet")) {
-			return stageDao.findByCoordinateurReference(reference, PageRequest.of(page, size,Sort.by(Direction.ASC, "sujet")));
-		}else if(sort.equals("dateDebut")) {
-			return stageDao.findByCoordinateurReference(reference, PageRequest.of(page, size,Sort.by(Direction.ASC, "dateDebut")));
-		}else if(sort.equals("dateFin")) {
-			return stageDao.findByCoordinateurReference(reference, PageRequest.of(page, size,Sort.by(Direction.ASC, "DateFin")));
-		}else {
+	public Page<Stage> findByCoordinateurReference(String reference, int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return stageDao.findByCoordinateurReference(reference,
+					PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return stageDao.findByCoordinateurReference(reference,
+					PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
+		} else if (sort.equals("sujet")) {
+			return stageDao.findByCoordinateurReference(reference,
+					PageRequest.of(page, size, Sort.by(Direction.ASC, "sujet")));
+		} else if (sort.equals("dateDebut")) {
+			return stageDao.findByCoordinateurReference(reference,
+					PageRequest.of(page, size, Sort.by(Direction.ASC, "dateDebut")));
+		} else if (sort.equals("dateFin")) {
+			return stageDao.findByCoordinateurReference(reference,
+					PageRequest.of(page, size, Sort.by(Direction.ASC, "DateFin")));
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
-	public Page<Stage> findByEtudiant(Long id,int page,int size) {
+	public Page<Stage> findByEtudiant(Long id, int page, int size) {
 		return this.stageDao.findByEtudiant(id, PageRequest.of(page, size));
 	}
 

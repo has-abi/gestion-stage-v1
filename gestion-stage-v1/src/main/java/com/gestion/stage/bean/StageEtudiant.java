@@ -27,7 +27,7 @@ public class StageEtudiant{
 	private String remarque;
 	@Temporal(TemporalType.DATE)
 	private Date dateAffectation;
-	
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Etudiant etudiant;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)

@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Convention_de_stage" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="177dbecb-db8f-4d45-a757-083aa6112433">
-	<queryString>
-		<![CDATA[]]>
-	</queryString>
+	<field name="organisme_nom" class="java.lang.String"/>
+	<field name="organisme_tele" class="java.lang.String"/>
+	<field name="organisme_adress" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="177" splitType="Stretch">
-			<image>
-				<reportElement x="160" y="-10" width="210" height="90" uuid="a2912ad5-1dc9-412d-aca4-64bb8ad17f8c"/>
-				<imageExpression><![CDATA["/src/main/resources/assets/fstgLogo.png"]]></imageExpression>
-			</image>
 			<line>
 				<reportElement x="0" y="100" width="550" height="1" forecolor="#006FFF" uuid="1b0828bf-15af-46c9-8957-f54a3d9a3251">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -107,6 +103,27 @@ Et ]]></text>
 				</textElement>
 				<text><![CDATA[Représenté par     :]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="120" y="14" width="150" height="19" uuid="67a893bb-2655-4f17-8fef-fd8a262295a8"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organisme_nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="34" width="150" height="19" uuid="9ee5acac-cdeb-4c98-9e14-62408ce46a05"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organisme_adress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="51" width="150" height="19" uuid="67c36018-2098-4f06-b19d-9fd80c3e90e7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organisme_tele}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

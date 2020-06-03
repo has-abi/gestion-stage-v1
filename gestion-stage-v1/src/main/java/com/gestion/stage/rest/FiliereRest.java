@@ -46,8 +46,5 @@ public class FiliereRest {
 	public int removeById(@PathVariable Long id) {
 		return filiereService.removeById(id);
 	}
-	@GetMapping("/coordinateur/{reference}")
-	public Filiere findByCoordinateurReference(@PathVariable String reference) {
-		return filiereService.findByCoodinateurReference(reference);
-	}
+
 }

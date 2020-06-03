@@ -159,9 +159,11 @@ public class EtudiantServiceImpl implements EtudiantService{
 	public Page<Etudiant> findByCoordinateur(long id, int page, int size,String sort) {
 		if(sort.equals("asc")) {
 			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
-		} if(sort.equals("desc")) {
+		}else if(sort.equals("desc")) {
 			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
-		}else {
+		}else if(sort.equals("nom")){
+			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"nom")));
+		}else{
 			return null;
 		}
 		

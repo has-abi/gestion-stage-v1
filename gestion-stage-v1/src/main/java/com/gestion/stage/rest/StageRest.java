@@ -49,7 +49,7 @@ public class StageRest {
 	public Long countByEncadreur(@PathVariable Long id) {
 		return stageService.countByEncadreur(id);
 	}
-	@GetMapping("/encadreur/count/id/{id}")
+	@GetMapping("/jury/count/id/{id}")
 	public Long countByJury(@PathVariable Long id) {
 		return stageService.countByJury(id);
 	}
@@ -65,8 +65,8 @@ public class StageRest {
 		return stageService.findByCoordinateurReference(reference, page, size, sort);
 	}
 
-	@PutMapping("/activer/ref/{ref}")
-	public int activerStage(@PathVariable String ref) {
+	@PutMapping("/activer")
+	public int activerStage(@RequestBody String ref) {
 		return stageService.activerStage(ref);
 	}
 

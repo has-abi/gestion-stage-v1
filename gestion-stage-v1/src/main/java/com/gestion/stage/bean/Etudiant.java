@@ -39,7 +39,6 @@ public class Etudiant{
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Filiere filiere;
-	
 	@OneToMany(mappedBy = "etudiant")
 	private List<EtudiantDocument>  etudiantDocuments;
 	
