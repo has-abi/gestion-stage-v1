@@ -1,5 +1,6 @@
 package com.gestion.stage.rest;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,13 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
+
+	
+	@PostMapping("/import")	
+	public List<Etudiant> readXsl() throws IOException {
+		return etudiantService.readXsl();
+		}
+
 	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
 	public Page<Etudiant> findByCoordinateur(@PathVariable long id,@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
 		return etudiantService.findByCoordinateur(id, page, size,sort);

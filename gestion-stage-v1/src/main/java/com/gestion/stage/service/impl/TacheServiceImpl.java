@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.gestion.stage.utils.DateUtil;
 
 import com.gestion.stage.bean.Tache;
 import com.gestion.stage.dao.TacheDao;
@@ -16,12 +17,14 @@ import com.gestion.stage.service.facade.TacheService;
 public class TacheServiceImpl implements TacheService{
 	@Autowired
 	private TacheDao tacheDao;
+	private DateUtil dateUtil;
 
 	@Override
 	public List<Tache> findByDateCreation(Date dateCreation) {
 		return tacheDao.findByDateCreation(dateCreation);
 	}
 
+	
 	@Override
 	public List<Tache> findByDateLimite(Date dateLimite) {
 		return tacheDao.findByDateLimite(dateLimite);
@@ -76,5 +79,20 @@ public class TacheServiceImpl implements TacheService{
 	public List<Tache> findAll() {
 		return tacheDao.findAll();
 	}
+
+	@Override
+	public int validerTache(String reference) {
+		
+			Tache foundedTache = findByReference(reference);
+			if(foundedTache == null) {
+				return -1;
+			}else {
+				foundedTache.setValider(true);
+				foundedTache.setDateValidation(DateUtil.getDate());
+				tacheDao.save(foundedTache);
+				return 1;
+			}
+		}
+
 
 }

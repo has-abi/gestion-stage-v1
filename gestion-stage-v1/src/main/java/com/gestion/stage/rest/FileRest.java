@@ -46,19 +46,34 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @RestController
 public class FileRest {
 	@Autowired
-	FileStorageService storageService;
-	@Autowired
 	private StageService stageService;
+	 @Autowired
+	  FileStorageService storageService;
+	 
+	 @GetMapping("/download")
+	  public ResponseEntity<Resource> getFileXlsx() {
+	    String filename = "test.xlsx";
+	    InputStreamResource file = new InputStreamResource(storageService.loadPV());
+
+	    return ResponseEntity.ok()
+	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+	        .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+	        .body(file);
+	  }
+	 @GetMapping("/file/display/{filename:.+}")
+	public ResponseEntity<Resource> displayFile(@PathVariable String filename) 
+		 throws IOException {
+				Resource file = storageService.loadDocs(filename);
+		        return ResponseEntity
+		                .ok()
+		                .contentType(MediaType.APPLICATION_PDF)
+		                .body(new InputStreamResource(file .getInputStream()));
+		    }
 	
 
 
+	  
 
-	@GetMapping("/file/display/{filename:.+}")
-	public ResponseEntity<Resource> displayFile(@PathVariable String filename) throws IOException {
-		Resource file = storageService.loadDocs(filename);
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
-				.body(new InputStreamResource(file.getInputStream()));
-	}
 
 	@PostMapping("/upload")
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {

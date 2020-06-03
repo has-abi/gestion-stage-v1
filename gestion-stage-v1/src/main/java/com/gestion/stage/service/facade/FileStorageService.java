@@ -3,7 +3,7 @@ package com.gestion.stage.service.facade;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.stream.Stream;
-
+import java.io.ByteArrayInputStream;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,4 +21,5 @@ public interface FileStorageService {
 	public byte[] generatePDFReport(String inputFileName, Map<String, Object> params,
 		    JRDataSource dataSource);
 	public byte[] report(Long id);
+	ByteArrayInputStream loadPV();
 }

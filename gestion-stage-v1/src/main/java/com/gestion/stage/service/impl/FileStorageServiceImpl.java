@@ -1,5 +1,6 @@
 package com.gestion.stage.service.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -19,12 +21,14 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Stage;
+import com.gestion.stage.dao.EtudiantDao;
 import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.StageService;
+import com.gestion.stage.utils.ExcelUtil;
 import com.gestion.stage.utils.FileUtil;
 
 import net.sf.jasperreports.engine.JRDataSource;
@@ -35,16 +39,18 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRSaver;
 @Service
 public class FileStorageServiceImpl implements FileStorageService{
 	@Autowired
 	ResourceLoader resourceLoader;
 	@Autowired
 	private StageService stageService;
+	@Autowired
+	private EtudiantDao etudiantService;
 	private  Path root ;
 	
-		  @Override
+
+	  @Override
 	  public void save(MultipartFile file) {
 		 this.root = FileUtil.getPathFormFile(file);
 	    try {
@@ -69,6 +75,12 @@ public class FileStorageServiceImpl implements FileStorageService{
 	      throw new RuntimeException("Could not load the files!");
 	    }
 	  }
+	  public ByteArrayInputStream loadPV() {
+		    List<Etudiant> tutorials = etudiantService.findAll();
+
+		    ByteArrayInputStream in = ExcelUtil.tutorialsToExcel(tutorials);
+		    return in;
+		  }
 
 	@Override
 	public Resource loadDocs(String filename) {
