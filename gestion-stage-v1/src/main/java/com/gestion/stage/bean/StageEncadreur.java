@@ -30,4 +30,6 @@ public class StageEncadreur{
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Stage stage;
+	
+	
 }

@@ -118,8 +118,8 @@ public class ExcelUtil {
 	        Row row = sheet.createRow(rowIdx++);
 
 	        row.createCell(0).setCellValue(e.getCodeAppoge());
-	        row.createCell(1).setCellValue(e.getNom());
-	        row.createCell(2).setCellValue(e.getPrenom());
+	      //  row.createCell(1).setCellValue(e.getNom());
+	       // row.createCell(2).setCellValue(e.getPrenom());
 	      }
 
 	      

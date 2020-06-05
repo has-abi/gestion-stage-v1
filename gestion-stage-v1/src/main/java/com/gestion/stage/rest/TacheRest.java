@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,15 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.Tache;
 import com.gestion.stage.service.facade.TacheService;
 
 @RestController
-@RequestMapping("/stage/tache")
+@RequestMapping("gestion-stage-api/tache")
+@CrossOrigin({"http://localhost:4200"})
 public class TacheRest {
 	@Autowired
 	private TacheService tacheService;
-
+	
+	
+@GetMapping("/stage/reference/{reference}")
+	public List<Tache> findByStageReference( @PathVariable String reference) {
+		return tacheService.findByStageReference(reference);
+	}
 	@GetMapping("/dateCreation/{dateCreation}")
 	public List<Tache> findByDateCreation( @PathVariable Date dateCreation) {
 		return tacheService.findByDateCreation(dateCreation);
