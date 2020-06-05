@@ -103,4 +103,9 @@ public class FiliereServiceImpl implements FiliereService{
 		return filiereDao.findByCoordinateurReference(reference);
 	}
 
+	@Override
+	public int countFilieres() {
+		return (int) filiereDao.count();
+	}
+
 }

@@ -51,6 +51,8 @@ public interface StageDao extends JpaRepository<Stage, Long>, JpaSpecificationEx
 
 	@Query(value = "select stage.* from stage,membre_jury,stage_membre_jury where membre_jury.id = :id and stage_membre_jury.membre_jury = membre_jury.id and stage_membre_jury.stage = stage.id", countQuery = "SELECT count(*) from stage_membre_jury where stage_membre_jury.membre_jury = :id", nativeQuery = true)
 	Page<Stage> findByJury(Long id, Pageable pageable);
+
 	Stage findByRapportReference(String reference);
+
 
 }

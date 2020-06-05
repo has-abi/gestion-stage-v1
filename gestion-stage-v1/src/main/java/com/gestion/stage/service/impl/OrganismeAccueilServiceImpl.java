@@ -117,4 +117,9 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 		return new ResponseEntity<>(organismeAccueilDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
+	@Override
+	public int countOrganismes() {
+		return (int) organismeAccueilDao.count();
+	}
+
 }

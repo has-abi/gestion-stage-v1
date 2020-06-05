@@ -1,5 +1,7 @@
 package com.gestion.stage.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,11 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public Role getJuryRole() {
 		return findByRole("JURY_ROLE");
+	}
+
+	@Override
+	public List<Role> findAll() {
+		return roleDao.findAll();
 	}
 
 }

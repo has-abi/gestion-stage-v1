@@ -52,5 +52,7 @@ public interface StageService {
 	Long countByEncadreur(Long id);
 
 	Long countByJury(Long id);
+	
+	int countStages();
 
 }

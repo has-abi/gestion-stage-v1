@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -118,6 +123,27 @@ public class RapportServiceImpl implements RapportService {
 			foundedRapport.setDateValidation(DateUtil.getDate());
 			rapportDao.save(foundedRapport);
 			return 1;
+		}
+	}
+
+	@Override
+	public int countRapports() {
+		return (int) rapportDao.count();
+	}
+
+	@Override
+	public ResponseEntity<List<Rapport>> searchForRapports(Specification<Rapport> spec) {
+		return new ResponseEntity<>(rapportDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+
+	@Override
+	public Page<Rapport> findAllWithPagination(int page, int size, String sort) {
+		if(sort.equals("asc")) {
+			return rapportDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
+		}else if(sort.equals("desc")) {
+			return rapportDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
+		}else {
+			return null;
 		}
 	}
 

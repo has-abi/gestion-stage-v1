@@ -1,5 +1,7 @@
 package com.gestion.stage.service.facade;
 
+import java.util.List;
+
 import com.gestion.stage.bean.Role;
 
 public interface RoleService {
@@ -10,5 +12,6 @@ public interface RoleService {
 	Role getCoordinateurRole();
 	Role getEncadreurRole();
 	Role getJuryRole();
+	List<Role> findAll();
 	
 }

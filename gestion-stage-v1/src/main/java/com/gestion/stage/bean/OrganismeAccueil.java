@@ -22,6 +22,8 @@ public class OrganismeAccueil{
 	private String email;
 	@Column(length = 15)
 	private String tele;
+	@Column(length = 15)
+	private String  teleFix;
 	private String adress;
 	private String responsable;
 	@ManyToOne

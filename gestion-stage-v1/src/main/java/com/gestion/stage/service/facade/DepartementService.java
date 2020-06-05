@@ -11,4 +11,5 @@ public interface DepartementService {
 	int removeById(Long id);
 	int update(Departement departement);
 	List<Departement> findAll();
+	int countDepartements();
 }

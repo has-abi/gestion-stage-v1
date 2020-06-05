@@ -52,9 +52,6 @@ public class User{
 	private Date dateJoin;
 	@ManyToOne
 	private Role role;
-	@OneToMany(mappedBy = "user")
-	private List<SujetForum> sujetForums;
-	@OneToMany(mappedBy = "user")
-	private List<Commentaire> commentaires;
+	
 	
 }

@@ -65,4 +65,9 @@ public class PaysServiceImpl implements PaysService{
 		}
 	}
 
+	@Override
+	public int countPays() {
+		return (int) paysDao.count();
+	}
+
 }

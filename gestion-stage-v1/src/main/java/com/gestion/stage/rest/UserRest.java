@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import com.gestion.stage.bean.User;
 import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.ResponseMessage;
+import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/user")
@@ -33,6 +36,22 @@ import com.gestion.stage.utils.ResponseMessage;
 public class UserRest {
 	@Autowired
 	private UserService userService;
+	@GetMapping("/email/{email}")
+	public User findByEmail(@PathVariable String email) {
+		return userService.findByEmail(email);
+	}
+	@GetMapping("/count")
+	public int countusers() {
+		return userService.countusers();
+	}
+	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
+	public Page<User> findAllWithPagination(@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
+		return userService.findAllWithPagination(page, size, sort);
+	}
+	@GetMapping("/search")
+	public ResponseEntity<List<User>> searchForUsers(@SearchSpec Specification<User> spec) {
+		return userService.searchForUsers(spec);
+	}
 	@Autowired
 	private FileStorageService fileStorageService;
 	@GetMapping("/reference/{reference}")

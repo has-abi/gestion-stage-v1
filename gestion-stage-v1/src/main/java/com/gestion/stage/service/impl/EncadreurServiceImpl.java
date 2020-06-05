@@ -20,6 +20,7 @@ import com.gestion.stage.dao.EncadreurDao;
 import com.gestion.stage.service.facade.EncadreurService;
 import com.gestion.stage.service.facade.RoleService;
 import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 @Service
 public class EncadreurServiceImpl implements EncadreurService{
@@ -55,6 +56,7 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
+			encadreur.getUser().setReference("u" + DateUtil.getDate().getTime());
 			encadreur.getUser().setRole(roleService.getEncadreurRole());
 			if(userService.register(encadreur.getUser())<0) {
 				return -3;
@@ -149,6 +151,11 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Override
 	public Encadreur findByUserEmail(String email) {
 		return findByUserEmail(email);
+	}
+
+	@Override
+	public int countEncadreurs() {
+		return (int) encadreurDao.count();
 	}
 	
 }

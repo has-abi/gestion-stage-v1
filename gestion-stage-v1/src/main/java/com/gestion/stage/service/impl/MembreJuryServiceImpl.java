@@ -1,4 +1,4 @@
-package com.gestion.stage.service.impl;
+	package com.gestion.stage.service.impl;
 
 import java.util.List;
 
@@ -140,6 +140,11 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 		}else {
 			return null;
 		}
+	}
+
+	@Override
+	public int countJuries() {
+		return (int) membreJuryDao.count();
 	}
 
 }

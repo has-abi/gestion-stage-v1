@@ -29,6 +29,10 @@ public class StageRest {
 
 	@Autowired
 	private StageService stageService;
+	@GetMapping("/count")
+	public int countStages() {
+		return stageService.countStages();
+	}
 	@GetMapping("/encadreur/id/{id}/page/{page}/size/{size}")
 	public Page<Stage> findByEncadreur(@PathVariable Long id,@PathVariable int page,@PathVariable int size) {
 		return stageService.findByEncadreur(id, page, size);

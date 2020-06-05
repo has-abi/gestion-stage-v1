@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,4 +27,7 @@ public interface UserService {
 	User findByReference(String reference);
 	ResponseEntity<ResponseMessage> uploadProfilePic(String ref , MultipartFile file);
 	ResponseEntity<Resource> loadImage(String filename);
+	int countusers();
+	Page<User> findAllWithPagination(int page,int size,String sort);
+	ResponseEntity<List<User>> searchForUsers(Specification<User> spec);;
 }

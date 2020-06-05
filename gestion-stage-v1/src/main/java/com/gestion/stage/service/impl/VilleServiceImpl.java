@@ -1,6 +1,8 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,6 +14,7 @@ import com.gestion.stage.bean.Ville;
 import com.gestion.stage.dao.VilleDao;
 import com.gestion.stage.service.facade.PaysService;
 import com.gestion.stage.service.facade.VilleService;
+import com.gestion.stage.utils.VilleStatistics;
 
 @Service
 public class VilleServiceImpl implements VilleService {
@@ -20,8 +23,6 @@ public class VilleServiceImpl implements VilleService {
 	@Autowired
 	private PaysService paysService;
 	
-
-
 	@Override
 	public Ville findbyId(Long id) {
 		return villeDao.findById(id).get();
@@ -86,5 +87,34 @@ public class VilleServiceImpl implements VilleService {
 	public Ville findByPaysNomAndNom(String pays, String nom) {
 		return villeDao.findByPaysNomAndNom(pays, nom);
 	}
+
+	@Override
+	public int countVilles() {
+		return (int) villeDao.count();
+	}
+
+	@Override
+	public List<VilleStatistics> numberorganismeByVille(Long id) {
+		List<VilleStatistics> villeS = new ArrayList<VilleStatistics>();
+		List<Ville> foundedVilles = villesParFilier(id);
+		int nombre = 0;
+		for(int i = 0;i<foundedVilles.size();i++) {
+			Ville v = foundedVilles.get(i);
+			if(villeS.stream().filter(d->d.getNom().equals(v.getNom())).collect(Collectors.toList()).size() == 0) {
+				for(int j = 0;j<foundedVilles.size();j++) {
+					if(v.getId() == foundedVilles.get(j).getId()) nombre++;
+				}
+				villeS.add(new VilleStatistics(foundedVilles.get(i).getNom(), nombre));
+			}
+		}
+		
+		return villeS;
+	}
+	
+	@Override
+	public List<Ville> villesParFilier(Long idFiliere) {
+		return villeDao.villesParFilier(idFiliere);
+	}
+	
 
 }

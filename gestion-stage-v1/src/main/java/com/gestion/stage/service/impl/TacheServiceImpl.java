@@ -7,17 +7,16 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.gestion.stage.utils.DateUtil;
 
 import com.gestion.stage.bean.Tache;
 import com.gestion.stage.dao.TacheDao;
 import com.gestion.stage.service.facade.TacheService;
+import com.gestion.stage.utils.DateUtil;
 
 @Service
 public class TacheServiceImpl implements TacheService{
 	@Autowired
 	private TacheDao tacheDao;
-	private DateUtil dateUtil;
 
 	@Override
 	public List<Tache> findByDateCreation(Date dateCreation) {
@@ -93,6 +92,12 @@ public class TacheServiceImpl implements TacheService{
 				return 1;
 			}
 		}
+
+
+	@Override
+	public List<Tache> findByStageReference(String reference) {
+		return tacheDao.findByStageReference(reference);
+	}
 
 
 }

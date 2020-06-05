@@ -3,6 +3,8 @@ package com.gestion.stage.rest;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.Path;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,41 +23,49 @@ import com.gestion.stage.service.facade.TacheService;
 public class TacheRest {
 	@Autowired
 	private TacheService tacheService;
+	@GetMapping("/stage/reference/{reference}")
+	public List<Tache> findByStageReference(@PathVariable String reference) {
+		return tacheService.findByStageReference(reference);
+	}
 
 	@GetMapping("/dateCreation/{dateCreation}")
-	public List<Tache> findByDateCreation( @PathVariable Date dateCreation) {
+	public List<Tache> findByDateCreation(@PathVariable Date dateCreation) {
 		return tacheService.findByDateCreation(dateCreation);
 	}
-@GetMapping("/dateLimite/{dateLimite}")
-	public List<Tache> findByDateLimite( @PathVariable Date dateLimite) {
+
+	@GetMapping("/dateLimite/{dateLimite}")
+	public List<Tache> findByDateLimite(@PathVariable Date dateLimite) {
 		return tacheService.findByDateLimite(dateLimite);
 	}
-@GetMapping("/reference/{reference}")
+
+	@GetMapping("/reference/{reference}")
 	public Tache findByReference(@PathVariable String reference) {
 		return tacheService.findByReference(reference);
 	}
-@DeleteMapping("/delete/reference/{reference}")
+
+	@DeleteMapping("/delete/reference/{reference}")
 	public int deleteByReference(@PathVariable String reference) {
 		return tacheService.deleteByReference(reference);
 	}
-@PostMapping("/")
-	public int save( @RequestBody Tache tache) {
+
+	@PostMapping("/")
+	public int save(@RequestBody Tache tache) {
 		return tacheService.save(tache);
 	}
-@PutMapping()
+
+	@PutMapping()
 	public int updateTache(@RequestBody Tache tache) {
 		return tacheService.updateTache(tache);
 	}
 
-@GetMapping("/")
+	@GetMapping("/")
 	public List<Tache> findAll() {
 		return tacheService.findAll();
 	}
-@PutMapping("/reference")
-public int validerTache(@PathVariable String reference) {
-	return tacheService.validerTache(reference);
-}
 
-	
+	@PutMapping("/reference")
+	public int validerTache(@PathVariable String reference) {
+		return tacheService.validerTache(reference);
+	}
 
 }

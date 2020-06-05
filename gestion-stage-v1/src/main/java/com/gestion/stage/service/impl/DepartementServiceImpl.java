@@ -93,4 +93,9 @@ public class DepartementServiceImpl implements DepartementService {
 		return departementDao.findById(id).get();
 	}
 
+	@Override
+	public int countDepartements() {
+		return (int) departementDao.count();
+	}
+
 }

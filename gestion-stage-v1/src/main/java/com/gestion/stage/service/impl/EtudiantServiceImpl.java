@@ -1,21 +1,10 @@
 package com.gestion.stage.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -136,79 +125,8 @@ public class EtudiantServiceImpl implements EtudiantService {
 		}
 	}
 
-	@Override
-	public List<Etudiant> readXsl() throws IOException {
-		InputStream xlsFile = new ClassPathResource("pv_jury.xlsx").getInputStream();
-		List<Etudiant> tempStudentList = new ArrayList<Etudiant>();
-		XSSFWorkbook workbook = new XSSFWorkbook(xlsFile);
-		XSSFSheet worksheet = workbook.getSheetAt(0);
-
-		for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
-			Etudiant tempStudent = new Etudiant();
-
-			XSSFRow row = worksheet.getRow(i);
-
-//			tempStudent.setCodeAppoge(row.getCell(0).getStringCellValue());
-//			tempStudent.setNom(row.getCell(1).getStringCellValue());
-//			tempStudent.setPrenom(row.getCell(2).getStringCellValue());
-//			tempStudentList.add(tempStudent);
-		}
-		return tempStudentList;
-	}
-
 	
-	public void writeXsl() throws IOException  {
-		List<Etudiant> etudiants=new ArrayList<Etudiant>();
-		//create a workbook
-		 XSSFWorkbook workbook = new XSSFWorkbook();
-		 //create a spreadSheet
-		 XSSFSheet sheet = workbook.createSheet("etudiant Data");
-		 //create a Row Object
-		 XSSFRow row;
-		//create cells
-		 row=sheet.createRow(0);
-		 Cell cell0=row.createCell(0);
-		 Cell cell1=row.createCell(1);
-		 Cell cell2=row.createCell(2);
-		 Cell cell3=row.createCell(3);
-		 cell0.setCellValue("CodeAppoge");
-		 cell1.setCellValue("Nom");
-		 cell2.setCellValue("Prenom");
-		 cell3.setCellValue("moyen");
-		 //create cell style
-		 CellStyle style=workbook.createCellStyle();
-		 style.setAlignment(HorizontalAlignment.CENTER);
-		 style.setVerticalAlignment(VerticalAlignment.CENTER);
-		 //for each cell
-		 cell0.setCellStyle(style);
-		 cell1.setCellStyle(style);
-		 cell2.setCellStyle(style);
-		 cell3.setCellStyle(style);
-		 //create rows and cells for data
-		 for(int i=0;i<etudiants.size() ;i++) {
-			 row=sheet.createRow(i+1);
-			 for(int j=0;j<4;j++) {
-				 Cell cell=row.createCell(j);
-				 cell.setCellStyle(style);
-			 }
-		 }
-		
-//		 // writing the created  excel file
-//		  try{
-//		   FileInputStream file = new FileInputStream(new File("pv_jury.xlsx"));
-//		   workbook.write(file);
-//		   fie.close();
-//		  
-//		  } catch (FileNotFoundException e) {
-//			  
-//	           Logger.getLoggerContext(ExportExcel.class.getName()).log(Level.SEVERE,null,e);
-//	           }
-		 
-		 
-		 
-		 
-		 
-	}
+	
 
 	@Override
 	public Etudiant findByUserEmail(String email) {
@@ -252,6 +170,21 @@ public class EtudiantServiceImpl implements EtudiantService {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public List<Etudiant> findByEncadreurid(Long id) {
+		return etudiantDao.findByEncadreurid(id);
+	}
+
+	@Override
+	public List<Etudiant> findByJuryId(Long id) {
+		return etudiantDao.findByJuryId(id);
+	}
+
+	@Override
+	public int countEtdudiants() {
+		return (int) etudiantDao.count();
 	}
 
 }

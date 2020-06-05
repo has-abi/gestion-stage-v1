@@ -7,6 +7,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -128,6 +133,7 @@ public class UserServiceImpl implements UserService {
 				|| user.getPrenom() == null) {
 			return -2;
 		}else{
+			user.setDateJoin(DateUtil.getDate());
 			userDao.save(user);	
 			return 1;
 		}
@@ -166,6 +172,29 @@ public class UserServiceImpl implements UserService {
 		 Resource file = fileStorageService.loadPics(filename);
 		    return ResponseEntity.ok()
 		        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+
+	@Override
+	public int countusers() {
+		return userDao.countUsers();
+	}
+
+	@Override
+	public Page<User> findAllWithPagination(int page, int size, String sort) {
+		if(sort.equals("asc")) {
+			return userDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
+		}else if(sort.equals("desc")) {
+			return userDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
+		}else if(sort.equals("nom")) {
+			return userDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"nom")));
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public ResponseEntity<List<User>> searchForUsers(Specification<User> spec) {
+		return new ResponseEntity<>(userDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 	
 	

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.service.facade.VilleService;
+import com.gestion.stage.utils.VilleStatistics;
 
 @RestController
 @RequestMapping("gestion-stage-api/ville")
@@ -22,6 +23,15 @@ import com.gestion.stage.service.facade.VilleService;
 public class VilleRest {
 	@Autowired
 	private VilleService villeService;
+	@GetMapping("/statistics/filier/id/{id}")
+	public List<VilleStatistics> numberorganismeByVille(@PathVariable Long id) {
+		return villeService.numberorganismeByVille(id);
+	}
+	
+	@GetMapping("/count")
+	public int countVilles() {
+		return villeService.countVilles();
+	}
 	@GetMapping("/id/{id}")
 	public Ville findbyId(@PathVariable Long id) {
 		return villeService.findbyId(id);
@@ -50,4 +60,6 @@ public class VilleRest {
 	public Ville findByPaysNomAndNom(@PathVariable String pays,@PathVariable String nom) {
 		return villeService.findByPaysNomAndNom(pays, nom);
 	}
+	
+	
 }

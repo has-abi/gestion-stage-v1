@@ -328,4 +328,9 @@ public class StageServiceImpl implements StageService {
 		return stageDao.countByJury(id);
 	}
 
+	@Override
+	public int countStages() {
+		return (int) stageDao.count();
+	}
+
 }

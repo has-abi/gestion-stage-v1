@@ -10,15 +10,28 @@ import com.gestion.stage.bean.MembreJury;
 
 public interface MembreJuryService {
 	MembreJury findByUserId(Long id);
+
 	MembreJury findByUserEmail(String email);
-	Page<MembreJury> findByProfession(String profession,int page,int size);
-	Page<MembreJury> findAll(int page,int size,String sort);
+
+	Page<MembreJury> findByProfession(String profession, int page, int size);
+
+	Page<MembreJury> findAll(int page, int size, String sort);
+
 	MembreJury findByReference(String reference);
+
 	int save(MembreJury membreJury);
+
 	int update(MembreJury membreJury);
+
 	int removeByReference(String reference);
-	Page<MembreJury> findAllWithPaginition(int page,int size);
-	Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,int page,int size);
+
+	Page<MembreJury> findAllWithPaginition(int page, int size);
+
+	Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page, int size);
+
 	ResponseEntity<List<MembreJury>> searchForJuries(Specification<MembreJury> spec);
-	Page<MembreJury> findByCoordinateur(Long id,int page,int size,String sort);
+
+	Page<MembreJury> findByCoordinateur(Long id, int page, int size, String sort);
+	
+	int countJuries();
 }
