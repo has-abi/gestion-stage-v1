@@ -14,7 +14,7 @@ public interface TacheDao extends JpaRepository<Tache, Long>{
 	List<Tache> findByDateLimite(Date dateLimite);
 	Tache findByReference(String reference);
 	int deleteByReference(String reference);
-	List<Tache> findByStageReference(String reference);
+	List<Tache> findByStageReference(String reference); 
 	
 	
 }

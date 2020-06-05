@@ -6,8 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.GroupLayout.Alignment;
-
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
@@ -147,15 +145,8 @@ public class ExcelUtil {
 			cell2.setCellStyle(perStyle);
 			cell3.setCellStyle(perStyle);
 
-			// Create a Font for styling header cells
-			Font headerFont = workbook.createFont();
-			headerFont.setBold(true);
-			headerFont.setFontHeightInPoints((short) 18);
-			headerFont.setColor(IndexedColors.BLACK.getIndex());
 
-			// Create a CellStyle with the font
-			XSSFCellStyle headerCellStyle = (XSSFCellStyle) workbook.createCellStyle();
-			headerCellStyle.setFont(headerFont);
+		
 			// Header
 			XSSFCellStyle headerStyle =(XSSFCellStyle) workbook.createCellStyle();
 			headerStyle.setAlignment(HorizontalAlignment.CENTER);

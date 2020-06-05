@@ -42,6 +42,6 @@ public class Etudiant{
 	@OneToMany(mappedBy = "etudiant")
 	private List<EtudiantDocument>  etudiantDocuments;
 	
-
+	
 	
 }
