@@ -10,10 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class User{
 	@Email
 	@Column(unique = true,length = 100,nullable = true)
 	private String email;
-	
+	@JsonIgnore
 	@Column(length = 100)
 	private String motPass;
 	private String photo;
@@ -50,8 +51,8 @@ public class User{
 	private String reponce;
 	@Temporal(TemporalType.DATE)
 	private Date dateJoin;
-	@ManyToOne
-	private Role role;
+	@ManyToMany
+	private List<Role> roles;
 	
 	
 }

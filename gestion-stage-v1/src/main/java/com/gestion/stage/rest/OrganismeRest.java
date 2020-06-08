@@ -2,6 +2,7 @@ package com.gestion.stage.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.service.facade.OrganismeAccueilService;
+import com.gestion.stage.utils.OrganismeStatistics;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/organismeAccueil")
 @CrossOrigin({"http://localhost:4200"})
 public class OrganismeRest {
+	@Autowired
 	private OrganismeAccueilService organismeAccueilService;
+	@GetMapping("/count")
+	public int countOrganismes() {
+		return organismeAccueilService.countOrganismes();
+	}
+	@GetMapping("/statistics/filiere/id/{id}")
+	public List<OrganismeStatistics> organismesParFiliere(@PathVariable Long id) {
+		return organismeAccueilService.organismesParFiliere(id);
+	}
 	@GetMapping("/page/{page}/size/{size}")
 	public Page<OrganismeAccueil> findAllWithPagination(@PathVariable int page,@PathVariable int size) {
 		return organismeAccueilService.findAllWithPagination(page, size);

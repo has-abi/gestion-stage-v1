@@ -1,0 +1,47 @@
+package com.gestion.stage.rest;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.gestion.stage.bean.RapportTache;
+import com.gestion.stage.service.facade.RapportTacheService;
+import com.gestion.stage.utils.ResponseMessage;
+
+@RestController
+@RequestMapping("gestion-stage-api/rapportTache")
+@CrossOrigin({"http://localhost:4200"})
+public class RapportTacheRest {
+	private RapportTacheService rapportTacheService;
+	@GetMapping("/")
+	public List<RapportTache> findAll() {
+		return rapportTacheService.findAll();
+	}
+	@PostMapping("/save")
+	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre,@RequestParam("description") String description,@RequestParam("tacheRef") String tacheRef,@RequestParam("file")  MultipartFile file) {
+		return rapportTacheService.save(titre, description, tacheRef, file);
+	}
+	@PutMapping("/update")
+	public ResponseEntity<ResponseMessage> update(@RequestParam("titre") String titre,@RequestParam("description") String description,@RequestParam("ref") String ref, MultipartFile file) {
+		return rapportTacheService.update(titre, description, ref, file);
+	}
+	@DeleteMapping("/id/{id}/tache/ref/{tache}")
+	public int delete(@PathVariable long id,@PathVariable String tacheRef) {
+		return rapportTacheService.delete(id, tacheRef);
+	}
+	@GetMapping("/reference/{reference}")
+	public RapportTache findByReference(@PathVariable String reference) {
+		return rapportTacheService.findByReference(reference);
+	}
+
+}

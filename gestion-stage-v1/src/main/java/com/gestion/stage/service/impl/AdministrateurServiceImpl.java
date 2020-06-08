@@ -53,7 +53,7 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 			return -3;
 		}else {
 			administrateur.getUser().setReference("u"+DateUtil.getDate().getTime());
-			administrateur.getUser().setRole(roleService.getAdminRole());
+			administrateur.getUser().getRoles().add(roleService.getAdminRole());
 			if(userService.register(administrateur.getUser())<0) {
 				return -4;
 			}

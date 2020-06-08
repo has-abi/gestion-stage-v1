@@ -42,10 +42,7 @@ public class CommentaireRest {
 		return commentaireService.deleteById(id);
 	}
 
-	@GetMapping("/dateCreation/{dateCreation}")
-	public List<Commentaire> findByDateCreation(@PathVariable Date dateCreation) {
-		return commentaireService.findByDateCreation(dateCreation);
-	}
+	
 
 	@GetMapping("/sujetForum/id/{id}")
 	public List<Commentaire> findBySujetForumId(@PathVariable Long id) {

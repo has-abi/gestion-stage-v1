@@ -3,6 +3,8 @@ package com.gestion.stage.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -144,6 +146,19 @@ public class RapportServiceImpl implements RapportService {
 			return rapportDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
 		}else {
 			return null;
+		}
+	}
+	@Transactional
+	@Override
+	public int delete(Long id, String stageRef) {
+		Stage s = stageService.findByReference(stageRef);
+		if(s == null) {
+			return -1;
+		}else {
+			s.setRapport(null);
+			stageService.update(s);
+			rapportDao.delete(rapportDao.findById(id).get());
+			return 1;
 		}
 	}
 

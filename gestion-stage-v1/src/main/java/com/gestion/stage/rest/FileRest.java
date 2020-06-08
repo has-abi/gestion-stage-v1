@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping
 public class FileRest {
 	@Autowired
 	private StageService stageService;

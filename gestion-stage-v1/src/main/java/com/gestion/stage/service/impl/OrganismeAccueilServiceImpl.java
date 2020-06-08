@@ -1,6 +1,8 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import com.gestion.stage.service.facade.TypeOrganismeService;
 import com.gestion.stage.service.facade.TypeServiceOrganismeService;
 import com.gestion.stage.service.facade.VilleService;
 import com.gestion.stage.utils.FieldsUtil;
+import com.gestion.stage.utils.OrganismeStatistics;
 @Service
 public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Autowired
@@ -120,6 +123,29 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Override
 	public int countOrganismes() {
 		return (int) organismeAccueilDao.count();
+	}
+
+	@Override
+	public List<OrganismeAccueil> structuresParFiliere(Long id) {
+		return organismeAccueilDao.structuresParFiliere(id);
+	}
+
+	@Override
+	public List<OrganismeStatistics> organismesParFiliere(Long id) {
+		List<OrganismeStatistics> organismes = new ArrayList<OrganismeStatistics>();
+		List<OrganismeAccueil> foundedOrganismes = structuresParFiliere(id);
+		int nombre = 0;
+		for(int i = 0;i<foundedOrganismes.size();i++) {
+			OrganismeAccueil o = foundedOrganismes.get(i);
+			if(organismes.stream().filter(d->d.getNom().equals(o.getRaisonSociale())).collect(Collectors.toList()).size() == 0) {
+				for(int j = 0;j<foundedOrganismes.size();j++) {
+					if(o.getId() == foundedOrganismes.get(j).getId()) nombre++;
+				}
+				organismes.add(new OrganismeStatistics(foundedOrganismes.get(i).getRaisonSociale(), nombre));
+			}
+		}
+		
+		return organismes;
 	}
 
 }

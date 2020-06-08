@@ -1,5 +1,6 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,11 +32,13 @@ import com.gestion.stage.utils.ResponseMessage;
 import com.google.common.net.HttpHeaders;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService,UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 	@Autowired
 	private FileStorageService fileStorageService;
+
+
 
 	@Override
 	public List<User> findByDateNaissanceGreaterThan(Date dateNaissance) {
@@ -41,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByEmail(String email) {
+		
 		return userDao.findByEmail(email);
 	}
 
@@ -195,6 +202,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<List<User>> searchForUsers(Specification<User> spec) {
 		return new ResponseEntity<>(userDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userDao.findByEmail(username);
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found with username: " + username);
+		}
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getMotPass(),
+				new ArrayList<>());
 	}
 	
 	

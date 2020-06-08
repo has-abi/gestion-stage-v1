@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.OrganismeAccueil;
+import com.gestion.stage.utils.OrganismeStatistics;
 
 public interface OrganismeAccueilService {
 	Page<OrganismeAccueil> findByTypeOrganismeType(String type, int page, int size);
@@ -30,4 +31,10 @@ public interface OrganismeAccueilService {
 	ResponseEntity<List<OrganismeAccueil>> searchForOrganismes(Specification<OrganismeAccueil> spec);
 	
 	int countOrganismes();
+	
+	List<OrganismeAccueil> structuresParFiliere(Long id);
+	
+	List<OrganismeStatistics> organismesParFiliere(Long id);
+	
+	
 }

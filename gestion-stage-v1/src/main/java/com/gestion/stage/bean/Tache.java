@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,8 @@ public class Tache{
 	@ManyToOne
 	private Stage stage;
 	@ManyToOne
-	private StageEncadreur stageEncadreur;
+	private Encadreur encadreur;
+	@OneToOne
+	private RapportTache rapportTache;
 
 }

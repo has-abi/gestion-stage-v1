@@ -33,6 +33,8 @@ public interface RapportService {
 	ResponseEntity<List<Rapport>> searchForRapports(Specification<Rapport> spec);
 	
 	Page<Rapport> findAllWithPagination(int page,int size,String sort);
+	
+	int delete(Long id,String stageRef);
 
 
 }

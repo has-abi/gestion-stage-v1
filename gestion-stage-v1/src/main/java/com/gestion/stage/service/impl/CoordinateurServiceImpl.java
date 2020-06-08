@@ -49,7 +49,7 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 			return -3;
 		}else {
 			coordinateur.getUser().setReference("u"+DateUtil.getDate().getTime());
-			coordinateur.getUser().setRole(roleService.getCoordinateurRole());
+			coordinateur.getUser().getRoles().add(roleService.getCoordinateurRole());
 			
 			if(userService.register(coordinateur.getUser())<0) {
 				return -4;

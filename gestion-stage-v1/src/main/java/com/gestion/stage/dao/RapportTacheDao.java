@@ -10,12 +10,14 @@ import com.gestion.stage.bean.Document;
 import com.gestion.stage.bean.RapportTache;
 
 @Repository
-public interface RapportTacheDao extends JpaRepository<RapportTache, Long>{
+public interface RapportTacheDao extends JpaRepository<RapportTache, Long> {
 
 	List<RapportTache> findByDateDepot(Date dateDepot);
+
 	List<RapportTache> findByDateModification(Date dateModification);
+
 	List<RapportTache> findByDocument(Document document);
-	
-	
-	
+
+	RapportTache findByReference(String reference);
+
 }

@@ -62,7 +62,7 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 				return -2;
 			}else {
 				membreJury.getUser().setReference("u"+DateUtil.getDate().getTime());
-				membreJury.getUser().setRole(roleService.getJuryRole());
+				membreJury.getUser().getRoles().add(roleService.getJuryRole());
 				if (userService.register(membreJury.getUser())<0) {
 					return -3;
 				};

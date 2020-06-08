@@ -67,7 +67,7 @@ public class EtudiantServiceImpl implements EtudiantService {
 				return -4;
 			} else {
 				etudiant.getUser().setReference("u" + DateUtil.getDate().getTime());
-				etudiant.getUser().setRole(roleService.getEtudiantRole());
+				etudiant.getUser().getRoles().add(roleService.getEtudiantRole());
 				etudiant.getUser().setActive(false);
 				if (userService.save(etudiant.getUser()) < 0) {
 					return -5;
