@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etablissement;
-import com.gestion.stage.bean.Filiere;
 import com.gestion.stage.dao.DepartementDao;
 import com.gestion.stage.service.facade.DepartementService;
 import com.gestion.stage.service.facade.EtablissementService;
-import com.gestion.stage.service.facade.FiliereService;
 
 @Service
 public class DepartementServiceImpl implements DepartementService {
@@ -22,8 +20,7 @@ public class DepartementServiceImpl implements DepartementService {
 	private DepartementDao departementDao;
 	@Autowired
 	private EtablissementService etablissementService;
-	@Autowired
-	private FiliereService filiereService;
+
 
 	@Override
 	public List<Departement> findByEtablissementLibelle(String libelle) {
@@ -55,8 +52,7 @@ public class DepartementServiceImpl implements DepartementService {
 		if (dep == null) {
 			return -1;
 		} else {
-			List<Filiere> filieres = dep.getFilieres();
-			filieres.forEach(f -> filiereService.removeById(f.getId()));
+
 			departementDao.delete(dep);
 			return 1;
 		}

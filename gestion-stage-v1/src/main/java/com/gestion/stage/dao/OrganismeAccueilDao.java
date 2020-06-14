@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.OrganismeAccueil;
@@ -22,6 +23,9 @@ public interface OrganismeAccueilDao
 
 	OrganismeAccueil findByRaisonSociale(String raisonSociale);
 
-	@Query(value="select organisme_accueil.* from ville,stage,organisme_accueil,coordinateur where coordinateur.filiere = :id and coordinateur.id = stage.coordinateur and stage.organisme_accueil = organisme_accueil.id ",nativeQuery = true)
-	List<OrganismeAccueil> structuresParFiliere(Long id);
+	@Query(value="select organisme_accueil.* from stage,coordinateur,organisme_accueil where coordinateur.filiere = :id and stage.coordinateur = coordinateur.id and organisme_accueil.id = stage.organisme_accueil",nativeQuery = true)
+	List<OrganismeAccueil> structuresParFiliere(@Param("id") Long id);
+	
+	@Query(value = "select DISTINCT organisme_accueil.* from organisme_accueil,stage,coordinateur where coordinateur.filiere = :id and stage.coordinateur = coordinateur.id and  organisme_accueil.id = stage.organisme_accueil",nativeQuery = true)
+	List<OrganismeAccueil> findByFiliere(@Param("id") Long id);
 }

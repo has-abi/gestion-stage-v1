@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Tache;
 import com.gestion.stage.service.facade.TacheService;
+import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/tache")
@@ -23,6 +27,23 @@ import com.gestion.stage.service.facade.TacheService;
 public class TacheRest {
 	@Autowired
 	private TacheService tacheService;
+	
+	@GetMapping("/search")
+	public ResponseEntity<List<Tache>> searchForTaches(@SearchSpec Specification<Tache> spec) {
+		return tacheService.searchForTaches(spec);
+	}
+
+	@GetMapping("/encadreur/reference/{reference}/page/{page}/size/{size}")
+	public Page<Tache> findByEncadreurReference(@PathVariable String reference,@PathVariable int page,@PathVariable int size) {
+		return tacheService.findByEncadreurReference(reference, page, size);
+	}
+
+	@GetMapping("/etudiant/id/{id}/page/{page}/size/{size}")
+	public Page<Tache> findByEtudiant(@PathVariable Long id,@PathVariable int page,@PathVariable int size) {
+		return tacheService.findByEtudiant(id, page, size);
+	}
+
+
 	@GetMapping("/stage/reference/{reference}")
 	public List<Tache> findByStageReference(@PathVariable String reference) {
 		return tacheService.findByStageReference(reference);

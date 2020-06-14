@@ -91,17 +91,23 @@ public class DocumentServiceImpl implements DocumentService {
 			message += "document introuvable!";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}else  {
+			if(file != null){
 			document.setReference(file.getOriginalFilename());
-			document.setTitre(titre);
 			document.setType(FileUtil.getExt(file));
+				}
+			
+			document.setTitre(titre);
+			
 			Document documentFounded=findByReference(document.getReference());
 			if(documentFounded!=null) {
 				message += "Nom du fichier est dèja exister!";
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			}else {
 				try {
-					message = "le ficher : " + file.getOriginalFilename() + " enregister avec succée!";
+					if(file !=null){
 					fileStorageService.save(file);
+					}
+					message = "le ficher : " + file.getOriginalFilename() + " modifier avec succée!";
 					documentDao.save(document);
 					return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 				}catch(Exception e) {

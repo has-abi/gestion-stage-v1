@@ -2,6 +2,7 @@ package com.gestion.stage.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,18 +23,20 @@ import com.gestion.stage.utils.ResponseMessage;
 @RequestMapping("gestion-stage-api/rapportTache")
 @CrossOrigin({"http://localhost:4200"})
 public class RapportTacheRest {
+	@Autowired
 	private RapportTacheService rapportTacheService;
 	@GetMapping("/")
 	public List<RapportTache> findAll() {
 		return rapportTacheService.findAll();
 	}
 	@PostMapping("/save")
-	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre,@RequestParam("description") String description,@RequestParam("tacheRef") String tacheRef,@RequestParam("file")  MultipartFile file) {
-		return rapportTacheService.save(titre, description, tacheRef, file);
+	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre,@RequestParam("desc") String desc,@RequestParam("ref") String ref,@RequestParam("file")  MultipartFile file) {
+	System.out.println(ref);	
+	return rapportTacheService.save(titre, desc,ref, file);
 	}
 	@PutMapping("/update")
-	public ResponseEntity<ResponseMessage> update(@RequestParam("titre") String titre,@RequestParam("description") String description,@RequestParam("ref") String ref, MultipartFile file) {
-		return rapportTacheService.update(titre, description, ref, file);
+	public ResponseEntity<ResponseMessage> update(@RequestParam("titre") String titre,@RequestParam("desc") String desc,@RequestParam("ref") String ref, MultipartFile file) {
+		return rapportTacheService.update(titre, desc, ref, file);
 	}
 	@DeleteMapping("/id/{id}/tache/ref/{tache}")
 	public int delete(@PathVariable long id,@PathVariable String tacheRef) {

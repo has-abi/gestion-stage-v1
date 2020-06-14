@@ -26,6 +26,14 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class MembreJuryRest {
 	@Autowired
 	private MembreJuryService membreJuryService;
+	@GetMapping("/count")
+	public int countJuries() {
+		return membreJuryService.countJuries();
+	}
+	@GetMapping("/filiere/id/{id}")
+	public List<MembreJury> findByFiliere(Long id) {
+		return membreJuryService.findByFiliere(id);
+	}
 	@GetMapping("/user/email/{email}")
 	public MembreJury findByUserEmail(@PathVariable String email) {
 		return membreJuryService.findByUserEmail(email);

@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Tache{
@@ -22,12 +24,14 @@ public class Tache{
 	private Long id;
 	@Column(columnDefinition = "Text")
 	private String contenu;
+	private String titre;
 	private String reference;
 	private Date dateCreation;
 	private Date dateLimite;
 	private Date dateValidation;
 	private boolean effectuer;
 	private boolean valider;
+	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Stage stage;
 	@ManyToOne

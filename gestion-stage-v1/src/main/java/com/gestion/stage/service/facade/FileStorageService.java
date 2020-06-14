@@ -21,5 +21,5 @@ public interface FileStorageService {
 	public byte[] generatePDFReport(String inputFileName, Map<String, Object> params,
 		    JRDataSource dataSource);
 	public byte[] report(Long id);
-	ByteArrayInputStream loadPV();
+	ByteArrayInputStream loadPV(Long idCoord,String libelle);
 }

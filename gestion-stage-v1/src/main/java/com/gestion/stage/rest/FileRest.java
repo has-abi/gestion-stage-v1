@@ -29,11 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.gestion.stage.bean.Coordinateur;
 import com.gestion.stage.bean.FileInfo;
 import com.gestion.stage.bean.Stage;
+import com.gestion.stage.service.facade.CoordinateurService;
 import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.StageService;
 import com.gestion.stage.utils.Convention;
+import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.ResponseMessage;
 import com.google.common.net.HttpHeaders;
 
@@ -49,33 +52,35 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class FileRest {
 	@Autowired
 	private StageService stageService;
-	 @Autowired
-	  FileStorageService storageService;
-	 
-	 @GetMapping("/download")
-	  public ResponseEntity<Resource> getFileXlsx() {
-	    String filename = "test.xlsx";
-	    InputStreamResource file = new InputStreamResource(storageService.loadPV());
+	@Autowired
+	private FileStorageService storageService;
+	@Autowired
+	private CoordinateurService coordinateurService;
 
-	    return ResponseEntity.ok()
-	        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-	        .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-	        .body(file);
-	  }
-	 @GetMapping("/file/display/{filename:.+}")
-	public ResponseEntity<Resource> displayFile(@PathVariable String filename) 
-		 throws IOException {
-				Resource file = storageService.loadDocs(filename);
-		        return ResponseEntity
-		                .ok()
-		                .contentType(MediaType.APPLICATION_PDF)
-		                .body(new InputStreamResource(file .getInputStream()));
-		    }
-	
+	@GetMapping("/pv/coordinateur/id/{id}")
+	public ResponseEntity<Resource> getFileXlsx(@PathVariable Long id) {
+		Coordinateur coord = coordinateurService.findByUserId(id);
+		String annee = DateUtil.anneeUniversitaire();
+		String[] title =  coord.getFiliere().getLibelle().split(" ");
+		
+		String filename = "";
+		for(String t:title) {
+			filename+=t;
+		}
+		filename+="_Pv_"+annee+".xlsx";
+		System.out.println(filename);
+		InputStreamResource file = new InputStreamResource(storageService.loadPV(id,coord.getFiliere().getLibelle()));
 
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+				.contentType(MediaType.parseMediaType("application/vnd.ms-excel")).body(file);
+	}
 
-	  
-
+	@GetMapping("/file/display/{filename:.+}")
+	public ResponseEntity<Resource> displayFile(@PathVariable String filename) throws IOException {
+		Resource file = storageService.loadDocs(filename);
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
+				.body(new InputStreamResource(file.getInputStream()));
+	}
 
 	@PostMapping("/upload")
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -139,9 +144,9 @@ public class FileRest {
 
 			Map<String, Object> parameters = new HashMap<>();
 
-			parameters.put("organisme_nom",s.getOrganismeAccueil().getRaisonSociale());
-			parameters.put("organisme_tele",s.getOrganismeAccueil().getRaisonSociale());
-			parameters.put("organisme_adress",s.getOrganismeAccueil().getRaisonSociale());
+			parameters.put("organisme_nom", s.getOrganismeAccueil().getRaisonSociale());
+			parameters.put("organisme_tele", s.getOrganismeAccueil().getRaisonSociale());
+			parameters.put("organisme_adress", s.getOrganismeAccueil().getRaisonSociale());
 			// Fill the report
 
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, source);
@@ -153,10 +158,9 @@ public class FileRest {
 			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
 			System.out.println("PDF File Generated !!");
 
-
 		} catch (Exception e) {
 
-			System.out.println(e.getMessage()); 
+			System.out.println(e.getMessage());
 
 		}
 

@@ -1,6 +1,9 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Coordinateur;
+import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.bean.Stage;
 import com.gestion.stage.bean.StageEncadreur;
@@ -271,21 +275,21 @@ public class StageServiceImpl implements StageService {
 	}
 
 	@Override
-	public Page<Stage> findByCoordinateurReference(String reference, int page, int size, String sort) {
+	public Page<Stage> findByCoordinateurUserId(Long id, int page, int size, String sort) {
 		if (sort.equals("asc")) {
-			return stageDao.findByCoordinateurReference(reference,
+			return stageDao.findByCoordinateurUserId(id,
 					PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
 		} else if (sort.equals("desc")) {
-			return stageDao.findByCoordinateurReference(reference,
+			return stageDao.findByCoordinateurUserId(id,
 					PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
 		} else if (sort.equals("sujet")) {
-			return stageDao.findByCoordinateurReference(reference,
+			return stageDao.findByCoordinateurUserId(id,
 					PageRequest.of(page, size, Sort.by(Direction.ASC, "sujet")));
 		} else if (sort.equals("dateDebut")) {
-			return stageDao.findByCoordinateurReference(reference,
+			return stageDao.findByCoordinateurUserId(id,
 					PageRequest.of(page, size, Sort.by(Direction.ASC, "dateDebut")));
 		} else if (sort.equals("dateFin")) {
-			return stageDao.findByCoordinateurReference(reference,
+			return stageDao.findByCoordinateurUserId(id,
 					PageRequest.of(page, size, Sort.by(Direction.ASC, "DateFin")));
 		} else {
 			return null;
@@ -331,6 +335,38 @@ public class StageServiceImpl implements StageService {
 	@Override
 	public int countStages() {
 		return (int) stageDao.count();
+	}
+
+	@Override
+	public Stage findEtudiantActiveStage(Long id) {
+		List<Stage> stages= stageDao.findByEtudiantUserId(id);
+		Date date = DateUtil.getDate();
+		Stage activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList()).get(0);
+		return activeStage;
+	}
+
+	@Override
+	public List<Stage> findEncadreurActiveStages(Long id) {
+		List<Stage> stages= stageDao.findByEncadreurUserId(id);
+		Date date = DateUtil.getDate();
+		List<Stage> activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList());
+		return activeStage;
+	}
+
+	@Override
+	public List<Stage> findJuryActiveStages(Long id) {
+		List<Stage> stages= stageDao.findByJuryUserId(id);
+		Date date = DateUtil.getDate();
+		List<Stage> activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList());
+		return activeStage;
+	}
+
+	@Override
+	public List<Stage> findCoordinateurActiveStages(Long id) {
+		List<Stage> stages= stageDao.findByCoordinateurUserId(id);
+		Date date = DateUtil.getDate();
+		List<Stage> activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList());
+		return activeStage;
 	}
 
 }

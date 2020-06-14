@@ -6,6 +6,11 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Encadreur;
@@ -109,5 +114,22 @@ public class TacheServiceImpl implements TacheService {
 		}
 
 	}
+
+	@Override
+	public Page<Tache> findByEncadreurReference(String reference,int page,int size) {
+		return tacheDao.findByEncadreurReference(reference, PageRequest.of(page, size));
+	}
+
+	@Override
+	public Page<Tache> findByEtudiant(Long id,int page,int size) {
+		return tacheDao.findByEtudiant(id, PageRequest.of(page, size));
+	}
+
+	@Override
+	public ResponseEntity<List<Tache>> searchForTaches(Specification<Tache> spec) {
+		return new ResponseEntity<>(tacheDao.findAll(Specification.where(spec)), HttpStatus.OK);
+	}
+	
+	
 
 }

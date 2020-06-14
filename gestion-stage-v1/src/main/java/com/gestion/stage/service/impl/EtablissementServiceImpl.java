@@ -7,18 +7,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gestion.stage.bean.Departement;
 import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.dao.EtablissementDao;
-import com.gestion.stage.service.facade.DepartementService;
 import com.gestion.stage.service.facade.EtablissementService;
 @Service
 public class EtablissementServiceImpl implements EtablissementService{
 	@Autowired
 	private EtablissementDao etablissementDao;
 
-	@Autowired
-	private DepartementService departementService;
 
 	@Override
 	public Etablissement findByLibelle(String libelle) {
@@ -49,8 +45,6 @@ public class EtablissementServiceImpl implements EtablissementService{
 		if(etab == null) {
 			return -1;
 		}else {
-			List<Departement> deps = etab.getDepartements();
-			deps.forEach(dep->departementService.removeById(dep.getId()));
 			etablissementDao.delete(etab);
 			return 1;
 		}

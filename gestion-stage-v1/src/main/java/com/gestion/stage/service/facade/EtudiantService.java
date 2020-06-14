@@ -41,7 +41,10 @@ public interface EtudiantService {
 	List<Etudiant> findByEncadreurid(Long id);
 	
 	List<Etudiant> findByJuryId(Long id);
+	
 	int countEtdudiants();
+	
+	List<Etudiant> findByFiliere(Long id);
 	
 	
 

@@ -96,7 +96,9 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
-			encadreur.setUser(userService.findByReference(encadreur.getReference()));
+			if(this.userService.update(encadreur.getUser())<0) {
+				return -3;
+			}
 			encadreurDao.save(encadreur);
 			return 1;
 		}
@@ -156,6 +158,11 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Override
 	public int countEncadreurs() {
 		return (int) encadreurDao.count();
+	}
+
+	@Override
+	public List<Encadreur> findByFiliere(Long id) {
+		return encadreurDao.findByFiliere(id);
 	}
 	
 }

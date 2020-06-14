@@ -7,24 +7,17 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gestion.stage.bean.Coordinateur;
 import com.gestion.stage.bean.Departement;
-import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
 import com.gestion.stage.dao.FiliereDao;
-import com.gestion.stage.service.facade.CoordinateurService;
 import com.gestion.stage.service.facade.DepartementService;
-import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.service.facade.FiliereService;
 @Service
 public class FiliereServiceImpl implements FiliereService{
 	
 	@Autowired
 	private FiliereDao filiereDao;
-	@Autowired
-	private CoordinateurService coordinateurService;
-	@Autowired
-	private EtudiantService etudiantService;
+
 	@Autowired
 	private DepartementService departementService;
 
@@ -89,19 +82,13 @@ public class FiliereServiceImpl implements FiliereService{
 		if(filiere == null) {
 			return -1;
 		}else {
-			Coordinateur coord = filiere.getCoordinateur();
-			List<Etudiant> etuds = filiere.getEtudiants();
-			coordinateurService.removeByReference(coord.getReference());
-			etuds.forEach(etud->etudiantService.removeByCin(etud.getCin()));
+			
 			filiereDao.delete(filiere);
 			return 1;
 		}
 	}
 
-	@Override
-	public Filiere findByCoodinateurReference(String reference) {
-		return filiereDao.findByCoordinateurReference(reference);
-	}
+	
 
 	@Override
 	public int countFilieres() {

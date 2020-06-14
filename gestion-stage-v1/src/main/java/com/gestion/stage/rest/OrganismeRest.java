@@ -27,6 +27,12 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class OrganismeRest {
 	@Autowired
 	private OrganismeAccueilService organismeAccueilService;
+	
+	@GetMapping("/filiere/id/{id}")
+	public List<OrganismeAccueil> findByFiliere(@PathVariable Long id) {
+		return organismeAccueilService.findByFiliere(id);
+	}
+
 	@GetMapping("/count")
 	public int countOrganismes() {
 		return organismeAccueilService.countOrganismes();

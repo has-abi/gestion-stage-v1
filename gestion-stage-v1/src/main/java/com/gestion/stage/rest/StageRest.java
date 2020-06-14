@@ -29,6 +29,22 @@ public class StageRest {
 
 	@Autowired
 	private StageService stageService;
+	@GetMapping("/etudiant/id/{id}")
+	public Stage findEtudiantActiveStage(Long id) {
+		return stageService.findEtudiantActiveStage(id);
+	}
+	@GetMapping("/jury/id/{id}")
+	public List<Stage> findJuryActiveStages(Long id) {
+		return stageService.findJuryActiveStages(id);
+	}
+	@GetMapping("/coordinaeur/id/{id}")
+	public List<Stage> findCoordinateurActiveStages(Long id) {
+		return stageService.findCoordinateurActiveStages(id);
+	}
+	@GetMapping("/encadreur/id/{id}")
+	public List<Stage> findEncadreurActiveStages(@PathVariable Long id) {
+		return stageService.findEncadreurActiveStages(id);
+	}
 	@GetMapping("/count")
 	public int countStages() {
 		return stageService.countStages();
@@ -63,10 +79,10 @@ public class StageRest {
 		return stageService.findByEtudiant(id, page, size);
 	}
 
-	@GetMapping("/coordinateur/reference/{reference}/page/{page}/size/{size}/sort/{sort}")
-	public Page<Stage> findByCoordinateurReference(@PathVariable String reference, @PathVariable int page,
+	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
+	public Page<Stage> findByCoordinateurUserId(@PathVariable Long id, @PathVariable int page,
 			@PathVariable int size, @PathVariable String sort) {
-		return stageService.findByCoordinateurReference(reference, page, size, sort);
+		return stageService.findByCoordinateurUserId(id, page, size, sort);
 	}
 
 	@PutMapping("/activer")

@@ -40,4 +40,6 @@ public interface EncadreurService {
 	Encadreur findByUserEmail(String email);
 	
 	 int countEncadreurs();
+	 
+	 List<Encadreur> findByFiliere(Long id);
 }

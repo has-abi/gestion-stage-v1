@@ -37,7 +37,7 @@ public interface StageService {
 
 	int activerStage(String ref);
 
-	Page<Stage> findByCoordinateurReference(String reference, int page, int size, String sort);
+	Page<Stage> findByCoordinateurUserId(Long id, int page, int size, String sort);
 
 	Page<Stage> findByEtudiant(Long id, int page, int size);
 
@@ -54,5 +54,13 @@ public interface StageService {
 	Long countByJury(Long id);
 	
 	int countStages();
+	
+	Stage findEtudiantActiveStage(Long id);
+	
+	List<Stage> findEncadreurActiveStages(Long id);
+	
+	List<Stage> findJuryActiveStages(Long id);
+	
+	List<Stage> findCoordinateurActiveStages(Long id);
 
 }

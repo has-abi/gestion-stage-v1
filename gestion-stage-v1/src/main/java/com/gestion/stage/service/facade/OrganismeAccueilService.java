@@ -36,5 +36,7 @@ public interface OrganismeAccueilService {
 	
 	List<OrganismeStatistics> organismesParFiliere(Long id);
 	
+	List<OrganismeAccueil> findByFiliere(Long id);
+	
 	
 }

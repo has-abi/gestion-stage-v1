@@ -26,6 +26,14 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class EncadreurRest {
 	@Autowired
 	private EncadreurService encadreurService;
+	@GetMapping("/count")
+	public int countEncadreurs() {
+		return encadreurService.countEncadreurs();
+	}
+	@GetMapping("/filiere/id/{id}")
+	public List<Encadreur> findByFiliere(@PathVariable Long id) {
+		return encadreurService.findByFiliere(id);
+	}
 	@GetMapping("/user/email/{email}")
 	public Encadreur findByUserEmail(@PathVariable String email) {
 		return encadreurService.findByUserEmail(email);

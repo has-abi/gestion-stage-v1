@@ -81,6 +81,9 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 		}else if(FieldsUtil.utilisateurFields(coordinateur.getUser())<0){
 			return -2;
 		}else {
+			if(this.userService.update(coordinateur.getUser())<0) {
+				return -3;
+			}
 			coordinateurDao.save(coord);
 			return 1;
 		}

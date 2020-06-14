@@ -34,4 +34,6 @@ public interface MembreJuryService {
 	Page<MembreJury> findByCoordinateur(Long id, int page, int size, String sort);
 	
 	int countJuries();
+	
+	List<MembreJury> findByFiliere(Long id);
 }

@@ -1,5 +1,6 @@
 package com.gestion.stage.utils;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -17,4 +18,16 @@ public class DateUtil {
 		}
 	}
 	
+	public static String anneeUniversitaire() {
+		String annee  = "";
+		Date date = new Date();
+		int year =Calendar.getInstance().get(Calendar.YEAR);
+		int month = date.getMonth();
+		if(month == 8 || month == 9 || month == 10 || month == 11) {
+			annee = year+"/"+(year+1);
+		}else {
+			annee = (year-1)+"/"+year;
+		}
+		return annee;
+	}
 }

@@ -1,5 +1,7 @@
 package com.gestion.stage.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +25,7 @@ public interface EncadreurDao extends JpaRepository<Encadreur, Long>,JpaSpecific
 	Page<Encadreur> findByCoordinateur(@Param("id")Long id,Pageable pageable);
 	Encadreur findByUserEmail(String email);
 	
+	@Query(value = "select DISTINCT encadreur.* from encadreur,stage,stage_encadreur,coordinateur where coordinateur.filiere = :id and  stage.coordinateur = coordinateur.id and stage_encadreur.stage = stage.id and encadreur.id = stage_encadreur.encadreur",nativeQuery = true)
+	List<Encadreur> findByFiliere(@Param("id") Long id);
 
 }

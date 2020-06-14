@@ -136,6 +136,7 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 		List<OrganismeAccueil> foundedOrganismes = structuresParFiliere(id);
 		int nombre = 0;
 		for(int i = 0;i<foundedOrganismes.size();i++) {
+			nombre = 0;
 			OrganismeAccueil o = foundedOrganismes.get(i);
 			if(organismes.stream().filter(d->d.getNom().equals(o.getRaisonSociale())).collect(Collectors.toList()).size() == 0) {
 				for(int j = 0;j<foundedOrganismes.size();j++) {
@@ -146,6 +147,11 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 		}
 		
 		return organismes;
+	}
+
+	@Override
+	public List<OrganismeAccueil> findByFiliere(Long id) {
+		return organismeAccueilDao.findByFiliere(id);
 	}
 
 }

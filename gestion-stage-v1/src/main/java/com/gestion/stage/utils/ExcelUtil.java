@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaError;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IgnoredErrorType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -41,10 +42,11 @@ public class ExcelUtil {
 		return true;
 	}
 
-	public static ByteArrayInputStream tutorialsToExcel(List<Etudiant> etudiants) {
+	public static ByteArrayInputStream loadPvStages(List<Etudiant> etudiants,String libelle) {
 
 		try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
 			XSSFSheet sheet = (XSSFSheet) workbook.createSheet(SHEET);
+			sheet.addIgnoredErrors(new CellRangeAddress(0,9999,0,9999),IgnoredErrorType.NUMBER_STORED_AS_TEXT,IgnoredErrorType.FORMULA,IgnoredErrorType.FORMULA_RANGE,IgnoredErrorType.CALCULATED_COLUMN, IgnoredErrorType.EVALUATION_ERROR);
 			//arial font
 			Font arial = workbook.createFont();
 			arial.setFontName("Arial");
@@ -99,7 +101,7 @@ public class ExcelUtil {
 			XSSFRow pv4 = sheet.createRow(5);
 			XSSFCell cel5 = pv4.createCell(1);
 			XSSFCell cel51 = pv4.createCell(3);
-			cel51.setCellValue("LST SIR");
+			cel51.setCellValue(libelle);
 			cel5.setCellValue("Filiere:");
 			cel5.setCellStyle(titlesStyle);
 			cel51.setCellStyle(titlesStyle);
@@ -119,6 +121,12 @@ public class ExcelUtil {
 			cel71.setCellValue("Projet de fin d'études");
 			cel7.setCellStyle(titlesStyle);
 			cel71.setCellStyle(titlesStyle);
+			
+			XSSFRow pvAnnee = sheet.createRow(8);
+			XSSFCell cellAnnee = pvAnnee.createCell(6);
+			cellAnnee.setCellValue("Année Universitaire : "+DateUtil.anneeUniversitaire());
+			cellAnnee.setCellStyle(centerStyle);
+			
 			
 			XSSFCellStyle perStyle = (XSSFCellStyle) workbook.createCellStyle();
 			perStyle.setAlignment(centerStyle.getAlignment());
@@ -212,9 +220,9 @@ public class ExcelUtil {
 				dataCell8.setCellType(CellType.NUMERIC);
 				dataCell8.setCellErrorValue(FormulaError.NUM);
 				
-				
+				dataCell9.setCellType(CellType.NUMERIC);
 				dataCell9.setCellFormula("SUM(F"+rowIdx+"*0.4+G"+rowIdx+"*0.3+H"+rowIdx+"*0.3)");
-				dataCell9.setCellErrorValue(FormulaError.VALUE);
+				dataCell9.setCellValue("0.00");
 				
 				dataCell1.setCellValue(e.getCodeAppoge());
 				dataCell2.setCellValue(e.getUser().getNom());

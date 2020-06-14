@@ -33,8 +33,7 @@ public class Etablissement{
 	@Column(length = 25)
 	private String doyen;
 	
-	@OneToMany(mappedBy = "etablissement")
-	private List<Departement> departements;
+	
 	
 	
 }

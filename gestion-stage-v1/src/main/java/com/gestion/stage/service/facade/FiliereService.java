@@ -11,7 +11,6 @@ public interface FiliereService {
 	int save(Filiere filiere);
 	int update(Filiere filiere);
 	int removeById(Long id);
-	Filiere findByCoodinateurReference(String reference);
 	int countFilieres();
 
 }

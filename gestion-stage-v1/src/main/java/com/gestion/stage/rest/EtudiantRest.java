@@ -23,39 +23,63 @@ import com.sipios.springsearch.anotation.SearchSpec;
 
 @RestController
 @RequestMapping("gestion-stage-api/etudiant")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class EtudiantRest {
 	@Autowired
 	private EtudiantService etudiantService;
 
-	
+	@GetMapping("/encadreur/id/{id}")
+	public List<Etudiant> findByEncadreurid(@PathVariable Long id) {
+		return etudiantService.findByEncadreurid(id);
+	}
 
+	@GetMapping("/jury/id/{id}")
+	public List<Etudiant> findByJuryId(@PathVariable Long id) {
+		return etudiantService.findByJuryId(id);
+	}
+
+	@GetMapping("/count")
+	public int countEtdudiants() {
+		return etudiantService.countEtdudiants();
+	}
+
+	@GetMapping("/filiere/id/{id}")
+	public List<Etudiant> findByFiliere(@PathVariable Long id) {
+		return etudiantService.findByFiliere(id);
+	}
 
 	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
-	public Page<Etudiant> findByCoordinateur(@PathVariable long id,@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
-		return etudiantService.findByCoordinateur(id, page, size,sort);
+	public Page<Etudiant> findByCoordinateur(@PathVariable long id, @PathVariable int page, @PathVariable int size,
+			@PathVariable String sort) {
+		return etudiantService.findByCoordinateur(id, page, size, sort);
 	}
+
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")
-	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,@PathVariable String prenom,@PathVariable int page,@PathVariable
-			int size) {
+	public Page<Etudiant> findByUserNomContainsOrUserPrenomContains(@PathVariable String nom,
+			@PathVariable String prenom, @PathVariable int page, @PathVariable int size) {
 		return etudiantService.findByUserNomContainsOrUserPrenomContains(nom, prenom, page, size);
 	}
+
 	@GetMapping("/niveau/{niveau}/page/{page}/size/{size}")
-	public Page<Etudiant> findByNiveau(@PathVariable String niveau,@PathVariable int page,@PathVariable int size) {
+	public Page<Etudiant> findByNiveau(@PathVariable String niveau, @PathVariable int page, @PathVariable int size) {
 		return etudiantService.findByNiveau(niveau, page, size);
 	}
+
 	@GetMapping("/search")
 	public ResponseEntity<List<Etudiant>> searchForEtudiants(@SearchSpec Specification<Etudiant> spec) {
 		return etudiantService.searchForEtudiants(spec);
 	}
+
 	@GetMapping("/page/{page}/size/{size}")
-	public Page<Etudiant> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+	public Page<Etudiant> findAllWithPaginition(@PathVariable int page, @PathVariable int size) {
 		return etudiantService.findAllWithPaginition(page, size);
 	}
+
 	@GetMapping("/cin/{cin}")
 	public Etudiant findByCin(@PathVariable String cin) {
 		return etudiantService.findByCin(cin);
 	}
+
 	@GetMapping("/codeAppoge/{codeAppoge}")
 	public Etudiant findByCodeAppoge(@PathVariable String codeAppoge) {
 		return etudiantService.findByCodeAppoge(codeAppoge);
@@ -64,25 +88,30 @@ public class EtudiantRest {
 	public List<Etudiant> findByFiliere(Filiere filiere) {
 		return etudiantService.findByFiliere(filiere);
 	}
+
 	@PostMapping("/")
 	public int save(@RequestBody Etudiant etudiant) {
 		return etudiantService.save(etudiant);
 	}
+
 	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
-	public Page<Etudiant> findAll(@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
-		return etudiantService.findAll(page,size,sort);
+	public Page<Etudiant> findAll(@PathVariable int page, @PathVariable int size, @PathVariable String sort) {
+		return etudiantService.findAll(page, size, sort);
 	}
+
 	@PutMapping("/")
 	public int Update(@RequestBody Etudiant etudiant) {
 		return etudiantService.Update(etudiant);
 	}
+
 	@DeleteMapping("/cin/{cin}")
 	public int removeByCin(@PathVariable String cin) {
 		return etudiantService.removeByCin(cin);
 	}
-	@GetMapping("user/id/{id}")
-	public Etudiant findByUserId(Long id) {
+
+	@GetMapping("/user/id/{id}")
+	public Etudiant findByUserId(@PathVariable Long id) {
 		return etudiantService.findByUserId(id);
 	}
-	
+
 }

@@ -99,6 +99,7 @@ public class VilleServiceImpl implements VilleService {
 		List<Ville> foundedVilles = villesParFilier(id);
 		int nombre = 0;
 		for(int i = 0;i<foundedVilles.size();i++) {
+			nombre = 0;
 			Ville v = foundedVilles.get(i);
 			if(villeS.stream().filter(d->d.getNom().equals(v.getNom())).collect(Collectors.toList()).size() == 0) {
 				for(int j = 0;j<foundedVilles.size();j++) {

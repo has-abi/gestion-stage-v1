@@ -31,10 +31,13 @@ public interface EtudiantDao extends JpaRepository<Etudiant, Long>, JpaSpecifica
 
 	@Query(value = "Select etudiant.* from etudiant,stage_etudiant,stage where stage.coordinateur = :id and stage_etudiant.stage = stage.id and etudiant.id = stage_etudiant.etudiant ", nativeQuery = true)
 	Page<Etudiant> findByCoordinateur(@Param("id") Long id, Pageable pageable);
-	
-	@Query(value = "SELECT etudiant.* FROM etudiant,stage,stage_encadreur,stage_etudiant where stage_encadreur.encadreur = 1 and stage.id = stage_encadreur.stage and stage_etudiant.stage = stage.id and etudiant.id = stage_etudiant.etudiant ", nativeQuery = true)
-	List<Etudiant> findByEncadreurid(Long id);
-	@Query(value = "SELECT etudiant.* FROM etudiant,stage,stage_Membre_jury,stage_etudiant where stage_Membre_jury.Membre_jury = 1 and stage.id = stage_Membre_jury.stage and stage_etudiant.stage = stage.id and etudiant.id = stage_etudiant.etudiant ", nativeQuery = true)
-	List<Etudiant> findByJuryId(Long id);
 
+	@Query(value = "SELECT etudiant.* FROM etudiant,stage,stage_encadreur,stage_etudiant where stage_encadreur.encadreur = :id and stage.id = stage_encadreur.stage and stage_etudiant.stage = stage.id and etudiant.id = stage_etudiant.etudiant ", nativeQuery = true)
+	List<Etudiant> findByEncadreurid(@Param("id") Long id);
+
+	@Query(value = "SELECT etudiant.* FROM etudiant,stage,stage_Membre_jury,stage_etudiant where stage_Membre_jury.Membre_jury = :id and stage.id = stage_Membre_jury.stage and stage_etudiant.stage = stage.id and etudiant.id = stage_etudiant.etudiant ", nativeQuery = true)
+	List<Etudiant> findByJuryId(@Param("id") Long id);
+
+	@Query(value = "select distinct etudiant.* from etudiant,stage,stage_etudiant,coordinateur where coordinateur.filiere = :id and  stage.coordinateur = coordinateur.id and stage_etudiant.stage = stage.id and etudiant.id = stage_etudiant.etudiant", nativeQuery = true)
+	List<Etudiant> findByFiliere(@Param("id") Long id);
 }

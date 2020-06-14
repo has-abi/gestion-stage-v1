@@ -55,8 +55,8 @@ public class RapportTacheServiceImpl implements RapportTacheService{
 
 	@Override
 	public ResponseEntity<ResponseMessage> save(String titre, String description, String TacheRef, MultipartFile file) {
+			System.out.println("we get the service");
 		Tache tache = tacheService.findByReference(TacheRef);
-		
 		if(tache == null) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("tache n'existe pas"));
 		}else {
@@ -65,6 +65,7 @@ public class RapportTacheServiceImpl implements RapportTacheService{
 			if(documentService.save(titre, fileToStore).getStatusCode() == HttpStatus.EXPECTATION_FAILED) {
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
 			}else {
+				System.out.println("in else");
 				RapportTache rapport = new RapportTache();
 				rapport.setDateDepot(DateUtil.getDate());
 				rapport.setValider(false);
@@ -76,6 +77,7 @@ public class RapportTacheServiceImpl implements RapportTacheService{
 				rapportTacheDao.save(rapport);
 				tache.setRapportTache(findByReference(ref));
 				tacheDao.save(tache);
+				
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("rapport uploader avec succée!"));
 			}
 		}

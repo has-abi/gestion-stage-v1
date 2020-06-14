@@ -32,13 +32,11 @@ import com.gestion.stage.utils.ResponseMessage;
 import com.google.common.net.HttpHeaders;
 
 @Service
-public class UserServiceImpl implements UserService,UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 	@Autowired
 	private FileStorageService fileStorageService;
-
-
 
 	@Override
 	public List<User> findByDateNaissanceGreaterThan(Date dateNaissance) {
@@ -47,7 +45,6 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
 	@Override
 	public User findByEmail(String email) {
-		
 		return userDao.findByEmail(email);
 	}
 
@@ -68,7 +65,9 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
 	@Override
 	public int login(User user) {
+		System.out.println(user);
 		User foundedutilisateur = findByEmail(user.getEmail());
+		System.out.println(foundedutilisateur);
 		if (foundedutilisateur == null) {
 			return -1;
 		} else if (!foundedutilisateur.getMotPass().equals(user.getMotPass())) {
@@ -85,8 +84,7 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 			return -1;
 		} else if (user.getMotPass() == "" || user.getMotPass() == null) {
 			return -2;
-		} else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == ""
-				|| user.getPrenom() == null) {
+		} else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == "" || user.getPrenom() == null) {
 			return -3;
 		} else {
 			user.setDateJoin(DateUtil.getDate());
@@ -97,22 +95,17 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
 	@Override
 	public int update(User user) {
-		User foundedUtilisateur = userDao.findById(user.getId()).get();
-		if (foundedUtilisateur == null) {
+		User foundeduser = findByEmail(user.getEmail());
+		if (FieldsUtil.utilisateurFields(user) < 0) {
 			return -1;
-		} else if (FieldsUtil.utilisateurFields(user) < 0) {
+		} else if (!foundeduser.getReference().equals(user.getReference())) {
 			return -2;
 		} else {
-			List<User> users = findAll();
-			for (User u : users) {
-				if (u.getId() != user.getId() && u.getEmail().equals(user.getEmail())) {
-					return -3;
-				}
-			}
 			userDao.save(user);
 			return 1;
 		}
 	}
+
 	@Transactional
 	@Override
 	public int removeById(Long id) {
@@ -132,16 +125,15 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
 	@Override
 	public int save(User user) {
-		
+
 		User u = findByReference(user.getReference());
-		if(u != null) {
+		if (u != null) {
 			return -1;
-		}else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == ""
-				|| user.getPrenom() == null) {
+		} else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == "" || user.getPrenom() == null) {
 			return -2;
-		}else{
+		} else {
 			user.setDateJoin(DateUtil.getDate());
-			userDao.save(user);	
+			userDao.save(user);
 			return 1;
 		}
 	}
@@ -155,10 +147,10 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 	public ResponseEntity<ResponseMessage> uploadProfilePic(String ref, MultipartFile file) {
 		String message = "";
 		User u = findByReference(ref);
-		if(u == null) {
+		if (u == null) {
 			message += "utilisateur n'existe pas";
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-		}else {
+		} else {
 			MultipartFile fileToStore = FileUtil.getNewFile(FileUtil.getEditedName(file), file);
 			try {
 				message = "la photo : " + fileToStore.getOriginalFilename() + " enregister avec succée!";
@@ -166,19 +158,20 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 				u.setPhoto(fileToStore.getOriginalFilename());
 				userDao.save(u);
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-			}catch(Exception e) {
+			} catch (Exception e) {
 				message = "on ne peut pas uploader la photo: " + fileToStore.getOriginalFilename() + "!";
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			}
 		}
-		
+
 	}
 
 	@Override
 	public ResponseEntity<Resource> loadImage(String filename) {
-		 Resource file = fileStorageService.loadPics(filename);
-		    return ResponseEntity.ok()
-		        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+		Resource file = fileStorageService.loadPics(filename);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
 	}
 
 	@Override
@@ -188,13 +181,13 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
 	@Override
 	public Page<User> findAllWithPagination(int page, int size, String sort) {
-		if(sort.equals("asc")) {
-			return userDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
-		}else if(sort.equals("desc")) {
-			return userDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
-		}else if(sort.equals("nom")) {
-			return userDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"nom")));
-		}else {
+		if (sort.equals("asc")) {
+			return userDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return userDao.findAll(PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
+		} else if (sort.equals("nom")) {
+			return userDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "nom")));
+		} else {
 			return null;
 		}
 	}
@@ -213,7 +206,5 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getMotPass(),
 				new ArrayList<>());
 	}
-	
-	
 
 }

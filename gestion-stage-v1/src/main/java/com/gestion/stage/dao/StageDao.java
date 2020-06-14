@@ -30,7 +30,7 @@ public interface StageDao extends JpaRepository<Stage, Long>, JpaSpecificationEx
 
 	Stage findByReference(String reference);
 
-	Page<Stage> findByCoordinateurReference(String reference, Pageable pageable);
+	Page<Stage> findByCoordinateurUserId(Long id, Pageable pageable);
 
 	Long countByCoordinateurReference(String reference);
 
@@ -43,16 +43,27 @@ public interface StageDao extends JpaRepository<Stage, Long>, JpaSpecificationEx
 	@Query(value = "SELECT count(*) from stage_membre_jury where stage_membre_jury.membre_jury= :id ", nativeQuery = true)
 	Long countByJury(@Param("id") Long id);
 
-	@Query(value = "select stage.* from stage,etudiant,stage_etudiant where etudiant.id = :id and stage_etudiant.etudiant = etudiant.id and stage_etudiant.stage = stage.id", countQuery = "SELECT count(*) from stage_etudiant where stage_etudiant.etudiant = :id", nativeQuery = true)
-	Page<Stage> findByEtudiant(Long id, Pageable pageable);
+	@Query(value = "select stage.* from stage,etudiant,stage_etudiant where etudiant.user = :id and stage_etudiant.etudiant = etudiant.id and stage_etudiant.stage = stage.id", countQuery = "SELECT count(*) from stage_etudiant where stage_etudiant.etudiant = :id", nativeQuery = true)
+	Page<Stage> findByEtudiant(@Param("id") Long id, Pageable pageable);
 
-	@Query(value = "select stage.* from stage,encadreur,stage_encadreur where encadreur.id = :id and stage_encadreur.encadreur= encadreur.id and stage_encadreur.stage = stage.id", countQuery = "SELECT count(*) from stage_encadreur where stage_encadreur.encadreur = :id", nativeQuery = true)
-	Page<Stage> findByEncadreur(Long id, Pageable pageable);
+	@Query(value = "select stage.* from stage,encadreur,stage_encadreur where encadreur.user = :id and stage_encadreur.encadreur= encadreur.id and stage_encadreur.stage = stage.id", countQuery = "SELECT count(*) from stage_encadreur where stage_encadreur.encadreur = :id", nativeQuery = true)
+	Page<Stage> findByEncadreur(@Param("id") Long id, Pageable pageable);
 
-	@Query(value = "select stage.* from stage,membre_jury,stage_membre_jury where membre_jury.id = :id and stage_membre_jury.membre_jury = membre_jury.id and stage_membre_jury.stage = stage.id", countQuery = "SELECT count(*) from stage_membre_jury where stage_membre_jury.membre_jury = :id", nativeQuery = true)
-	Page<Stage> findByJury(Long id, Pageable pageable);
+	@Query(value = "select stage.* from stage,membre_jury,stage_membre_jury where membre_jury.user = :id and stage_membre_jury.membre_jury = membre_jury.id and stage_membre_jury.stage = stage.id", countQuery = "SELECT count(*) from stage_membre_jury where stage_membre_jury.membre_jury = :id", nativeQuery = true)
+	Page<Stage> findByJury(@Param("id") Long id, Pageable pageable);
 
 	Stage findByRapportReference(String reference);
+	
+	@Query(value = "select stage.* from stage,etudiant,stage_etudiant where etudiant.user = :id and stage_etudiant.etudiant = etudiant.id and stage_etudiant.stage = stage.id", nativeQuery = true)
+	List<Stage> findByEtudiantUserId(Long id);
+	
+	@Query(value = "select stage.* from stage,encadreur,stage_encadreur where encadreur.user = :id and stage_encadreur.encadreur= encadreur.id and stage_encadreur.stage = stage.id", nativeQuery = true)
+	List<Stage> findByEncadreurUserId(Long id);
+	
+	List<Stage> findByCoordinateurUserId(Long id);
+	
+	@Query(value = "select stage.* from stage,membre_jury,stage_membre_jury where membre_jury.user = :id and stage_membre_jury.membre_jury = membre_jury.id and stage_membre_jury.stage = stage.id", nativeQuery = true)
+	List<Stage> findByJuryUserId(Long id);
 
 
 }

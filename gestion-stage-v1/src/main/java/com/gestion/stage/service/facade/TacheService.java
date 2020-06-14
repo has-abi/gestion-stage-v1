@@ -3,6 +3,10 @@ package com.gestion.stage.service.facade;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
+
 import com.gestion.stage.bean.Tache;
 
 public interface TacheService {
@@ -24,5 +28,9 @@ public interface TacheService {
 	
 	List<Tache> findByStageReference(String reference);
 	
+	Page<Tache> findByEncadreurReference(String reference,int page,int size);
 	
+	Page<Tache> findByEtudiant(Long id,int page,int size);
+	
+	ResponseEntity<List<Tache>> searchForTaches(Specification<Tache> spec);
 }

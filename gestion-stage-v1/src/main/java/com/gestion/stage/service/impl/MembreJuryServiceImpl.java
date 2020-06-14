@@ -1,4 +1,4 @@
-	package com.gestion.stage.service.impl;
+package com.gestion.stage.service.impl;
 
 import java.util.List;
 
@@ -22,50 +22,53 @@ import com.gestion.stage.service.facade.RoleService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
+
 @Service
-public class MembreJuryServiceImpl implements MembreJuryService{
+public class MembreJuryServiceImpl implements MembreJuryService {
 	@Autowired
 	private MembreJuryDao membreJuryDao;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
+
 	@Override
 	public MembreJury findByUserId(Long id) {
 		return membreJuryDao.findByUserId(id);
 	}
 
 	@Override
-	public Page<MembreJury> findByProfession(String profession,int page,int size) {
-		return membreJuryDao.findByProfession(profession,PageRequest.of(page, size));
+	public Page<MembreJury> findByProfession(String profession, int page, int size) {
+		return membreJuryDao.findByProfession(profession, PageRequest.of(page, size));
 	}
 
 	@Override
-	public Page<MembreJury> findAll(int page,int size,String sort) {
-		if(sort.equals("asc")) {
-			return membreJuryDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
-		}else if(sort.equals("desc")) {
-			return membreJuryDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
-		}else {
+	public Page<MembreJury> findAll(int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return membreJuryDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return membreJuryDao.findAll(PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public int save(MembreJury membreJury) {
-		if(FieldsUtil.juryFields(membreJury)<0) {
+		if (FieldsUtil.juryFields(membreJury) < 0) {
 			return -1;
-		}else {
+		} else {
 			MembreJury foundedJury = findByReference(membreJury.getReference());
-			if(foundedJury != null) {
+			if (foundedJury != null) {
 				return -2;
-			}else {
-				membreJury.getUser().setReference("u"+DateUtil.getDate().getTime());
+			} else {
+				membreJury.getUser().setReference("u" + DateUtil.getDate().getTime());
 				membreJury.getUser().getRoles().add(roleService.getJuryRole());
-				if (userService.register(membreJury.getUser())<0) {
+				if (userService.register(membreJury.getUser()) < 0) {
 					return -3;
-				};
+				}
+				;
 				membreJury.setUser(userService.findByReference(membreJury.getUser().getReference()));
 				membreJuryDao.save(membreJury);
 				return 1;
@@ -76,28 +79,26 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	@Override
 	public int update(MembreJury membreJury) {
 		MembreJury foundedjury = membreJuryDao.findById(membreJury.getId()).get();
-		if(foundedjury == null) {
+		if (foundedjury == null) {
 			return -1;
-		}else if(FieldsUtil.juryFields(membreJury)<0) {
+		} else if (FieldsUtil.juryFields(membreJury) < 0) {
 			return -2;
-		}else {
-			List<MembreJury> memJuries = membreJuryDao.findAll();
-			for(MembreJury m : memJuries) {
-				if(m.getId() == membreJury.getId() && m.getReference().equals(membreJury.getReference())) {
-					return -3;
-				}
+		} else {
+			if (this.userService.update(membreJury.getUser()) < 0) {
+				return -3;
 			}
 			membreJuryDao.save(membreJury);
 			return 1;
 		}
 	}
+
 	@Transactional
 	@Override
 	public int removeByReference(String reference) {
 		MembreJury foundedjury = findByReference(reference);
-		if(foundedjury == null) {
+		if (foundedjury == null) {
 			return -1;
-		}else {
+		} else {
 			User u = foundedjury.getUser();
 			membreJuryDao.delete(foundedjury);
 			userService.removeById(u.getId());
@@ -121,8 +122,7 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	}
 
 	@Override
-	public Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page,
-			int size) {
+	public Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page, int size) {
 		return membreJuryDao.findByUserNomContainsOrUserPrenomContains(nom, prenom, PageRequest.of(page, size));
 	}
 
@@ -132,12 +132,13 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	}
 
 	@Override
-	public Page<MembreJury> findByCoordinateur(Long id, int page, int size,String sort) {
-		if(sort.equals("asc")) {
-			return membreJuryDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
-		} if(sort.equals("desc")) {
-			return membreJuryDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
-		}else {
+	public Page<MembreJury> findByCoordinateur(Long id, int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return membreJuryDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")));
+		}
+		if (sort.equals("desc")) {
+			return membreJuryDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+		} else {
 			return null;
 		}
 	}
@@ -145,6 +146,12 @@ public class MembreJuryServiceImpl implements MembreJuryService{
 	@Override
 	public int countJuries() {
 		return (int) membreJuryDao.count();
+	}
+
+	@Override
+	public List<MembreJury> findByFiliere(Long id) {
+
+		return membreJuryDao.findByFiliere(id);
 	}
 
 }

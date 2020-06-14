@@ -106,6 +106,9 @@ public class EtudiantServiceImpl implements EtudiantService {
 					return -3;
 				}
 			}
+			if(this.userService.update(etudiant.getUser())<0) {
+				return -4;
+			}
 			etudiantDao.save(etudiant);
 			return 1;
 		}
@@ -185,6 +188,11 @@ public class EtudiantServiceImpl implements EtudiantService {
 	@Override
 	public int countEtdudiants() {
 		return (int) etudiantDao.count();
+	}
+
+	@Override
+	public List<Etudiant> findByFiliere(Long id) {
+		return etudiantDao.findByFiliere(id);
 	}
 
 }
