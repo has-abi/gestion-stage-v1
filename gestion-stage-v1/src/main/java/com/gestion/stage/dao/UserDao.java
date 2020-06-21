@@ -13,7 +13,7 @@ import com.gestion.stage.bean.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> ,JpaSpecificationExecutor<User>{
 	List<User> findByDateNaissanceGreaterThan(Date dateNaissance);
-	User findByEmail(String email);
+	User findByUsername(String username);
 	User findByReference(String reference);
 	List<User> findByNomContains(String nom);
 	List<User> findByPrenomContains(String prenom);

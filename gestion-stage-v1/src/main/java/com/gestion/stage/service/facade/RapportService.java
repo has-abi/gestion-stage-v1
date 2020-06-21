@@ -14,7 +14,6 @@ import com.gestion.stage.utils.ResponseMessage;
 public interface RapportService {
 	List<Rapport> findByDateDepot(Date dateDepot);
 
-	List<Rapport> findByDateSoutenance(Date dateSoutenance);
 
 	List<Rapport> findByDescreption(String descreption);
 

@@ -22,21 +22,21 @@ public class FieldsUtil {
 		}
 	}
 	public static int utilisateurFields(User user) {
-		if(Strings.isEmpty(user.getEmail()) || Strings.isEmpty(user.getMotPass()) || Strings.isEmpty(user.getNom()) || Strings.isEmpty(user.getPrenom())) {
+		if(Strings.isEmpty(user.getUsername()) || Strings.isEmpty(user.getPassword()) || Strings.isEmpty(user.getNom()) || Strings.isEmpty(user.getPrenom())) {
 			return -1;
 		}else {
 			return 1;
 		}
 	}
 	public static int encadreurFields(Encadreur encadreur) {
-		if(Strings.isEmpty(encadreur.getType()) || Strings.isEmpty(encadreur.getProfession()) || Strings.isEmpty(encadreur.getQualite()) || Strings.isEmpty(encadreur.getReference())) {
+		if(Strings.isEmpty(encadreur.getType()) || Strings.isEmpty(encadreur.getQualite()) || Strings.isEmpty(encadreur.getReference())) {
 			return -1;
 		}else {
 			return 1;
 		}
 	}
 	public static int juryFields(MembreJury membreJury) {
-		if(Strings.isEmpty(membreJury.getProfession()) || Strings.isEmpty(membreJury.getReference())) {
+		if( Strings.isEmpty(membreJury.getReference())) {
 			return -1;
 		}else {
 			return 1;

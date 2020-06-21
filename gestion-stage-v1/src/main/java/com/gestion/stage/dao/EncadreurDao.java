@@ -21,9 +21,9 @@ public interface EncadreurDao extends JpaRepository<Encadreur, Long>,JpaSpecific
 	Encadreur findByUserId(Long id);
 	Encadreur findByReference(String reference);
 	Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
-	@Query(value = "Select encadreur.* from encadreur,stage_encadreur,stage where stage.coordinateur = :id and stage_encadreur.stage = stage.id and encadreur.id = stage_encadreur.encadreur ",nativeQuery = true)
+	@Query(value = "Select DISTINCT encadreur.* from encadreur,stage_encadreur,stage where stage.coordinateur = :id and stage_encadreur.stage = stage.id and encadreur.id = stage_encadreur.encadreur ",nativeQuery = true)
 	Page<Encadreur> findByCoordinateur(@Param("id")Long id,Pageable pageable);
-	Encadreur findByUserEmail(String email);
+	Encadreur findByUserUsername(String username);
 	
 	@Query(value = "select DISTINCT encadreur.* from encadreur,stage,stage_encadreur,coordinateur where coordinateur.filiere = :id and  stage.coordinateur = coordinateur.id and stage_encadreur.stage = stage.id and encadreur.id = stage_encadreur.encadreur",nativeQuery = true)
 	List<Encadreur> findByFiliere(@Param("id") Long id);

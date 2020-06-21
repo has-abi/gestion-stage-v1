@@ -1,6 +1,5 @@
 package com.gestion.stage.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,11 +29,13 @@ import com.gestion.stage.utils.ResponseMessage;
 import com.google.common.net.HttpHeaders;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 	@Autowired
 	private FileStorageService fileStorageService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public List<User> findByDateNaissanceGreaterThan(Date dateNaissance) {
@@ -44,8 +43,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public User findByEmail(String email) {
-		return userDao.findByEmail(email);
+	public User findByUsername(String username) {
+		return userDao.findByUsername(username);
 	}
 
 	@Override
@@ -65,12 +64,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public int login(User user) {
-		System.out.println(user);
-		User foundedutilisateur = findByEmail(user.getEmail());
-		System.out.println(foundedutilisateur);
-		if (foundedutilisateur == null) {
+		User foundedutilisateur = findByUsername(user.getUsername());
+		if(foundedutilisateur == null) {
 			return -1;
-		} else if (!foundedutilisateur.getMotPass().equals(user.getMotPass())) {
+		} else if (!foundedutilisateur.getPassword().equals(user.getPassword())) {
 			return -2;
 		} else {
 			return 1;
@@ -79,15 +76,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public int register(User user) {
-		User foundedUtilisateur = findByEmail(user.getEmail());
+		User foundedUtilisateur = findByUsername(user.getUsername());
 		if (foundedUtilisateur != null) {
 			return -1;
-		} else if (user.getMotPass() == "" || user.getMotPass() == null) {
+		} else if (user.getPassword() == "" || user.getPassword() == null) {
 			return -2;
 		} else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == "" || user.getPrenom() == null) {
 			return -3;
 		} else {
 			user.setDateJoin(DateUtil.getDate());
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			userDao.save(user);
 			return 1;
 		}
@@ -95,7 +93,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public int update(User user) {
-		User foundeduser = findByEmail(user.getEmail());
+		User foundeduser = findByUsername(user.getUsername());
 		if (FieldsUtil.utilisateurFields(user) < 0) {
 			return -1;
 		} else if (!foundeduser.getReference().equals(user.getReference())) {
@@ -125,7 +123,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public int save(User user) {
-
 		User u = findByReference(user.getReference());
 		if (u != null) {
 			return -1;
@@ -197,14 +194,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return new ResponseEntity<>(userDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByEmail(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("User not found with username: " + username);
-		}
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getMotPass(),
-				new ArrayList<>());
-	}
+	
 
 }

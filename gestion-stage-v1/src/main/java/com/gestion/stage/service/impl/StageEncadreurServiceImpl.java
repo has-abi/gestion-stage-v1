@@ -17,13 +17,9 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 	
 	@Override
 	public int save(StageEncadreur stageEncadreur) {
-			StageEncadreur se = findByStageReferenceAndEncadreurReference(stageEncadreur.getStage().getReference(), stageEncadreur.getEncadreur().getReference());
-			if(se != null) {
-				return -1;
-			}else {
+		System.out.println(stageEncadreur);
 				stageEncadrantDao.save(stageEncadreur);
 				return 1;
-			}
 	}
 
 	@Override

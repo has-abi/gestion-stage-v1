@@ -18,6 +18,8 @@ public class Filiere{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String libelle;
+	private String abbr;
+	private String diplome;
 	@ManyToOne
 	private Departement departement;
 	

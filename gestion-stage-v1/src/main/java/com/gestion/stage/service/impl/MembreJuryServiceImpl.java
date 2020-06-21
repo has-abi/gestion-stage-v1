@@ -1,5 +1,6 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.MembreJury;
+import com.gestion.stage.bean.Role;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.MembreJuryDao;
 import com.gestion.stage.service.facade.MembreJuryService;
@@ -63,15 +65,26 @@ public class MembreJuryServiceImpl implements MembreJuryService {
 			if (foundedJury != null) {
 				return -2;
 			} else {
-				membreJury.getUser().setReference("u" + DateUtil.getDate().getTime());
+				
+				List<Role> roles = new ArrayList<Role>();
+				membreJury.getUser().setRoles(roles);
 				membreJury.getUser().getRoles().add(roleService.getJuryRole());
-				if (userService.register(membreJury.getUser()) < 0) {
-					return -3;
+				if(membreJury.getUser().getReference() != "" && membreJury.getUser().getReference() !=null) {
+					membreJuryDao.save(membreJury);
+					userService.update(membreJury.getUser());
+					return 1;
+				}else {
+					membreJury.getUser().setReference("u" + DateUtil.getDate().getTime());
+					
+					if (userService.register(membreJury.getUser()) < -1) {
+						return -3;
+					}
+					membreJury.setUser(userService.findByReference(membreJury.getUser().getReference()));
+					return 1;
 				}
-				;
-				membreJury.setUser(userService.findByReference(membreJury.getUser().getReference()));
-				membreJuryDao.save(membreJury);
-				return 1;
+				
+				
+				
 			}
 		}
 	}
@@ -108,7 +121,7 @@ public class MembreJuryServiceImpl implements MembreJuryService {
 
 	@Override
 	public MembreJury findByUserEmail(String email) {
-		return membreJuryDao.findByUserEmail(email);
+		return membreJuryDao.findByUserUsername(email);
 	}
 
 	@Override

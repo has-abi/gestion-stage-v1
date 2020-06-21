@@ -88,45 +88,54 @@ public class StageServiceImpl implements StageService {
 	public Stage findByid(Long id) {
 		return stageDao.findById(id).get();
 	}
-
+	@Transactional
 	@Override
 	public int save(Stage stage) {
-		Coordinateur c = coordinateurService.findByReference(stage.getCoordinateur().getReference());
+		System.out.println(stage.getStageEtudiants());
+		System.out.println(stage);
 		if (FieldsUtil.StageFields(stage) < 0) {
 			return -1;
 		} else if (findByReference(stage.getReference()) != null) {
 			return -2;
 		} else if (DateUtil.compareDates(stage.getDateDebut(), stage.getDateFin()) <= 0) {
 			return -3;
-		} else if (c == null) {
-			return -4;
-		} else {
-
+		}  else {
+			System.out.println("mohim hna felse");
 			if (stage.getOrganismeAccueil() != null) {
+				System.out.println("probleme dans lorganisme");
 				organismeAccueilService.save(stage.getOrganismeAccueil());
 				OrganismeAccueil oa = organismeAccueilService
 						.findByRaisonSocial(stage.getOrganismeAccueil().getRaisonSociale());
 				stage.setOrganismeAccueil(oa);
 			}
 			stage.setStatu(false);
-			stage.setCoordinateur(c);
 			stage.setDateCreation(DateUtil.getDate());
 			stageDao.save(stage);
+			
+			System.out.println("before size "+stage.getStageEtudiants().size());
 			if (stage.getStageEtudiants().size() > 0) {
+				System.out.println("size"+stage.getStageEtudiants().size());
 				for (StageEtudiant se : stage.getStageEtudiants()) {
+					System.out.println(etudiantService.findByCin(se.getEtudiant().getCin()));
 					if (etudiantService.findByCin(se.getEtudiant().getCin()) == null) {
 						etudiantService.save(se.getEtudiant());
 					}
+					System.out.println(etudiantService.findByCin(se.getEtudiant().getCin()));
 					se.setStage(findByReference(stage.getReference()));
 					se.setEtudiant(etudiantService.findByCin(se.getEtudiant().getCin()));
 					se.setDateAffectation(DateUtil.getDate());
 					stageEtudiantService.save(se);
 				}
 			}
+			
+			System.out.println("the size of stageEncadreurs:"+stage.getStageEncadreurs().size());
+			System.out.println("stage encadreur ref"+stage.getStageEncadreurs().get(0));
 			if (stage.getStageEncadreurs().size() > 0) {
 				for (StageEncadreur se : stage.getStageEncadreurs()) {
+					System.out.println(se.getEncadreur().getReference());
 					if (encadreurService.findByReference(se.getEncadreur().getReference()) == null) {
-						encadreurService.save(se.getEncadreur());
+						System.out.println("pour savoir quelle probleme dans encadreur");
+					System.out.println(encadreurService.save(se.getEncadreur()));	
 					}
 					se.setDateAffectation(DateUtil.getDate());
 					se.setStage(findByReference(stage.getReference()));
@@ -153,12 +162,9 @@ public class StageServiceImpl implements StageService {
 
 	@Override
 	public int update(Stage stage) {
-		System.out.println(stage);
 		if (findByReference(stage.getReference()) == null) {
 			return -1;
-		} else if (DateUtil.compareDates(DateUtil.getDate(), stage.getDateFin()) < 0) {
-			return 2;
-		} else {
+		}  else {
 			if (FieldsUtil.StageFields(stage) < 0) {
 				return -2;
 			} else {
@@ -173,45 +179,31 @@ public class StageServiceImpl implements StageService {
 				stageDao.save(stage);
 				if (stage.getStageEtudiants().size() > 0) {
 					for (StageEtudiant se : stage.getStageEtudiants()) {
-						if (etudiantService.findByCin(se.getEtudiant().getCin()) == null) {
-							etudiantService.save(se.getEtudiant());
-						}
-						if (stageEtudiantService.findByStageReferenceAndEtudiantCin(stage.getReference(),
-								se.getEtudiant().getCin()) == null) {
-							se.setStage(findByReference(stage.getReference()));
-							se.setEtudiant(etudiantService.findByCin(se.getEtudiant().getCin()));
-							se.setDateAffectation(DateUtil.getDate());
-							stageEtudiantService.save(se);
-						}
+						etudiantService.Update(se.getEtudiant());
 					}
 				}
 				if (stage.getStageEncadreurs().size() > 0) {
 					for (StageEncadreur se : stage.getStageEncadreurs()) {
-						if (encadreurService.findByUserEmail(se.getEncadreur().getUser().getEmail()) == null) {
-							encadreurService.save(se.getEncadreur());
-						}
-						if (stageEncadrantService.findByStageReferenceAndEncadreurReference(stage.getReference(),
-								se.getEncadreur().getReference()) == null) {
-							se.setDateAffectation(DateUtil.getDate());
-							se.setStage(findByReference(stage.getReference()));
-							se.setEncadreur(encadreurService.findByReference(se.getEncadreur().getReference()));
-							stageEncadrantService.save(se);
-						}
+						encadreurService.update(se.getEncadreur());
 					}
 				}
-
+				System.out.println("the size of membre: "+stage.getStageMembreJuries().size());
 				if (stage.getStageMembreJuries().size() > 0) {
 					for (StageMembreJury sm : stage.getStageMembreJuries()) {
 						if (membreJuryService.findByReference(sm.getMembreJury().getReference()) == null) {
-							membreJuryService.save(sm.getMembreJury());
-						}
-						if (stageMembreJuryService.findByMembreJuryReferenceAndStageReference(
-								sm.getMembreJury().getReference(), stage.getReference()) == null) {
+							System.out.println(membreJuryService.save(sm.getMembreJury()));
 							sm.setDateAffectation(DateUtil.getDate());
 							sm.setStage(findByReference(stage.getReference()));
 							sm.setMembreJury(membreJuryService.findByReference(sm.getMembreJury().getReference()));
 							stageMembreJuryService.save(sm);
+						}else {
+							membreJuryService.update(sm.getMembreJury());
+							sm.setDateAffectation(DateUtil.getDate());
+							sm.setStage(findByReference(stage.getReference()));
+							sm.setMembreJury(membreJuryService.findByReference(sm.getMembreJury().getReference()));
+							stageMembreJuryService.update(sm);
 						}
+
 					}
 				}
 				return 1;
@@ -277,20 +269,16 @@ public class StageServiceImpl implements StageService {
 	@Override
 	public Page<Stage> findByCoordinateurUserId(Long id, int page, int size, String sort) {
 		if (sort.equals("asc")) {
-			return stageDao.findByCoordinateurUserId(id,
-					PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+			return stageDao.findByCoordinateurUserId(id, PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
 		} else if (sort.equals("desc")) {
-			return stageDao.findByCoordinateurUserId(id,
-					PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
+			return stageDao.findByCoordinateurUserId(id, PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
 		} else if (sort.equals("sujet")) {
-			return stageDao.findByCoordinateurUserId(id,
-					PageRequest.of(page, size, Sort.by(Direction.ASC, "sujet")));
+			return stageDao.findByCoordinateurUserId(id, PageRequest.of(page, size, Sort.by(Direction.ASC, "sujet")));
 		} else if (sort.equals("dateDebut")) {
 			return stageDao.findByCoordinateurUserId(id,
 					PageRequest.of(page, size, Sort.by(Direction.ASC, "dateDebut")));
 		} else if (sort.equals("dateFin")) {
-			return stageDao.findByCoordinateurUserId(id,
-					PageRequest.of(page, size, Sort.by(Direction.ASC, "DateFin")));
+			return stageDao.findByCoordinateurUserId(id, PageRequest.of(page, size, Sort.by(Direction.ASC, "DateFin")));
 		} else {
 			return null;
 		}
@@ -339,33 +327,37 @@ public class StageServiceImpl implements StageService {
 
 	@Override
 	public Stage findEtudiantActiveStage(Long id) {
-		List<Stage> stages= stageDao.findByEtudiantUserId(id);
+		List<Stage> stages = stageDao.findByEtudiantUserId(id);
 		Date date = DateUtil.getDate();
-		Stage activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList()).get(0);
+		Stage activeStage = stages.stream().filter(stage -> stage.getDateDebut().getYear() == date.getYear())
+				.collect(Collectors.toList()).get(0);
 		return activeStage;
 	}
 
 	@Override
 	public List<Stage> findEncadreurActiveStages(Long id) {
-		List<Stage> stages= stageDao.findByEncadreurUserId(id);
+		List<Stage> stages = stageDao.findByEncadreurUserId(id);
 		Date date = DateUtil.getDate();
-		List<Stage> activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList());
+		List<Stage> activeStage = stages.stream().filter(stage -> stage.getDateDebut().getYear() == date.getYear())
+				.collect(Collectors.toList());
 		return activeStage;
 	}
 
 	@Override
 	public List<Stage> findJuryActiveStages(Long id) {
-		List<Stage> stages= stageDao.findByJuryUserId(id);
+		List<Stage> stages = stageDao.findByJuryUserId(id);
 		Date date = DateUtil.getDate();
-		List<Stage> activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList());
+		List<Stage> activeStage = stages.stream().filter(stage -> stage.getDateDebut().getYear() == date.getYear())
+				.collect(Collectors.toList());
 		return activeStage;
 	}
 
 	@Override
 	public List<Stage> findCoordinateurActiveStages(Long id) {
-		List<Stage> stages= stageDao.findByCoordinateurUserId(id);
+		List<Stage> stages = stageDao.findByCoordinateurUserId(id);
 		Date date = DateUtil.getDate();
-		List<Stage> activeStage = stages.stream().filter(stage->stage.getDateDebut().getYear() == date.getYear()).collect(Collectors.toList());
+		List<Stage> activeStage = stages.stream().filter(stage -> stage.getDateDebut().getYear() == date.getYear())
+				.collect(Collectors.toList());
 		return activeStage;
 	}
 

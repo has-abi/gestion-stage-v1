@@ -17,7 +17,7 @@ import com.gestion.stage.bean.MembreJury;
 public interface MembreJuryDao  extends JpaRepository<MembreJury, Long>,JpaSpecificationExecutor<MembreJury>{
 	
 	MembreJury findByUserId(Long id);
-	MembreJury findByUserEmail(String email);
+	MembreJury findByUserUsername(String username);
 	Page<MembreJury> findByProfession(String profession,Pageable pageable);
 	Page<MembreJury> findByUserNomContainsOrUserPrenomContains(String nom,String prenom,Pageable pageable);
 	MembreJury findByReference(String reference);

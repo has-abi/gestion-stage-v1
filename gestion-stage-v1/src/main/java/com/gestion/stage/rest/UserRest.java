@@ -38,7 +38,7 @@ public class UserRest {
 	private UserService userService;
 	@GetMapping("/email/{email}")
 	public User findByEmail(@PathVariable String email) {
-		return userService.findByEmail(email);
+		return userService.findByUsername(email);
 	}
 	@GetMapping("/count")
 	public int countusers() {

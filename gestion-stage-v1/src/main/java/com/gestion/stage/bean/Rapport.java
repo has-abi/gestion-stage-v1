@@ -26,13 +26,11 @@ public class Rapport{
 	private Date dateDepot;
 	@Temporal(TemporalType.DATE)
 	private Date dateValidation;
-	@Temporal(TemporalType.DATE)
-	private Date dateSoutenance;
+
 	private boolean valider;
 	@Column(columnDefinition = "Text")
 	private String descreption;
-	@Column(length = 20)
-	private String localeSoutenance;
+
 	@OneToOne
 	private Document document;
 	

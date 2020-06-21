@@ -39,7 +39,7 @@ public class EncadreurRest {
 		return encadreurService.findByUserEmail(email);
 	}
 	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
-	public Page<Encadreur> findByCoordinateur(@PathVariable Long id,@PathVariable int page,@PathVariable int size,String sort) {
+	public Page<Encadreur> findByCoordinateur(@PathVariable Long id,@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
 		return encadreurService.findByCoordinateur(id, page, size,sort);
 	}
 	@GetMapping("/user/nom/{nom}/prenom/{prenom}/page/{page}/size/{size}")

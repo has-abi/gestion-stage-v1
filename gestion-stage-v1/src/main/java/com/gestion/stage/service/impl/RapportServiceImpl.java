@@ -43,11 +43,6 @@ public class RapportServiceImpl implements RapportService {
 	}
 
 	@Override
-	public List<Rapport> findByDateSoutenance(Date dateSoutenance) {
-		return rapportDao.findByDateSoutenance(dateSoutenance);
-	}
-
-	@Override
 	public List<Rapport> findByDescreption(String descreption) {
 		return rapportDao.findByDescreptionContains(descreption);
 	}

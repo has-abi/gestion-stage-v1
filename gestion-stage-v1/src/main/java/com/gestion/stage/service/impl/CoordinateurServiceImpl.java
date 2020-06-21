@@ -1,5 +1,6 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Coordinateur;
+import com.gestion.stage.bean.Role;
 import com.gestion.stage.dao.CoordinateurDao;
 import com.gestion.stage.service.facade.CoordinateurService;
 import com.gestion.stage.service.facade.FiliereService;
@@ -48,7 +50,9 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 		}else if(FieldsUtil.utilisateurFields(coordinateur.getUser())<0){
 			return -3;
 		}else {
+			List<Role> roles = new ArrayList<Role>();
 			coordinateur.getUser().setReference("u"+DateUtil.getDate().getTime());
+			coordinateur.getUser().setRoles(roles);
 			coordinateur.getUser().getRoles().add(roleService.getCoordinateurRole());
 			
 			if(userService.register(coordinateur.getUser())<0) {

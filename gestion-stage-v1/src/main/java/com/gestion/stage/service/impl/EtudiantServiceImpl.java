@@ -1,5 +1,6 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
+import com.gestion.stage.bean.Role;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.EtudiantDao;
 import com.gestion.stage.service.facade.EtudiantService;
@@ -67,6 +69,10 @@ public class EtudiantServiceImpl implements EtudiantService {
 				return -4;
 			} else {
 				etudiant.getUser().setReference("u" + DateUtil.getDate().getTime());
+				List<Role> roles = new ArrayList<Role>();
+				etudiant.getUser().setRoles(roles);
+				System.out.println(etudiant.getUser().getRoles());
+				System.out.println(roleService.getEtudiantRole());
 				etudiant.getUser().getRoles().add(roleService.getEtudiantRole());
 				etudiant.getUser().setActive(false);
 				if (userService.save(etudiant.getUser()) < 0) {
@@ -133,7 +139,7 @@ public class EtudiantServiceImpl implements EtudiantService {
 
 	@Override
 	public Etudiant findByUserEmail(String email) {
-		return etudiantDao.findByUserEmail(email);
+		return etudiantDao.findByUserUsername(email);
 	}
 
 	@Override

@@ -110,7 +110,7 @@ public class SujetForumServiceImpl implements SujetForumService {
 
 	@Override
 	public int update(SujetForum sujetForum) {
-		User u = userService.findByEmail(sujetForum.getUser().getEmail());
+		User u = userService.findByUsername(sujetForum.getUser().getUsername());
 		if(u == null) {
 			return -1;
 		}else {

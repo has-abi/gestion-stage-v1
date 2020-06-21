@@ -37,10 +37,15 @@ public class Stage{
 	private Rapport rapport;
 	@Temporal(TemporalType.DATE)
 	private Date dateCreation;
+	@Temporal(TemporalType.DATE)
+	private Date dateSoutenance;
+	@Column(length = 20)
+	private String localeSoutenance;
 	@OneToMany(mappedBy = "stage")
 	private List<StageEtudiant> stageEtudiants;
 	@OneToMany(mappedBy = "stage")
 	private List<StageEncadreur> stageEncadreurs;
+	
 	@OneToMany(mappedBy = "stage")
 	private List<StageMembreJury> stageMembreJuries;
 	@ManyToOne

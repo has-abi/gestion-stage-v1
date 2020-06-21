@@ -14,7 +14,7 @@ import com.gestion.stage.bean.Rapport;
 public interface RapportDao extends JpaRepository<Rapport, Long> ,JpaSpecificationExecutor<Rapport> {
 	List<Rapport> findByDateDepot(Date dateDepot);
 	Rapport findByReference(String reference);
-	List<Rapport> findByDateSoutenance(Date dateSoutenance);
+
 	
 	List<Rapport> findByDescreptionContains(String descreption);
 	@Query(value="SELECT count(*) as rapportC from rapport",nativeQuery = true)

@@ -21,7 +21,7 @@ public interface EtudiantDao extends JpaRepository<Etudiant, Long>, JpaSpecifica
 
 	List<Etudiant> findByFiliere(Filiere filiere);
 
-	Etudiant findByUserEmail(String email);
+	Etudiant findByUserUsername(String username);
 
 	Etudiant findByUserId(Long id);
 

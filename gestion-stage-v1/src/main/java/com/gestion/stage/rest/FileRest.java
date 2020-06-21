@@ -67,12 +67,12 @@ public class FileRest {
 		for(String t:title) {
 			filename+=t;
 		}
-		filename+="_Pv_"+annee+".xlsx";
+		filename+="_Pv_"+annee;
 		System.out.println(filename);
 		InputStreamResource file = new InputStreamResource(storageService.loadPV(id,coord.getFiliere().getLibelle()));
 
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-				.contentType(MediaType.parseMediaType("application/vnd.ms-excel")).body(file);
+				.contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")).body(file);
 	}
 
 	@GetMapping("/file/display/{filename:.+}")

@@ -22,12 +22,8 @@ public class StageMembreJuryServiceImpl  implements StageMembreJuryService{
 
 	@Override
 	public int save(StageMembreJury stageMembreJury) {
-		if(findByMembreJuryReferenceAndStageReference(stageMembreJury.getMembreJury().getReference(), stageMembreJury.getStage().getReference()) != null) {
-			return 2;
-		}else {
 			stageMembreJuryDao.save(stageMembreJury);
 			return 1;
-		}
 	}
 
 	@Override

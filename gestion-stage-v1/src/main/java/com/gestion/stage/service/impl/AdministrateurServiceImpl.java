@@ -65,7 +65,7 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 
 	@Override
 	public Administrateur findByUserEmail(String email) {
-		return administrateurDao.findByUserEmail(email);
+		return administrateurDao.findByUserUsername(email);
 	}
 
 	@Override

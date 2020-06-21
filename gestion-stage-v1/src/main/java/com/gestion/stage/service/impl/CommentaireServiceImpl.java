@@ -26,7 +26,7 @@ public class CommentaireServiceImpl implements CommentaireService {
 
 	@Override
 	public int save(Commentaire commentaire) {
-		User u = userService.findByEmail(commentaire.getUser().getEmail());
+		User u = userService.findByUsername(commentaire.getUser().getUsername());
 		SujetForum sf = sujetForumService.findByReference(commentaire.getSujetForum().getReference());
 		if (u == null || sf == null) {
 			return -1;

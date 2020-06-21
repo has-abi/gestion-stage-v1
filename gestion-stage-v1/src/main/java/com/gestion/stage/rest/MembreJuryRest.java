@@ -31,7 +31,7 @@ public class MembreJuryRest {
 		return membreJuryService.countJuries();
 	}
 	@GetMapping("/filiere/id/{id}")
-	public List<MembreJury> findByFiliere(Long id) {
+	public List<MembreJury> findByFiliere(@PathVariable Long id) {
 		return membreJuryService.findByFiliere(id);
 	}
 	@GetMapping("/user/email/{email}")

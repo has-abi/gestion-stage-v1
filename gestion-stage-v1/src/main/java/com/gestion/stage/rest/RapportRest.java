@@ -54,15 +54,13 @@ public class RapportRest {
 		return rapportService.findByDateDepot(dateDepot);
 	}
 
-	public List<Rapport> findByDateSoutenance(Date dateSoutenance) {
-		return rapportService.findByDateSoutenance(dateSoutenance);
-	}
+
 
 	public List<Rapport> findByDescreption(String descreption) {
 		return rapportService.findByDescreption(descreption);
 	}
 	@PostMapping("/")
-	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre,@RequestParam("desc") String description,@RequestParam("stageRef") String StageRef,@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre,@RequestParam("desc") String description,@RequestParam("ref") String StageRef,@RequestParam("file") MultipartFile file) {
 		return rapportService.save(titre, description, StageRef, file);
 	}
 	@GetMapping("/")

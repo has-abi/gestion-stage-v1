@@ -14,7 +14,7 @@ import com.gestion.stage.utils.ResponseMessage;
 
 public interface UserService {
 	List<User> findByDateNaissanceGreaterThan(Date dateNaissance);
-	User findByEmail(String email);
+	User findByUsername(String username);
 	List<User> findByNomContains(String nom);
 	List<User> findByPrenomContains(String prenom);
 	List<User> findByDateJoin(Date dateJoin);

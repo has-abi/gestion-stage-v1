@@ -1,5 +1,6 @@
 package com.gestion.stage.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Encadreur;
+import com.gestion.stage.bean.Role;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.EncadreurDao;
 import com.gestion.stage.service.facade.EncadreurService;
@@ -56,6 +58,8 @@ public class EncadreurServiceImpl implements EncadreurService{
 		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
 			return -2;
 		}else {
+			List<Role> roles = new ArrayList<Role>();
+			encadreur.getUser().setRoles(roles);
 			encadreur.getUser().setReference("u" + DateUtil.getDate().getTime());
 			encadreur.getUser().getRoles().add(roleService.getEncadreurRole());
 			if(userService.register(encadreur.getUser())<0) {
@@ -152,7 +156,7 @@ public class EncadreurServiceImpl implements EncadreurService{
 
 	@Override
 	public Encadreur findByUserEmail(String email) {
-		return findByUserEmail(email);
+		return encadreurDao.findByUserUsername(email);
 	}
 
 	@Override
