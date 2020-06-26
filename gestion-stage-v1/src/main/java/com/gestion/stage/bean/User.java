@@ -46,6 +46,8 @@ public class User{
 	private String reponce;
 	@Temporal(TemporalType.DATE)
 	private Date dateJoin;
+	private boolean confirm;
+	private String codeConfirm;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
 	public Long getId() {
@@ -138,6 +140,19 @@ public class User{
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public boolean isConfirm() {
+		return confirm;
+	}
+	public void setConfirm(boolean confirm) {
+		this.confirm = confirm;
+	}
+	public String getCodeConfirm() {
+		return codeConfirm;
+	}
+	public void setCodeConfirm(String codeConfirm) {
+		this.codeConfirm = codeConfirm;
 	}
 	@JsonIgnore
 	public String getPassword() {

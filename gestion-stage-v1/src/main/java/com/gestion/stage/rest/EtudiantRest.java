@@ -25,8 +25,14 @@ import com.sipios.springsearch.anotation.SearchSpec;
 @RequestMapping("gestion-stage-api/etudiant")
 @CrossOrigin({ "http://localhost:4200" })
 public class EtudiantRest {
+	
 	@Autowired
 	private EtudiantService etudiantService;
+	
+	@GetMapping("/confirm/cne/{cne}/codeAppoge/{codeAppoge}")
+	public int validateEtudiant(@PathVariable String cne,@PathVariable String codeAppoge) {
+		return etudiantService.validateEtudiant(cne, codeAppoge);
+	}
 
 	@GetMapping("/encadreur/id/{id}")
 	public List<Etudiant> findByEncadreurid(@PathVariable Long id) {

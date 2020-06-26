@@ -201,4 +201,15 @@ public class EtudiantServiceImpl implements EtudiantService {
 		return etudiantDao.findByFiliere(id);
 	}
 
+	@Override
+	public int validateEtudiant(String cne, String codeAppoge) {
+		Etudiant foundedEtudiant = findByCin(cne);
+		if(foundedEtudiant == null) {
+			return -2;
+		}else if(!codeAppoge.equals(foundedEtudiant.getCodeAppoge())) {
+			return -1;
+		}else {
+			return 1;
+		}
+	}
 }

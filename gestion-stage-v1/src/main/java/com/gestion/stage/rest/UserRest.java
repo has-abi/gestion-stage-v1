@@ -36,6 +36,10 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class UserRest {
 	@Autowired
 	private UserService userService;
+	@GetMapping("/confirm/code/{code}/username/{username}")
+	public int confirmUser(@PathVariable String code,@PathVariable String username) {
+		return userService.confirmUser(code, username);
+	}
 	@GetMapping("/email/{email}")
 	public User findByEmail(@PathVariable String email) {
 		return userService.findByUsername(email);

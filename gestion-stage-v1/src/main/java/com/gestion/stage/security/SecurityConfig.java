@@ -30,13 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("passe by config");
-		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		http.csrf().disable()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				// http.formLogin();
-				.and().authorizeRequests().antMatchers(HttpMethod.PUT, "/gestion-stage-api/user/").permitAll()
+		.authorizeRequests().antMatchers(HttpMethod.PUT, "/gestion-stage-api/user/").permitAll()
 				.antMatchers(HttpMethod.GET, "/gestion-stage-api/stage/**", "/gestion-stage-api/sujetForum/**",
 						"/gestion-stage-api/commentaire/**", "/gestion-stage-api/organismeAccueil/**",
 						"/gestion-stage-api/rapport/**")
 				.permitAll()
+				.antMatchers(HttpMethod.GET,"/pv/coordinateur/**").hasAnyAuthority("COORDINATEUR_ROLE")
+				.antMatchers(HttpMethod.POST,"/login/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/gestion-stage-api/user/**", "/gestion-stage-api/etablissement/**",
 						"/gestion-stage-api/ville/**", "/gestion-stage-api/pays/**", "/gestion-stage-api/filiere/**",
 						"/gestion-stage-api/departement/**")
@@ -49,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/gestion-stage-api/stage/**")
 				.permitAll().antMatchers("/gestion-stage-api/user/**", "/gestion-stage-api/coordnateur/**")
 				.hasAuthority("ADMIN_ROLE").antMatchers(HttpMethod.POST, "/gestion-stage-api/rapport/**")
-				.hasAnyAuthority("ADMIN_ROLE", "ETUDIANT_ROle", "COORDINATEUR_ROLE").anyRequest().authenticated().and()
+				.hasAnyAuthority("ADMIN_ROLE", "ETUDIANT_ROLE", "COORDINATEUR_ROLE")
+				.anyRequest().authenticated().and()
 				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

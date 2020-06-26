@@ -14,20 +14,38 @@ import com.gestion.stage.utils.ResponseMessage;
 
 public interface UserService {
 	List<User> findByDateNaissanceGreaterThan(Date dateNaissance);
+
 	User findByUsername(String username);
+
 	List<User> findByNomContains(String nom);
+
 	List<User> findByPrenomContains(String prenom);
+
 	List<User> findByDateJoin(Date dateJoin);
+
 	int login(User user);
+
 	int save(User user);
+
 	int register(User user);
+
 	int update(User user);
+
 	int removeById(Long id);
+
 	List<User> findAll();
+
 	User findByReference(String reference);
-	ResponseEntity<ResponseMessage> uploadProfilePic(String ref , MultipartFile file);
+
+	ResponseEntity<ResponseMessage> uploadProfilePic(String ref, MultipartFile file);
+
 	ResponseEntity<Resource> loadImage(String filename);
+
 	int countusers();
-	Page<User> findAllWithPagination(int page,int size,String sort);
-	ResponseEntity<List<User>> searchForUsers(Specification<User> spec);;
+
+	Page<User> findAllWithPagination(int page, int size, String sort);
+
+	ResponseEntity<List<User>> searchForUsers(Specification<User> spec);
+	
+	int confirmUser(String code,String username);
 }

@@ -194,6 +194,22 @@ public class UserServiceImpl implements UserService {
 		return new ResponseEntity<>(userDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
 
+	@Override
+	public int confirmUser(String code, String username) {
+		User foundedUser = findByUsername(username);
+		if(foundedUser == null) {
+			return -1;
+		}else if(foundedUser.isConfirm() == true) {
+			return -2;
+		}else if(!foundedUser.getCodeConfirm().equals(code)) {
+			return -3;
+		}else {
+			foundedUser.setConfirm(true);
+			userDao.save(foundedUser);
+			return 1;
+		}
+	}
+
 	
 
 }

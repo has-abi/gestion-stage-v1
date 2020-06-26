@@ -46,6 +46,8 @@ public interface EtudiantService {
 	
 	List<Etudiant> findByFiliere(Long id);
 	
+	int  validateEtudiant(String cne,String codeAppoge);
+	
 	
 
 }
