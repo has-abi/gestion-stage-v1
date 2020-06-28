@@ -34,9 +34,9 @@ public class GestionStageV1Application implements CommandLineRunner{
 		userService.register(new User(null, "U223111", "userTest", "userT", null, null, null, null, "test@test.com", "test", null, false, null, null, null, null));
 		userService.register(new User(null, "U223112", "userAdmin", "Admin", null, null, null, null, "admin@test.com", "admin", null, false, null, null, null, null));
 		
-//		User user = userDao.findByUsername("coord@gmail.com");
-//		System.out.println(user);
-//		user.setPassword(bCryptPasswordEncoder.encode("coord"));
-//		userDao.save(user);
+		User user = userDao.findByUsername("admin@admin.com");
+		System.out.println(user);
+		user.setPassword(bCryptPasswordEncoder.encode("admin"));
+		userDao.save(user);
 	}
 }

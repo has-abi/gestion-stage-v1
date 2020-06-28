@@ -33,10 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				// http.formLogin();
-		.authorizeRequests().antMatchers(HttpMethod.PUT, "/gestion-stage-api/user/").permitAll()
+		.authorizeRequests().antMatchers(HttpMethod.PUT).permitAll()
 				.antMatchers(HttpMethod.GET, "/gestion-stage-api/stage/**", "/gestion-stage-api/sujetForum/**",
 						"/gestion-stage-api/commentaire/**", "/gestion-stage-api/organismeAccueil/**",
-						"/gestion-stage-api/rapport/**")
+						"/gestion-stage-api/rapport/**","/gestion-stage-api/user/**")
 				.permitAll()
 				.antMatchers(HttpMethod.GET,"/pv/coordinateur/**").hasAnyAuthority("COORDINATEUR_ROLE")
 				.antMatchers(HttpMethod.POST,"/login/**").permitAll()

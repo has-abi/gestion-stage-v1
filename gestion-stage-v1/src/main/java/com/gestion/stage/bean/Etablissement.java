@@ -20,15 +20,13 @@ public class Etablissement{
 	private Long id;
 	@Column(length = 100,unique = true)
 	private String libelle;
-	@Column(length = 50)
 	private String adress;
-	@Column(length = 15,unique = true)
+	@Column(unique = true)
 	private String tele_fix;
-	@Column(length = 15,unique = true)
+	@Column(unique = true)
 	private String tele_gsm;
-	@Column(length = 50,unique = true)
+	@Column(unique = true)
 	private String email;
-	@Column(length = 25)
 	private String doyen;
 	
 	
