@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
 		} else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == "" || user.getPrenom() == null) {
 			return -3;
 		} else {
+			System.out.println(user);
 			user.setDateJoin(DateUtil.getDate());
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			userDao.save(user);

@@ -29,10 +29,7 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 
 	@Override
 	public int update(StageEncadreur stageEncadreur) {
-		StageEncadreur so = findByStageReferenceAndEncadreurReference(stageEncadreur.getEncadreur().getReference(), stageEncadreur.getStage().getReference());
-		if(so == null) {
-			return -1;
-		}else if(FieldsUtil.StageEncadreurFields(stageEncadreur)<0) {
+		 if(FieldsUtil.StageEncadreurFields(stageEncadreur)<0) {
 			return -2;
 		}else {
 			stageEncadrantDao.save(stageEncadreur);

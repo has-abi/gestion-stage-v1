@@ -32,24 +32,15 @@ public class StageEtudiantServiceImpl implements StageEtudiantService{
 
 	@Override
 	public int save(StageEtudiant stageEtudiant) {
-		if(findByStageReferenceAndEtudiantCin(stageEtudiant.getStage().getReference(), stageEtudiant.getEtudiant().getCin()) != null) {
-			return 2;
-		}else {
 			stageEtudiantDao.save(stageEtudiant);
 			return 1;
-		}
+		
 	}
 
 	@Override
 	public int update(StageEtudiant stageEtudiant) {
-		if(findByStageReferenceAndEtudiantCin(stageEtudiant.getStage().getReference(), stageEtudiant.getEtudiant().getCin()) == null) {
-			return -1;
-		}else if(FieldsUtil.StageEtudiantFields(stageEtudiant)<0) {
-			return -2;
-		}else {
 				stageEtudiantDao.save(stageEtudiant);
 				return 1;
-		}
 	}
 	
 	@Override

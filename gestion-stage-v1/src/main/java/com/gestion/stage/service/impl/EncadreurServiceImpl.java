@@ -62,9 +62,7 @@ public class EncadreurServiceImpl implements EncadreurService{
 			encadreur.getUser().setRoles(roles);
 			encadreur.getUser().setReference("u" + DateUtil.getDate().getTime());
 			encadreur.getUser().getRoles().add(roleService.getEncadreurRole());
-			if(userService.register(encadreur.getUser())<0) {
-				return -3;
-			}
+			System.out.println(userService.register(encadreur.getUser()));
 			encadreur.setUser(userService.findByReference(encadreur.getUser().getReference()));
 			encadreurDao.save(encadreur);
 			return 1;

@@ -88,11 +88,8 @@ public class StageServiceImpl implements StageService {
 	public Stage findByid(Long id) {
 		return stageDao.findById(id).get();
 	}
-	@Transactional
 	@Override
 	public int save(Stage stage) {
-		System.out.println(stage.getStageEtudiants());
-		System.out.println(stage);
 		if (FieldsUtil.StageFields(stage) < 0) {
 			return -1;
 		} else if (findByReference(stage.getReference()) != null) {
@@ -100,9 +97,7 @@ public class StageServiceImpl implements StageService {
 		} else if (DateUtil.compareDates(stage.getDateDebut(), stage.getDateFin()) <= 0) {
 			return -3;
 		}  else {
-			System.out.println("mohim hna felse");
 			if (stage.getOrganismeAccueil() != null) {
-				System.out.println("probleme dans lorganisme");
 				organismeAccueilService.save(stage.getOrganismeAccueil());
 				OrganismeAccueil oa = organismeAccueilService
 						.findByRaisonSocial(stage.getOrganismeAccueil().getRaisonSociale());
@@ -112,15 +107,12 @@ public class StageServiceImpl implements StageService {
 			stage.setDateCreation(DateUtil.getDate());
 			stageDao.save(stage);
 			
-			System.out.println("before size "+stage.getStageEtudiants().size());
-			if (stage.getStageEtudiants().size() > 0) {
-				System.out.println("size"+stage.getStageEtudiants().size());
+			if (stage.getStageEtudiants()!=null) {
 				for (StageEtudiant se : stage.getStageEtudiants()) {
 					System.out.println(etudiantService.findByCin(se.getEtudiant().getCin()));
 					if (etudiantService.findByCin(se.getEtudiant().getCin()) == null) {
 						etudiantService.save(se.getEtudiant());
 					}
-					System.out.println(etudiantService.findByCin(se.getEtudiant().getCin()));
 					se.setStage(findByReference(stage.getReference()));
 					se.setEtudiant(etudiantService.findByCin(se.getEtudiant().getCin()));
 					se.setDateAffectation(DateUtil.getDate());
@@ -128,13 +120,10 @@ public class StageServiceImpl implements StageService {
 				}
 			}
 			
-			System.out.println("the size of stageEncadreurs:"+stage.getStageEncadreurs().size());
-			System.out.println("stage encadreur ref"+stage.getStageEncadreurs().get(0));
-			if (stage.getStageEncadreurs().size() > 0) {
+			if (stage.getStageEncadreurs()!=null) {
 				for (StageEncadreur se : stage.getStageEncadreurs()) {
 					System.out.println(se.getEncadreur().getReference());
 					if (encadreurService.findByReference(se.getEncadreur().getReference()) == null) {
-						System.out.println("pour savoir quelle probleme dans encadreur");
 					System.out.println(encadreurService.save(se.getEncadreur()));	
 					}
 					se.setDateAffectation(DateUtil.getDate());
@@ -144,7 +133,7 @@ public class StageServiceImpl implements StageService {
 				}
 			}
 
-			if (stage.getStageMembreJuries().size() > 0) {
+			if (stage.getStageMembreJuries()!=null) {
 				for (StageMembreJury sm : stage.getStageMembreJuries()) {
 					if (membreJuryService.findByReference(sm.getMembreJury().getReference()) == null) {
 						membreJuryService.save(sm.getMembreJury());
