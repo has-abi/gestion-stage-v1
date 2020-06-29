@@ -34,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET,"/gestion-stage-api/mail/username/**");
 		web.ignoring().antMatchers(HttpMethod.GET,"/gestion-stage-api/user/confirm/code/**");
 		web.ignoring().antMatchers(HttpMethod.POST,"/gestion-stage-api/user/newUser/**");
+		web.ignoring().antMatchers(HttpMethod.GET,"/files/**");
+		web.ignoring().antMatchers(HttpMethod.GET,"/file/display/**");
 
 	}
 	@Override
