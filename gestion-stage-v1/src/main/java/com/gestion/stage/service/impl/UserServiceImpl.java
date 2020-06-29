@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.UserDao;
 import com.gestion.stage.service.facade.FileStorageService;
@@ -25,6 +26,7 @@ import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 import com.gestion.stage.utils.FileUtil;
+import com.gestion.stage.utils.LoginUser;
 import com.gestion.stage.utils.ResponseMessage;
 import com.google.common.net.HttpHeaders;
 
@@ -32,6 +34,10 @@ import com.google.common.net.HttpHeaders;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private EtudiantService etudiantService;
+	
 	@Autowired
 	private FileStorageService fileStorageService;
 	@Autowired
@@ -196,8 +202,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int confirmUser(String code, String username) {
-		User foundedUser = findByUsername(username);
+	public int confirmUser(String code, String cne) {
+		System.out.println(cne);
+		System.out.println(code);
+		User foundedUser = etudiantService.findByCin(cne).getUser();
 		if(foundedUser == null) {
 			return -1;
 		}else if(foundedUser.isConfirm() == true) {
@@ -206,6 +214,19 @@ public class UserServiceImpl implements UserService {
 			return -3;
 		}else {
 			foundedUser.setConfirm(true);
+			userDao.save(foundedUser);
+			return 1;
+		}
+	}
+
+	@Override
+	public int newUser(LoginUser user) {
+		User foundedUser = etudiantService.findByCin(user.getCne()).getUser();
+		if(foundedUser == null) {
+			return -1;
+		}else {
+			foundedUser.setUsername(user.getUsername());
+			foundedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			userDao.save(foundedUser);
 			return 1;
 		}

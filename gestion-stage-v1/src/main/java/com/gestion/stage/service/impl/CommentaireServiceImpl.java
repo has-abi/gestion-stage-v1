@@ -50,14 +50,11 @@ public class CommentaireServiceImpl implements CommentaireService {
 
 	@Override
 	public int updateCommentaire(Commentaire commentaire) {
-		Commentaire commentaireFounded = commentaireDao.findById(commentaire.getId()).get();
-		if (commentaireFounded != null) {
-			return -1;
-		} else {
+		
 			commentaire.setDateModification(DateUtil.getDate());
 			commentaireDao.save(commentaire);
 			return 1;
-		}
+		
 	}
 
 	@Override

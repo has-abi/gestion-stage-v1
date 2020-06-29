@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.LoginUser;
 import com.gestion.stage.utils.ResponseMessage;
 import com.sipios.springsearch.anotation.SearchSpec;
 
@@ -36,9 +37,13 @@ import com.sipios.springsearch.anotation.SearchSpec;
 public class UserRest {
 	@Autowired
 	private UserService userService;
-	@GetMapping("/confirm/code/{code}/username/{username}")
-	public int confirmUser(@PathVariable String code,@PathVariable String username) {
-		return userService.confirmUser(code, username);
+	@PostMapping("/newUser")
+	public int newUser(@RequestBody LoginUser user) {
+		return userService.newUser(user);
+	}
+	@GetMapping("/confirm/code/{code}/cne/{cne}")
+	public int confirmUser(@PathVariable String code,@PathVariable String cne) {
+		return userService.confirmUser(code, cne);
 	}
 	@GetMapping("/email/{email}")
 	public User findByEmail(@PathVariable String email) {

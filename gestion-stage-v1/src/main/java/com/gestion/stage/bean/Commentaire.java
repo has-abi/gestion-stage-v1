@@ -29,7 +29,6 @@ public class Commentaire{
 	private Date dateCreation;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateModification;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private User user;
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)

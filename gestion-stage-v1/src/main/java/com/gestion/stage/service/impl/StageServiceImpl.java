@@ -111,7 +111,7 @@ public class StageServiceImpl implements StageService {
 				for (StageEtudiant se : stage.getStageEtudiants()) {
 					System.out.println(etudiantService.findByCin(se.getEtudiant().getCin()));
 					if (etudiantService.findByCin(se.getEtudiant().getCin()) == null) {
-						etudiantService.save(se.getEtudiant());
+					System.out.println(etudiantService.save(se.getEtudiant()));
 					}
 					se.setStage(findByReference(stage.getReference()));
 					se.setEtudiant(etudiantService.findByCin(se.getEtudiant().getCin()));

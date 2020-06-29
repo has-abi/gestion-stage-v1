@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.User;
+import com.gestion.stage.utils.LoginUser;
 import com.gestion.stage.utils.ResponseMessage;
 
 public interface UserService {
@@ -33,6 +34,8 @@ public interface UserService {
 
 	int removeById(Long id);
 
+	int newUser(LoginUser user);
+
 	List<User> findAll();
 
 	User findByReference(String reference);
@@ -46,6 +49,6 @@ public interface UserService {
 	Page<User> findAllWithPagination(int page, int size, String sort);
 
 	ResponseEntity<List<User>> searchForUsers(Specification<User> spec);
-	
-	int confirmUser(String code,String username);
+
+	int confirmUser(String code, String cne);
 }

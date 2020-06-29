@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,7 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 
 	}
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	    web.ignoring().antMatchers(HttpMethod.PUT,"/gestion-stage-api/user/image/**");
+		web.ignoring().antMatchers(HttpMethod.GET,"/gestion-stage-api/etudiant/confirm/**");
+		web.ignoring().antMatchers(HttpMethod.GET,"/gestion-stage-api/mail/username/**");
+		web.ignoring().antMatchers(HttpMethod.GET,"/gestion-stage-api/user/confirm/code/**");
+		web.ignoring().antMatchers(HttpMethod.POST,"/gestion-stage-api/user/newUser/**");
 
+	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("passe by config");

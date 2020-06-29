@@ -117,52 +117,5 @@ public class FileRest {
 				.body(file);
 	}
 
-	@GetMapping("/report/id/{id}")
-	public void report(@PathVariable Long id, HttpServletResponse response) {
-		List<Convention> conventions = new ArrayList<Convention>();
-		Convention c = new Convention();
-		Stage s = stageService.findByid(id);
-		c.setOrganisme_nom(s.getOrganismeAccueil().getRaisonSociale());
-		c.setOrganisme_adress(s.getOrganismeAccueil().getAdress());
-		c.setOrganisme_tele(s.getOrganismeAccueil().getTele());
-		conventions.add(c);
-		System.out.println(conventions.size());
-		try {
-			File file = ResourceUtils.getFile("classpath:static/Convention_de_stage1.jrxml");
-
-			InputStream input = new FileInputStream(file);
-
-			// Compile the Jasper report from .jrxml to .japser
-
-			JasperReport jasperReport = JasperCompileManager.compileReport(input);
-
-			// Get your data source
-
-			JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(conventions);
-
-			// Add parameters
-
-			Map<String, Object> parameters = new HashMap<>();
-
-			parameters.put("organisme_nom", s.getOrganismeAccueil().getRaisonSociale());
-			parameters.put("organisme_tele", s.getOrganismeAccueil().getRaisonSociale());
-			parameters.put("organisme_adress", s.getOrganismeAccueil().getRaisonSociale());
-			// Fill the report
-
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, source);
-
-			// Export the report to a PDF file
-
-			JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-			response.setContentType("application/pdf");
-			response.addHeader("Content-Disposition", "inline; filename=jasper.pdf;");
-			System.out.println("PDF File Generated !!");
-
-		} catch (Exception e) {
-
-			System.out.println(e.getMessage());
-
-		}
-
-	}
+	
 }

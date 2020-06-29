@@ -27,7 +27,10 @@ public class MailService {
 	}
 	
 	public void sendEmail(Email email) throws MailException {
+		
+		System.out.println(email.getCne());
 		Etudiant foundedEtud = etudiantService.findByCin(email.getCne());
+		
 		String code = generateCode();
 		if(foundedEtud != null) {
 			User foundedU = foundedEtud.getUser();

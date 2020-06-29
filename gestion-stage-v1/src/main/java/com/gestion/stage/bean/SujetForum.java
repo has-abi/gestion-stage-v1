@@ -36,7 +36,7 @@ public class SujetForum{
 	@ManyToOne
 	private Stage stage;
 	
-	@OneToMany
+	@OneToMany(mappedBy="sujetForum")
 	private List<Commentaire> commentaires;
 	
 	
