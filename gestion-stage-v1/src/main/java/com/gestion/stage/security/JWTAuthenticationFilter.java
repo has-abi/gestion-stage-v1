@@ -20,6 +20,10 @@ import com.gestion.stage.bean.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;
 
@@ -31,18 +35,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		System.out.println("attempt");
 		User user = null;
 		try {
 			user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-			System.out.println("user deserir");
-			System.out.println(user.getPassword());
-			System.out.println(user);
 		} catch (Exception e) {
-			System.out.println("exception");
 			throw new RuntimeException(e);
 		}
-		System.out.println("retour");
 		System.out.println(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 		return authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
@@ -51,7 +49,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		System.out.println("successful auth");
 		org.springframework.security.core.userdetails.User springUser = (org.springframework.security.core.userdetails.User) authResult
 				.getPrincipal();
 		String jwtToken = Jwts.builder().setSubject(springUser.getUsername())

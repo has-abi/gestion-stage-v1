@@ -15,11 +15,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Rapport{
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Rapport {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String reference;
 	@Temporal(TemporalType.DATE)
@@ -33,5 +40,5 @@ public class Rapport{
 
 	@OneToOne
 	private Document document;
-	
+
 }

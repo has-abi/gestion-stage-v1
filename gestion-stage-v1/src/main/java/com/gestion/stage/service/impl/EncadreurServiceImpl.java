@@ -24,60 +24,55 @@ import com.gestion.stage.service.facade.RoleService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
+
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class EncadreurServiceImpl implements EncadreurService{
-	
+public class EncadreurServiceImpl implements EncadreurService {
+
 	@Autowired
 	private EncadreurDao encadreurDao;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
-	@Override
-	public Page<Encadreur> findByProfession(String profession,int page,int size) {
-		return encadreurDao.findByProfession(profession,PageRequest.of(page, size));
-	}
 
 	@Override
-	public Page<Encadreur> findAll(int page,int size,String sort) {
-		if(sort.equals("asc")) {
-			return encadreurDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
-		}else if(sort.equals("desc")) {
-			return encadreurDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
-		}else {
+	public Page<Encadreur> findAll(int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return encadreurDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return encadreurDao.findAll(PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public int save(Encadreur encadreur) {
 		Encadreur foundedencadreur = findByReference(encadreur.getReference());
-		if(foundedencadreur != null) {
+		if (foundedencadreur != null) {
 			return -1;
-		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
+		} else if (FieldsUtil.encadreurFields(encadreur) < 0) {
 			return -2;
-		}else {
+		} else {
 			List<Role> roles = new ArrayList<Role>();
 			encadreur.getUser().setRoles(roles);
 			encadreur.getUser().setReference("u" + DateUtil.getDate().getTime());
 			encadreur.getUser().getRoles().add(roleService.getEncadreurRole());
-			System.out.println(userService.register(encadreur.getUser()));
+			userService.register(encadreur.getUser());
 			encadreur.setUser(userService.findByReference(encadreur.getUser().getReference()));
 			encadreurDao.save(encadreur);
 			return 1;
 		}
 	}
 
-
 	@Override
-	public Page<Encadreur> findByType(String type,int page,int size) {
-		return encadreurDao.findByType(type,PageRequest.of(page, size));
-	}
-
-	@Override
-	public Page<Encadreur> findByQualite(String qualite,int page,int size) {
-		return encadreurDao.findByQualite(qualite,PageRequest.of(page, size));
+	public Page<Encadreur> findByType(String type, int page, int size) {
+		return encadreurDao.findByType(type, PageRequest.of(page, size));
 	}
 
 	@Override
@@ -93,25 +88,26 @@ public class EncadreurServiceImpl implements EncadreurService{
 	@Override
 	public int update(Encadreur encadreur) {
 		Encadreur foundedencadreur = findByReference(encadreur.getReference());
-		if(foundedencadreur == null) {
+		if (foundedencadreur == null) {
 			return -1;
-		}else if(FieldsUtil.encadreurFields(encadreur)<0) {
+		} else if (FieldsUtil.encadreurFields(encadreur) < 0) {
 			return -2;
-		}else {
-			if(this.userService.update(encadreur.getUser())<0) {
+		} else {
+			if (this.userService.update(encadreur.getUser()) < 0) {
 				return -3;
 			}
 			encadreurDao.save(encadreur);
 			return 1;
 		}
 	}
+
 	@Transactional
 	@Override
 	public int removeByReference(String reference) {
 		Encadreur encadreur = findByReference(reference);
-		if(encadreur == null) {
+		if (encadreur == null) {
 			return -1;
-		}else {
+		} else {
 			User u = encadreur.getUser();
 			encadreurDao.delete(encadreur);
 			userService.removeById(u.getId());
@@ -129,10 +125,8 @@ public class EncadreurServiceImpl implements EncadreurService{
 		return encadreurDao.findAll(PageRequest.of(page, size));
 	}
 
-
 	@Override
-	public Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page,
-			int size) {
+	public Page<Encadreur> findByUserNomContainsOrUserPrenomContains(String nom, String prenom, int page, int size) {
 		return encadreurDao.findByUserNomContainsOrUserPrenomContains(nom, prenom, PageRequest.of(page, size));
 	}
 
@@ -142,12 +136,13 @@ public class EncadreurServiceImpl implements EncadreurService{
 	}
 
 	@Override
-	public Page<Encadreur> findByCoordinateur(Long id, int page, int size,String sort) {
-		if(sort.equals("asc")) {
-			return encadreurDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
-		} if(sort.equals("desc")) {
-			return encadreurDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
-		}else {
+	public Page<Encadreur> findByCoordinateur(Long id, int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return encadreurDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")));
+		}
+		if (sort.equals("desc")) {
+			return encadreurDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+		} else {
 			return null;
 		}
 	}
@@ -166,5 +161,22 @@ public class EncadreurServiceImpl implements EncadreurService{
 	public List<Encadreur> findByFiliere(Long id) {
 		return encadreurDao.findByFiliere(id);
 	}
-	
+
+	@Override
+	public Encadreur fetchEncadreur(String username) {
+		List<Encadreur> encads = encadreurDao.findAll();
+		User foundedUser = userService.findByUsername(username);
+		if (foundedUser == null) {
+			return null;
+		} else {
+			for (Encadreur e : encads) {
+				if (e.getUser().getId() == foundedUser.getId()) {
+					return e;
+				}
+			}
+			return null;
+		}
+
+	}
+
 }

@@ -16,31 +16,40 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestion.stage.bean.Pays;
 import com.gestion.stage.service.facade.PaysService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/pays")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class PaysRest {
 	@Autowired
 	private PaysService paysService;
+
 	@PutMapping("/")
 	public int update(@RequestBody Pays pays) {
 		return paysService.update(pays);
 	}
+
 	@DeleteMapping("/nom/{nom}")
 	public int removeByNom(@PathVariable String nom) {
 		return paysService.removeByNom(nom);
 	}
+
 	@GetMapping("/nom/{nom}")
 	public Pays findByNom(@PathVariable String nom) {
 		return paysService.findByNom(nom);
 	}
+
 	@PostMapping("/")
 	public int save(@RequestBody Pays pays) {
 		return paysService.save(pays);
 	}
+
 	@GetMapping("/")
 	public List<Pays> findAll() {
 		return paysService.findAll();
 	}
-	
+
 }

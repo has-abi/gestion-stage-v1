@@ -12,7 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.utils.LoginUser;
 import com.gestion.stage.utils.ResponseMessage;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface UserService {
 	List<User> findByDateNaissanceGreaterThan(Date dateNaissance);
 
@@ -51,4 +54,12 @@ public interface UserService {
 	ResponseEntity<List<User>> searchForUsers(Specification<User> spec);
 
 	int confirmUser(String code, String cne);
+	
+	int checkPassword(String ref,String pwd);
+	
+	int checkSecurityQuestion(String username,String question,String reponse);
+	
+	int updatePassword(String username,String pwd);
+	
+	int checkCode(String username,String code);
 }

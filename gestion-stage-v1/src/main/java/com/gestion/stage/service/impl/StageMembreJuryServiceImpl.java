@@ -9,11 +9,14 @@ import com.gestion.stage.bean.StageMembreJury;
 import com.gestion.stage.dao.StageMembreJuryDao;
 import com.gestion.stage.service.facade.StageMembreJuryService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class StageMembreJuryServiceImpl  implements StageMembreJuryService{
+public class StageMembreJuryServiceImpl implements StageMembreJuryService {
 	@Autowired
 	private StageMembreJuryDao stageMembreJuryDao;
-
 
 	@Override
 	public List<StageMembreJury> findAll() {
@@ -22,23 +25,23 @@ public class StageMembreJuryServiceImpl  implements StageMembreJuryService{
 
 	@Override
 	public int save(StageMembreJury stageMembreJury) {
-			stageMembreJuryDao.save(stageMembreJury);
-			return 1;
+		stageMembreJuryDao.save(stageMembreJury);
+		return 1;
 	}
 
 	@Override
 	public int update(StageMembreJury stageMembreJury) {
-				stageMembreJuryDao.save(stageMembreJury);
-				return 1;
+		stageMembreJuryDao.save(stageMembreJury);
+		return 1;
 	}
 
 	@Override
 	public int removeByid(Long id) {
-		if(id!=null && id!=0) {
-			StageMembreJury sm =stageMembreJuryDao.findById(id).get();
+		if (id != null && id != 0) {
+			StageMembreJury sm = stageMembreJuryDao.findById(id).get();
 			stageMembreJuryDao.delete(sm);
 			return 1;
-		}else {
+		} else {
 			return -1;
 		}
 	}

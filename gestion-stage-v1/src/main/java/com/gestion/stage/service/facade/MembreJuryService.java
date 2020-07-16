@@ -7,13 +7,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.MembreJury;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface MembreJuryService {
 	MembreJury findByUserId(Long id);
 
 	MembreJury findByUserEmail(String email);
-
-	Page<MembreJury> findByProfession(String profession, int page, int size);
 
 	Page<MembreJury> findAll(int page, int size, String sort);
 

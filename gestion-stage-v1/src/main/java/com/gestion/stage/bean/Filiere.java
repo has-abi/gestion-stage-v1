@@ -1,6 +1,5 @@
 package com.gestion.stage.bean;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,20 +10,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Filiere{	
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Filiere {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String libelle;
 	private String abbr;
 	private String diplome;
 	@ManyToOne
 	private Departement departement;
-	
-	
 
-	
-	
 }

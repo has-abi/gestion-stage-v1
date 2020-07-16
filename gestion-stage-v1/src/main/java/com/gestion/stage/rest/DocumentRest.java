@@ -19,12 +19,17 @@ import com.gestion.stage.bean.Document;
 import com.gestion.stage.service.facade.DocumentService;
 import com.gestion.stage.utils.ResponseMessage;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/stage/document")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class DocumentRest {
 	@Autowired
 	private DocumentService documentService;
+
 	@GetMapping("/{filename:.+}")
 	public ResponseEntity<Resource> loadFile(@PathVariable String filename) {
 		return documentService.loadFile(filename);
@@ -46,8 +51,7 @@ public class DocumentRest {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<ResponseMessage> save(@RequestParam String titre,
-			@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<ResponseMessage> save(@RequestParam String titre, @RequestParam("file") MultipartFile file) {
 		return documentService.save(titre, file);
 	}
 

@@ -18,6 +18,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+/**
+* @author  Hassan Abida & Aicha ELABDELLAOUI 
+* @version 1.0
+*/
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class StageMembreJury{

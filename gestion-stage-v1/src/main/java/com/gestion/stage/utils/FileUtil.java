@@ -9,6 +9,10 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public class FileUtil {
 	public static String getExt(MultipartFile file) {
 		String[] fileFrags = file.getOriginalFilename().split("\\.");
@@ -38,9 +42,10 @@ public class FileUtil {
 			root = Paths.get("uploads/documents");
 		} else if (ext.equals("png") || ext.equals("jpg") || ext.equals("jpeg")) {
 			root = Paths.get("uploads/profile_pictures");
-		}else {
+		} else {
 			root = Paths.get("uploads");
-		} return root;
+		}
+		return root;
 	}
 
 	public static MultipartFile getNewFile(String fileName, MultipartFile currentFile) {

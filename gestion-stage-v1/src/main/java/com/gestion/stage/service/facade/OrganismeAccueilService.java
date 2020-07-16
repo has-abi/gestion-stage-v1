@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.OrganismeAccueil;
 import com.gestion.stage.utils.OrganismeStatistics;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface OrganismeAccueilService {
 	Page<OrganismeAccueil> findByTypeOrganismeType(String type, int page, int size);
 

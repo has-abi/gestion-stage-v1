@@ -1,6 +1,5 @@
 package com.gestion.stage.bean;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +9,20 @@ import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Pays{
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Pays {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 30)
 	private String nom;
-	
+
 }

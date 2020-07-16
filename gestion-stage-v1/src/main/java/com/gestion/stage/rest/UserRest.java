@@ -31,91 +31,130 @@ import com.gestion.stage.utils.LoginUser;
 import com.gestion.stage.utils.ResponseMessage;
 import com.sipios.springsearch.anotation.SearchSpec;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/user")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class UserRest {
 	@Autowired
 	private UserService userService;
+
+	@PostMapping("/checkCode")
+	public int checkCode(@RequestBody User user) {
+		return userService.checkCode(user.getUsername(), user.getCodeConfirm());
+	}
+
+	@PostMapping("/checkSecurityQuestion")
+	public int checkSecurityQuestion(@RequestBody User user) {
+		return userService.checkSecurityQuestion(user.getUsername(), user.getQuestion(), user.getReponce());
+	}
+
+	@PostMapping("/updatePassword")
+	public int updatePassword(@RequestBody User user) {
+		return userService.updatePassword(user.getUsername(), user.getPassword());
+	}
+
+	@PostMapping("/checkPassword")
+	public int checkPassword(@RequestBody User user) {
+		return userService.checkPassword(user.getReference(), user.getPassword());
+	}
+
 	@PostMapping("/newUser")
 	public int newUser(@RequestBody LoginUser user) {
 		return userService.newUser(user);
 	}
+
 	@GetMapping("/confirm/code/{code}/cne/{cne}")
-	public int confirmUser(@PathVariable String code,@PathVariable String cne) {
+	public int confirmUser(@PathVariable String code, @PathVariable String cne) {
 		return userService.confirmUser(code, cne);
 	}
-	@GetMapping("/email/{email}")
-	public User findByEmail(@PathVariable String email) {
+
+	@PostMapping("/email")
+	public User findByEmail(@RequestBody String email) {
 		return userService.findByUsername(email);
 	}
+
 	@GetMapping("/count")
 	public int countusers() {
 		return userService.countusers();
 	}
+
 	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
-	public Page<User> findAllWithPagination(@PathVariable int page,@PathVariable int size,@PathVariable String sort) {
+	public Page<User> findAllWithPagination(@PathVariable int page, @PathVariable int size, @PathVariable String sort) {
 		return userService.findAllWithPagination(page, size, sort);
 	}
+
 	@GetMapping("/search")
 	public ResponseEntity<List<User>> searchForUsers(@SearchSpec Specification<User> spec) {
 		return userService.searchForUsers(spec);
 	}
+
 	@Autowired
 	private FileStorageService fileStorageService;
+
 	@GetMapping("/reference/{reference}")
 	public User findByReference(@PathVariable String reference) {
 		return userService.findByReference(reference);
 	}
+
 	@PutMapping("/photo")
-	public ResponseEntity<ResponseMessage> uploadProfilePic(@RequestParam("ref") String ref, @RequestParam("file") MultipartFile file) {
+	public ResponseEntity<ResponseMessage> uploadProfilePic(@RequestParam("ref") String ref,
+			@RequestParam("file") MultipartFile file) {
 		return userService.uploadProfilePic(ref, file);
 	}
+
 	public ResponseEntity<Resource> loadImage(String filename) {
 		return userService.loadImage(filename);
 	}
+
 	@GetMapping("/dateNaissance/{dateNaissance}")
-	public List<User> findByDateNaissanceGreaterThan(@PathVariable @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateNaissance) {
+	public List<User> findByDateNaissanceGreaterThan(
+			@PathVariable @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateNaissance) {
 		return userService.findByDateNaissanceGreaterThan(dateNaissance);
 	}
+
 	@GetMapping("/nom/{nom}")
 	public List<User> findByNomContains(@PathVariable String nom) {
 		return userService.findByNomContains(nom);
 	}
+
 	@GetMapping("/prenom/{prenom}")
 	public List<User> findByPrenomContains(@PathVariable String prenom) {
 		return userService.findByPrenomContains(prenom);
 	}
+
 	@GetMapping("/dateJoin/{dateJoin}")
 	public List<User> findByDateJoin(@PathVariable @DateTimeFormat(pattern = "yyyy-mm-dd") Date dateJoin) {
 		return userService.findByDateJoin(dateJoin);
 	}
-	@PostMapping("/login")
-	public int login(@RequestBody User user) {
-		return userService.login(user);
-	}
+
 	@PostMapping("/register")
 	public int register(@RequestBody User user) {
 		return userService.register(user);
 	}
+
 	@PutMapping("/")
 	public int update(@RequestBody User user) {
 		return userService.update(user);
 	}
+
 	@DeleteMapping("/id/{id}")
 	public int removeById(@PathVariable Long id) {
 		return userService.removeById(id);
 	}
+
 	@GetMapping("/")
 	public List<User> findAll() {
 		return userService.findAll();
 	}
+
 	@GetMapping("/image/{image}")
 	public ResponseEntity<InputStreamResource> getImage(@PathVariable String image) throws IOException {
 		Resource imgFile = fileStorageService.loadPics(image);
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(new InputStreamResource(imgFile.getInputStream()));
-    }
+		return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG)
+				.body(new InputStreamResource(imgFile.getInputStream()));
+	}
 }

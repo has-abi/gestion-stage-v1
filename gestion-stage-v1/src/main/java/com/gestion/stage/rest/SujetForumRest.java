@@ -21,32 +21,43 @@ import com.gestion.stage.bean.SujetForum;
 import com.gestion.stage.service.facade.SujetForumService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/sujetForum")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class SujetForumRest {
 	@Autowired
 	private SujetForumService sujetForumService;
+
 	@GetMapping("/count")
 	public int countSujets() {
 		return sujetForumService.countSujets();
 	}
+
 	@PutMapping("/")
 	public int update(@RequestBody SujetForum sujetForum) {
 		return sujetForumService.update(sujetForum);
 	}
+
 	@GetMapping("/content/{content}")
 	public List<SujetForum> findByContentContains(@PathVariable String content) {
 		return sujetForumService.findByContentContains(content);
 	}
+
 	@GetMapping("/user/id/{id}")
 	public List<SujetForum> findByUserId(@PathVariable Long id) {
 		return sujetForumService.findByUserId(id);
 	}
+
 	@GetMapping("/page/{page}/size/{size}/sort/{sort}")
-	public Page<SujetForum> findAllWithPagination( @PathVariable int page,@PathVariable  int size,@PathVariable String sort) {
+	public Page<SujetForum> findAllWithPagination(@PathVariable int page, @PathVariable int size,
+			@PathVariable String sort) {
 		return sujetForumService.findAllWithPagination(page, size, sort);
 	}
+
 	@GetMapping("/search")
 	public ResponseEntity<List<SujetForum>> searchForSujetForums(@SearchSpec Specification<SujetForum> spec) {
 		return sujetForumService.searchForSujetForums(spec);

@@ -1,7 +1,5 @@
 package com.gestion.stage.bean;
 
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +12,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Encadreur{
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Encadreur {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true)
 	private String reference;
@@ -26,6 +32,6 @@ public class Encadreur{
 	private String profession;
 	private String qualite;
 	private String type;
-	@OneToOne	
+	@OneToOne
 	private User user;
-}	
+}

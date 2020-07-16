@@ -16,13 +16,17 @@ import com.gestion.stage.service.facade.PaysService;
 import com.gestion.stage.service.facade.VilleService;
 import com.gestion.stage.utils.VilleStatistics;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class VilleServiceImpl implements VilleService {
 	@Autowired
 	private VilleDao villeDao;
 	@Autowired
 	private PaysService paysService;
-	
+
 	@Override
 	public Ville findbyId(Long id) {
 		return villeDao.findById(id).get();
@@ -52,9 +56,9 @@ public class VilleServiceImpl implements VilleService {
 	@Transactional
 	@Override
 	public int removeByid(Long id) {
-		if(id == null || id == 0) {
+		if (id == null || id == 0) {
 			return -1;
-		}else {
+		} else {
 			Ville v = findbyId(id);
 			if (v == null) {
 				return -1;
@@ -63,18 +67,17 @@ public class VilleServiceImpl implements VilleService {
 				return 1;
 			}
 		}
-		
+
 	}
 
 	@Override
 	public int update(Ville ville) {
-		
-		
-			Ville v = findbyId(ville.getId());
-			if(v==null) {
-				return -2;
-			}
-				villeDao.save(ville);
+
+		Ville v = findbyId(ville.getId());
+		if (v == null) {
+			return -2;
+		}
+		villeDao.save(ville);
 		return 1;
 	}
 
@@ -98,24 +101,24 @@ public class VilleServiceImpl implements VilleService {
 		List<VilleStatistics> villeS = new ArrayList<VilleStatistics>();
 		List<Ville> foundedVilles = villesParFilier(id);
 		int nombre = 0;
-		for(int i = 0;i<foundedVilles.size();i++) {
+		for (int i = 0; i < foundedVilles.size(); i++) {
 			nombre = 0;
 			Ville v = foundedVilles.get(i);
-			if(villeS.stream().filter(d->d.getNom().equals(v.getNom())).collect(Collectors.toList()).size() == 0) {
-				for(int j = 0;j<foundedVilles.size();j++) {
-					if(v.getId() == foundedVilles.get(j).getId()) nombre++;
+			if (villeS.stream().filter(d -> d.getNom().equals(v.getNom())).collect(Collectors.toList()).size() == 0) {
+				for (int j = 0; j < foundedVilles.size(); j++) {
+					if (v.getId() == foundedVilles.get(j).getId())
+						nombre++;
 				}
 				villeS.add(new VilleStatistics(foundedVilles.get(i).getNom(), nombre));
 			}
 		}
-		
+
 		return villeS;
 	}
-	
+
 	@Override
 	public List<Ville> villesParFilier(Long idFiliere) {
 		return villeDao.villesParFilier(idFiliere);
 	}
-	
 
 }

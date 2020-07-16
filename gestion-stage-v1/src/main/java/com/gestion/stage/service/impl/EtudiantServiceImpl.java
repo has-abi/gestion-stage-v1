@@ -20,6 +20,7 @@ import com.gestion.stage.bean.Filiere;
 import com.gestion.stage.bean.Role;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.EtudiantDao;
+import com.gestion.stage.dao.UserDao;
 import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.service.facade.FiliereService;
 import com.gestion.stage.service.facade.RoleService;
@@ -27,12 +28,18 @@ import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class EtudiantServiceImpl implements EtudiantService {
 	@Autowired
 	private EtudiantDao etudiantDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserDao userDao;
 	@Autowired
 	private FiliereService filiereService;
 	@Autowired
@@ -71,8 +78,6 @@ public class EtudiantServiceImpl implements EtudiantService {
 				etudiant.getUser().setReference("u" + DateUtil.getDate().getTime());
 				List<Role> roles = new ArrayList<Role>();
 				etudiant.getUser().setRoles(roles);
-				System.out.println(etudiant.getUser().getRoles());
-				System.out.println(roleService.getEtudiantRole());
 				etudiant.getUser().getRoles().add(roleService.getEtudiantRole());
 				etudiant.getUser().setActive(false);
 				if (userService.save(etudiant.getUser()) < 0) {
@@ -87,15 +92,15 @@ public class EtudiantServiceImpl implements EtudiantService {
 	}
 
 	@Override
-	public Page<Etudiant> findAll(int page,int size,String sort) {
-		if(sort.equals("asc")) {
-			return etudiantDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));	
-		}else if(sort.equals("desc")) {
-			return etudiantDao.findAll(PageRequest.of(page, size,Sort.by(Direction.DESC,"id")));
-		}else {
+	public Page<Etudiant> findAll(int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return etudiantDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return etudiantDao.findAll(PageRequest.of(page, size, Sort.by(Direction.DESC, "id")));
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
@@ -107,14 +112,13 @@ public class EtudiantServiceImpl implements EtudiantService {
 			return -2;
 		} else {
 			List<Etudiant> etuds = etudiantDao.findAll();
-			for(Etudiant e : etuds) {
-				if(e.getId()!=etudiant.getId() && (e.getCin().equals(etudiant.getCin()) || e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
+			for (Etudiant e : etuds) {
+				if (e.getId() != etudiant.getId() && (e.getCin().equals(etudiant.getCin())
+						|| e.getCodeAppoge().equals(etudiant.getCodeAppoge()))) {
 					return -3;
 				}
 			}
-			if(this.userService.update(etudiant.getUser())<0) {
-				return -4;
-			}
+			userDao.save(etudiant.getUser());
 			etudiantDao.save(etudiant);
 			return 1;
 		}
@@ -133,9 +137,6 @@ public class EtudiantServiceImpl implements EtudiantService {
 			return 1;
 		}
 	}
-
-	
-	
 
 	@Override
 	public Etudiant findByUserEmail(String email) {
@@ -168,17 +169,17 @@ public class EtudiantServiceImpl implements EtudiantService {
 	}
 
 	@Override
-	public Page<Etudiant> findByCoordinateur(long id, int page, int size,String sort) {
-		if(sort.equals("asc")) {
-			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.ASC,"id")));
-		}else if(sort.equals("desc")) {
-			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"id")));
-		}else if(sort.equals("nom")){
-			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size,Sort.by(Sort.Direction.DESC,"nom")));
-		}else{
+	public Page<Etudiant> findByCoordinateur(long id, int page, int size, String sort) {
+		if (sort.equals("asc")) {
+			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+		} else if (sort.equals("nom")) {
+			return etudiantDao.findByCoordinateur(id, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "nom")));
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	@Override
@@ -204,11 +205,11 @@ public class EtudiantServiceImpl implements EtudiantService {
 	@Override
 	public int validateEtudiant(String cne, String codeAppoge) {
 		Etudiant foundedEtudiant = findByCin(cne);
-		if(foundedEtudiant == null) {
+		if (foundedEtudiant == null) {
 			return -2;
-		}else if(!codeAppoge.equals(foundedEtudiant.getCodeAppoge())) {
+		} else if (!codeAppoge.equals(foundedEtudiant.getCodeAppoge())) {
 			return -1;
-		}else {
+		} else {
 			return 1;
 		}
 	}

@@ -22,6 +22,10 @@ import com.gestion.stage.service.facade.StageService;
 import com.gestion.stage.service.facade.TacheService;
 import com.gestion.stage.utils.DateUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class TacheServiceImpl implements TacheService {
 	@Autowired
@@ -52,9 +56,9 @@ public class TacheServiceImpl implements TacheService {
 		Encadreur e = encadreurService.findByReference(tache.getEncadreur().getReference());
 		if (tache.getContenu() == "" || tache.getContenu() == null || tache.getDateLimite() == null) {
 			return -1;
-		} else if(stage == null || e == null) {
+		} else if (stage == null || e == null) {
 			return -2;
-		}else {
+		} else {
 			tache.setStage(stage);
 			tache.setEncadreur(e);
 			tache.setDateCreation(DateUtil.getDate());
@@ -98,6 +102,18 @@ public class TacheServiceImpl implements TacheService {
 	}
 
 	@Override
+	public int effectuerTache(String reference) {
+		Tache foundedTache = findByReference(reference);
+		if (foundedTache == null) {
+			return -1;
+		} else {
+			foundedTache.setEffectuer(true);
+			tacheDao.save(foundedTache);
+			return 1;
+		}
+	}
+
+	@Override
 	public List<Tache> findByStageReference(String reference) {
 		return tacheDao.findByStageReference(reference);
 	}
@@ -116,12 +132,12 @@ public class TacheServiceImpl implements TacheService {
 	}
 
 	@Override
-	public Page<Tache> findByEncadreurReference(String reference,int page,int size) {
+	public Page<Tache> findByEncadreurReference(String reference, int page, int size) {
 		return tacheDao.findByEncadreurReference(reference, PageRequest.of(page, size));
 	}
 
 	@Override
-	public Page<Tache> findByEtudiant(Long id,int page,int size) {
+	public Page<Tache> findByEtudiant(Long id, int page, int size) {
 		return tacheDao.findByEtudiant(id, PageRequest.of(page, size));
 	}
 
@@ -129,7 +145,5 @@ public class TacheServiceImpl implements TacheService {
 	public ResponseEntity<List<Tache>> searchForTaches(Specification<Tache> spec) {
 		return new ResponseEntity<>(tacheDao.findAll(Specification.where(spec)), HttpStatus.OK);
 	}
-	
-	
 
 }

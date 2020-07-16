@@ -8,10 +8,16 @@ import org.springframework.stereotype.Service;
 import com.gestion.stage.bean.Role;
 import com.gestion.stage.dao.RoleDao;
 import com.gestion.stage.service.facade.RoleService;
+
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleDao roleDao;
+
 	@Override
 	public Role findByRole(String role) {
 		return roleDao.findByRole(role);

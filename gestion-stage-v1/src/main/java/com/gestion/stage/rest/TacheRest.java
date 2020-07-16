@@ -21,34 +21,37 @@ import com.gestion.stage.bean.Tache;
 import com.gestion.stage.service.facade.TacheService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/tache")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class TacheRest {
 	@Autowired
 	private TacheService tacheService;
-	
+
 	@GetMapping("/search")
 	public ResponseEntity<List<Tache>> searchForTaches(@SearchSpec Specification<Tache> spec) {
 		return tacheService.searchForTaches(spec);
 	}
 
 	@GetMapping("/encadreur/reference/{reference}/page/{page}/size/{size}")
-	public Page<Tache> findByEncadreurReference(@PathVariable String reference,@PathVariable int page,@PathVariable int size) {
+	public Page<Tache> findByEncadreurReference(@PathVariable String reference, @PathVariable int page,
+			@PathVariable int size) {
 		return tacheService.findByEncadreurReference(reference, page, size);
 	}
 
 	@GetMapping("/etudiant/id/{id}/page/{page}/size/{size}")
-	public Page<Tache> findByEtudiant(@PathVariable Long id,@PathVariable int page,@PathVariable int size) {
+	public Page<Tache> findByEtudiant(@PathVariable Long id, @PathVariable int page, @PathVariable int size) {
 		return tacheService.findByEtudiant(id, page, size);
 	}
-
 
 	@GetMapping("/stage/reference/{reference}")
 	public List<Tache> findByStageReference(@PathVariable String reference) {
 		return tacheService.findByStageReference(reference);
 	}
-
 
 	@GetMapping("/dateCreation/{dateCreation}")
 	public List<Tache> findByDateCreation(@PathVariable Date dateCreation) {
@@ -88,6 +91,11 @@ public class TacheRest {
 	@PutMapping("/valider/reference/{reference}")
 	public int validerTache(@PathVariable String reference) {
 		return tacheService.validerTache(reference);
+	}
+
+	@PutMapping("/effectuer/reference/{reference}")
+	public int effectuerTache(@PathVariable String reference) {
+		return tacheService.effectuerTache(reference);
 	}
 
 }

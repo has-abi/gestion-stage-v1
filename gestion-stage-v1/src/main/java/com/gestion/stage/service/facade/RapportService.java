@@ -1,6 +1,5 @@
 package com.gestion.stage.service.facade;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -10,12 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gestion.stage.bean.Rapport;
 import com.gestion.stage.utils.ResponseMessage;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface RapportService {
-	List<Rapport> findByDateDepot(Date dateDepot);
-
-
-	List<Rapport> findByDescreption(String descreption);
 
 	ResponseEntity<ResponseMessage> save(String titre, String description, String StageRef, MultipartFile file);
 

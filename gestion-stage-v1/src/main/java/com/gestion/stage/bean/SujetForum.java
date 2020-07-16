@@ -16,10 +16,18 @@ import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class SujetForum{
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SujetForum {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(columnDefinition = "Text")
 	private String content;
@@ -32,12 +40,11 @@ public class SujetForum{
 
 	@ManyToOne
 	private User user;
-	
+
 	@ManyToOne
 	private Stage stage;
-	
-	@OneToMany(mappedBy="sujetForum")
+
+	@OneToMany(mappedBy = "sujetForum")
 	private List<Commentaire> commentaires;
-	
-	
+
 }

@@ -1,6 +1,7 @@
 package com.gestion.stage.rest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,16 +22,20 @@ import com.gestion.stage.bean.Filiere;
 import com.gestion.stage.service.facade.EtudiantService;
 import com.sipios.springsearch.anotation.SearchSpec;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/etudiant")
 @CrossOrigin({ "http://localhost:4200" })
 public class EtudiantRest {
-	
+
 	@Autowired
 	private EtudiantService etudiantService;
-	
+
 	@GetMapping("/confirm/cne/{cne}/codeAppoge/{codeAppoge}")
-	public int validateEtudiant(@PathVariable String cne,@PathVariable String codeAppoge) {
+	public int validateEtudiant(@PathVariable String cne, @PathVariable String codeAppoge) {
 		return etudiantService.validateEtudiant(cne, codeAppoge);
 	}
 
@@ -71,8 +76,25 @@ public class EtudiantRest {
 		return etudiantService.findByNiveau(niveau, page, size);
 	}
 
+	@GetMapping("/coordinateur/id/{id}/search")
+	public List<Etudiant> searchForEtudiants(@SearchSpec Specification<Etudiant> spec, @PathVariable Long id) {
+		List<Etudiant> etuds = etudiantService.searchForEtudiants(spec).getBody();
+		List<Etudiant> coordEtuds = etudiantService.findByCoordinateur(id, 0, etudiantService.countEtdudiants(), "desc")
+				.getContent();
+		List<Etudiant> etudsResult = etuds.stream().filter(e -> coordEtuds.contains(e)).collect(Collectors.toList());
+		return etudsResult;
+	}
+
+	@GetMapping("/encadreur/id/{id}/search")
+	public List<Etudiant> searchByEncadreur(@SearchSpec Specification<Etudiant> spec, @PathVariable Long id) {
+		List<Etudiant> etuds = etudiantService.searchForEtudiants(spec).getBody();
+		List<Etudiant> encaEtuds = etudiantService.findByEncadreurid(id);
+		List<Etudiant> etudsResult = etuds.stream().filter(e -> encaEtuds.contains(e)).collect(Collectors.toList());
+		return etudsResult;
+	}
+
 	@GetMapping("/search")
-	public ResponseEntity<List<Etudiant>> searchForEtudiants(@SearchSpec Specification<Etudiant> spec) {
+	public ResponseEntity<List<Etudiant>> search(@SearchSpec Specification<Etudiant> spec) {
 		return etudiantService.searchForEtudiants(spec);
 	}
 

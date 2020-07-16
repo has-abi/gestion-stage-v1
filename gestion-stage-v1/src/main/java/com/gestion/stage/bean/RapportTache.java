@@ -14,11 +14,19 @@ import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class RapportTache{
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RapportTache {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String reference;
 	@Temporal(TemporalType.TIMESTAMP)

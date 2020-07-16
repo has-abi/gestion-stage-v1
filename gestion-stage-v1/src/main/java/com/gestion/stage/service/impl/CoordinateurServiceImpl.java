@@ -19,9 +19,14 @@ import com.gestion.stage.service.facade.RoleService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
+
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class CoordinateurServiceImpl implements CoordinateurService{
-	
+public class CoordinateurServiceImpl implements CoordinateurService {
+
 	@Autowired
 	private CoordinateurDao coordinateurDao;
 	@Autowired
@@ -30,6 +35,7 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	private FiliereService filiereService;
 	@Autowired
 	private RoleService roleService;
+
 	@Override
 	public Coordinateur findByReference(String reference) {
 		return coordinateurDao.findByReference(reference);
@@ -43,19 +49,19 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	@Override
 	public int save(Coordinateur coordinateur) {
 		Coordinateur coord = findByReference(coordinateur.getReference());
-		if( coord != null) {
+		if (coord != null) {
 			return -1;
-		}else if(coordinateur.getFiliere().getLibelle()==null || coordinateur.getFiliere().getLibelle()=="") {
+		} else if (coordinateur.getFiliere().getLibelle() == null || coordinateur.getFiliere().getLibelle() == "") {
 			return -2;
-		}else if(FieldsUtil.utilisateurFields(coordinateur.getUser())<0){
+		} else if (FieldsUtil.utilisateurFields(coordinateur.getUser()) < 0) {
 			return -3;
-		}else {
+		} else {
 			List<Role> roles = new ArrayList<Role>();
-			coordinateur.getUser().setReference("u"+DateUtil.getDate().getTime());
+			coordinateur.getUser().setReference("u" + DateUtil.getDate().getTime());
 			coordinateur.getUser().setRoles(roles);
 			coordinateur.getUser().getRoles().add(roleService.getCoordinateurRole());
-			
-			if(userService.register(coordinateur.getUser())<0) {
+
+			if (userService.register(coordinateur.getUser()) < 0) {
 				return -4;
 			}
 			coordinateur.setUser(userService.findByReference(coordinateur.getUser().getReference()));
@@ -64,13 +70,14 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 			return 1;
 		}
 	}
+
 	@Transactional
 	@Override
 	public int removeByReference(String reference) {
 		Coordinateur coord = findByReference(reference);
-		if(coord == null) {
+		if (coord == null) {
 			return -1;
-		}else {
+		} else {
 			coordinateurDao.delete(coord);
 			userService.removeById(coord.getUser().getId());
 			return 1;
@@ -80,12 +87,12 @@ public class CoordinateurServiceImpl implements CoordinateurService{
 	@Override
 	public int update(Coordinateur coordinateur) {
 		Coordinateur coord = findByReference(coordinateur.getReference());
-		if(coord == null || coordinateur.getFiliere() == null || coordinateur.getUser() == null) {
+		if (coord == null || coordinateur.getFiliere() == null || coordinateur.getUser() == null) {
 			return -1;
-		}else if(FieldsUtil.utilisateurFields(coordinateur.getUser())<0){
+		} else if (FieldsUtil.utilisateurFields(coordinateur.getUser()) < 0) {
 			return -2;
-		}else {
-			if(this.userService.update(coordinateur.getUser())<0) {
+		} else {
+			if (this.userService.update(coordinateur.getUser()) < 0) {
 				return -3;
 			}
 			coordinateurDao.save(coord);

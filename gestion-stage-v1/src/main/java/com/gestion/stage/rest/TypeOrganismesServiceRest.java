@@ -15,28 +15,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestion.stage.bean.TypeServiceOrganisme;
 import com.gestion.stage.service.facade.TypeServiceOrganismeService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/typeServiceOrganisme")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class TypeOrganismesServiceRest {
 	@Autowired
 	private TypeServiceOrganismeService typeServiceOrganismeService;
+
 	@GetMapping("/type/{type}")
 	public TypeServiceOrganisme findByType(String type) {
 		return typeServiceOrganismeService.findByType(type);
 	}
+
 	@GetMapping("/")
 	public List<TypeServiceOrganisme> findAll() {
 		return typeServiceOrganismeService.findAll();
 	}
+
 	@PostMapping("/")
 	public int save(@RequestBody TypeServiceOrganisme typeServiceOrganisme) {
 		return typeServiceOrganismeService.save(typeServiceOrganisme);
 	}
+
 	@PutMapping("/")
 	public int update(@RequestBody TypeServiceOrganisme typeServiceOrganisme) {
 		return typeServiceOrganismeService.update(typeServiceOrganisme);
 	}
+
 	@DeleteMapping("/type/{type}")
 	public int removeByType(String type) {
 		return typeServiceOrganismeService.removeByType(type);

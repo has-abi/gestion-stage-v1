@@ -16,11 +16,18 @@ import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Tache{
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tache {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(columnDefinition = "Text")
 	private String contenu;
@@ -31,7 +38,7 @@ public class Tache{
 	private Date dateValidation;
 	private boolean effectuer;
 	private boolean valider;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Stage stage;
 	@ManyToOne

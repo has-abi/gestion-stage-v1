@@ -19,29 +19,40 @@ import com.gestion.stage.bean.RapportTache;
 import com.gestion.stage.service.facade.RapportTacheService;
 import com.gestion.stage.utils.ResponseMessage;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/rapportTache")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class RapportTacheRest {
 	@Autowired
 	private RapportTacheService rapportTacheService;
+
 	@GetMapping("/")
 	public List<RapportTache> findAll() {
 		return rapportTacheService.findAll();
 	}
+
 	@PostMapping("/save")
-	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre,@RequestParam("desc") String desc,@RequestParam("ref") String ref,@RequestParam("file")  MultipartFile file) {
-	System.out.println(ref);	
-	return rapportTacheService.save(titre, desc,ref, file);
+	public ResponseEntity<ResponseMessage> save(@RequestParam("titre") String titre, @RequestParam("desc") String desc,
+			@RequestParam("ref") String ref, @RequestParam("file") MultipartFile file) {
+		System.out.println(ref);
+		return rapportTacheService.save(titre, desc, ref, file);
 	}
+
 	@PutMapping("/update")
-	public ResponseEntity<ResponseMessage> update(@RequestParam("titre") String titre,@RequestParam("desc") String desc,@RequestParam("ref") String ref, MultipartFile file) {
+	public ResponseEntity<ResponseMessage> update(@RequestParam("titre") String titre,
+			@RequestParam("desc") String desc, @RequestParam("ref") String ref, MultipartFile file) {
 		return rapportTacheService.update(titre, desc, ref, file);
 	}
+
 	@DeleteMapping("/id/{id}/tache/ref/{tache}")
-	public int delete(@PathVariable long id,@PathVariable String tacheRef) {
+	public int delete(@PathVariable long id, @PathVariable String tacheRef) {
 		return rapportTacheService.delete(id, tacheRef);
 	}
+
 	@GetMapping("/reference/{reference}")
 	public RapportTache findByReference(@PathVariable String reference) {
 		return rapportTacheService.findByReference(reference);

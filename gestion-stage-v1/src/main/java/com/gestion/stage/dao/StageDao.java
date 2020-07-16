@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.Stage;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Repository
 public interface StageDao extends JpaRepository<Stage, Long>, JpaSpecificationExecutor<Stage> {
 
@@ -53,17 +57,16 @@ public interface StageDao extends JpaRepository<Stage, Long>, JpaSpecificationEx
 	Page<Stage> findByJury(@Param("id") Long id, Pageable pageable);
 
 	Stage findByRapportReference(String reference);
-	
+
 	@Query(value = "select stage.* from stage,etudiant,stage_etudiant where etudiant.user = :id and stage_etudiant.etudiant = etudiant.id and stage_etudiant.stage = stage.id", nativeQuery = true)
 	List<Stage> findByEtudiantUserId(Long id);
-	
+
 	@Query(value = "select stage.* from stage,encadreur,stage_encadreur where encadreur.user = :id and stage_encadreur.encadreur= encadreur.id and stage_encadreur.stage = stage.id", nativeQuery = true)
 	List<Stage> findByEncadreurUserId(Long id);
-	
+
 	List<Stage> findByCoordinateurUserId(Long id);
-	
+
 	@Query(value = "select stage.* from stage,membre_jury,stage_membre_jury where membre_jury.user = :id and stage_membre_jury.membre_jury = membre_jury.id and stage_membre_jury.stage = stage.id", nativeQuery = true)
 	List<Stage> findByJuryUserId(Long id);
-
 
 }

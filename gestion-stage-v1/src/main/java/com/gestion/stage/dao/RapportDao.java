@@ -10,15 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.Rapport;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Repository
-public interface RapportDao extends JpaRepository<Rapport, Long> ,JpaSpecificationExecutor<Rapport> {
+public interface RapportDao extends JpaRepository<Rapport, Long>, JpaSpecificationExecutor<Rapport> {
 	List<Rapport> findByDateDepot(Date dateDepot);
+
 	Rapport findByReference(String reference);
 
-	
 	List<Rapport> findByDescreptionContains(String descreption);
-	@Query(value="SELECT count(*) as rapportC from rapport",nativeQuery = true)
+
+	@Query(value = "SELECT count(*) as rapportC from rapport", nativeQuery = true)
 	int countrapports();
-	
-	
+
 }

@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.gestion.stage.bean.Ville;
 import com.gestion.stage.utils.VilleStatistics;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface VilleService {
 	Ville findbyId(Long id);
 

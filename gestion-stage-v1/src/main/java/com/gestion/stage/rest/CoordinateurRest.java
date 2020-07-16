@@ -17,40 +17,52 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestion.stage.bean.Coordinateur;
 import com.gestion.stage.service.facade.CoordinateurService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/coordinateur")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class CoordinateurRest {
 	@Autowired
 	private CoordinateurService coordinateurService;
+
 	@GetMapping("/page/{page}/size/{size}")
-	public Page<Coordinateur> findAllWithPaginition(@PathVariable int page,@PathVariable int size) {
+	public Page<Coordinateur> findAllWithPaginition(@PathVariable int page, @PathVariable int size) {
 		return coordinateurService.findAllWithPaginition(page, size);
 	}
+
 	@GetMapping("/reference/{reference}")
 	public Coordinateur findByReference(@PathVariable String reference) {
 		return coordinateurService.findByReference(reference);
 	}
+
 	@GetMapping("/filiere/id/{id}")
 	public Coordinateur findByFiliereId(@PathVariable Long id) {
 		return coordinateurService.findByFiliereId(id);
 	}
+
 	@PostMapping("/")
 	public int save(@RequestBody Coordinateur coordinateur) {
 		return coordinateurService.save(coordinateur);
 	}
+
 	@DeleteMapping("/reference/{reference}")
 	public int removeByReference(@PathVariable String reference) {
 		return coordinateurService.removeByReference(reference);
 	}
+
 	@PutMapping("/")
 	public int update(@RequestBody Coordinateur coordinateur) {
 		return coordinateurService.update(coordinateur);
 	}
+
 	@GetMapping("/")
 	public List<Coordinateur> findAll() {
 		return coordinateurService.findAll();
 	}
+
 	@GetMapping("/user/id/{id}")
 	public Coordinateur findByUserId(@PathVariable Long id) {
 		return coordinateurService.findByUserId(id);

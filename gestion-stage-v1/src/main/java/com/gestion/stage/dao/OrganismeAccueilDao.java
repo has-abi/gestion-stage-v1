@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.OrganismeAccueil;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Repository
 public interface OrganismeAccueilDao
 		extends JpaRepository<OrganismeAccueil, Long>, JpaSpecificationExecutor<OrganismeAccueil> {
@@ -23,9 +27,9 @@ public interface OrganismeAccueilDao
 
 	OrganismeAccueil findByRaisonSociale(String raisonSociale);
 
-	@Query(value="select organisme_accueil.* from stage,coordinateur,organisme_accueil where coordinateur.filiere = :id and stage.coordinateur = coordinateur.id and organisme_accueil.id = stage.organisme_accueil",nativeQuery = true)
+	@Query(value = "select organisme_accueil.* from stage,coordinateur,organisme_accueil where coordinateur.filiere = :id and stage.coordinateur = coordinateur.id and organisme_accueil.id = stage.organisme_accueil", nativeQuery = true)
 	List<OrganismeAccueil> structuresParFiliere(@Param("id") Long id);
-	
-	@Query(value = "select DISTINCT organisme_accueil.* from organisme_accueil,stage,coordinateur where coordinateur.filiere = :id and stage.coordinateur = coordinateur.id and  organisme_accueil.id = stage.organisme_accueil",nativeQuery = true)
+
+	@Query(value = "select DISTINCT organisme_accueil.* from organisme_accueil,stage,coordinateur where coordinateur.filiere = :id and stage.coordinateur = coordinateur.id and  organisme_accueil.id = stage.organisme_accueil", nativeQuery = true)
 	List<OrganismeAccueil> findByFiliere(@Param("id") Long id);
 }

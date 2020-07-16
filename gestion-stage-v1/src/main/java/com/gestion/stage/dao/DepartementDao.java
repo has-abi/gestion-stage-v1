@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.gestion.stage.bean.Departement;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Repository
-public interface DepartementDao  extends JpaRepository<Departement, Long>{
+public interface DepartementDao extends JpaRepository<Departement, Long> {
 	List<Departement> findByEtablissementLibelle(String libelle);
-	
+
 }

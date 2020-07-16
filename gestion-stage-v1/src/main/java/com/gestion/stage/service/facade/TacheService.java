@@ -8,7 +8,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.Tache;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface TacheService {
 	List<Tache> findByDateCreation(Date dateCreation);
 
@@ -25,6 +28,8 @@ public interface TacheService {
 	List<Tache> findAll();
 
 	int validerTache(String reference);
+	
+	int effectuerTache(String reference);
 	
 	List<Tache> findByStageReference(String reference);
 	

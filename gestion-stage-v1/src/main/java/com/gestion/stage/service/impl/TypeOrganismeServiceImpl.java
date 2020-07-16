@@ -9,11 +9,16 @@ import com.gestion.stage.bean.TypeOrganisme;
 import com.gestion.stage.dao.TypeOrganismeDao;
 import com.gestion.stage.service.facade.TypeOrganismeService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class TypeOrganismeServiceImpl implements TypeOrganismeService{
-	
+public class TypeOrganismeServiceImpl implements TypeOrganismeService {
+
 	@Autowired
 	private TypeOrganismeDao typeOrganismeDao;
+
 	@Override
 	public TypeOrganisme findByType(String type) {
 		return typeOrganismeDao.findByType(type);
@@ -27,11 +32,11 @@ public class TypeOrganismeServiceImpl implements TypeOrganismeService{
 	@Override
 	public int save(TypeOrganisme typeOrganisme) {
 		TypeOrganisme to = findByType(typeOrganisme.getType());
-		if(to!=null) {
+		if (to != null) {
 			return -1;
-		}else if(typeOrganisme.getType() == null || typeOrganisme.getType() == "") {
+		} else if (typeOrganisme.getType() == null || typeOrganisme.getType() == "") {
 			return -2;
-		}else {
+		} else {
 			typeOrganismeDao.save(typeOrganisme);
 			return 1;
 		}
@@ -40,14 +45,14 @@ public class TypeOrganismeServiceImpl implements TypeOrganismeService{
 	@Override
 	public int update(TypeOrganisme typeOrganisme) {
 		TypeOrganisme to = typeOrganismeDao.findById(typeOrganisme.getId()).get();
-		if(to == null) {
+		if (to == null) {
 			return -1;
-		}else if(typeOrganisme.getType() == null || typeOrganisme.getType() == "") {
+		} else if (typeOrganisme.getType() == null || typeOrganisme.getType() == "") {
 			return -2;
-		}else {
+		} else {
 			List<TypeOrganisme> tos = findAll();
-			for(TypeOrganisme t : tos) {
-				if(t.getId() == to.getId() && to.getType().equals(typeOrganisme.getType())) {
+			for (TypeOrganisme t : tos) {
+				if (t.getId() == to.getId() && to.getType().equals(typeOrganisme.getType())) {
 					return -3;
 				}
 			}
@@ -55,16 +60,17 @@ public class TypeOrganismeServiceImpl implements TypeOrganismeService{
 			return 1;
 		}
 	}
-	//maybe there's some code to add here
+
+	// maybe there's some code to add here
 	@Override
 	public int removeByType(String type) {
-			TypeOrganisme to = findByType(type);
-			if(to == null) {
-				return -1;
-			}else {
-				typeOrganismeDao.delete(to);
-				return 1;
-			}
+		TypeOrganisme to = findByType(type);
+		if (to == null) {
+			return -1;
+		} else {
+			typeOrganismeDao.delete(to);
+			return 1;
+		}
 	}
 
 }

@@ -11,10 +11,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class OrganismeAccueil{
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrganismeAccueil {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 60)
 	private String raisonSociale;
@@ -23,7 +30,7 @@ public class OrganismeAccueil{
 	@Column(length = 15)
 	private String tele;
 	@Column(length = 15)
-	private String  teleFix;
+	private String teleFix;
 	private String adress;
 	private String responsable;
 	@ManyToOne
@@ -32,5 +39,5 @@ public class OrganismeAccueil{
 	private TypeOrganisme typeOrganisme;
 	@ManyToOne
 	private TypeServiceOrganisme typeServiceOrganisme;
-	
+
 }

@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import com.gestion.stage.bean.StageEtudiant;
 import com.gestion.stage.dao.StageEtudiantDao;
 import com.gestion.stage.service.facade.StageEtudiantService;
-import com.gestion.stage.utils.FieldsUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class StageEtudiantServiceImpl implements StageEtudiantService{
+public class StageEtudiantServiceImpl implements StageEtudiantService {
 	@Autowired
 	private StageEtudiantDao stageEtudiantDao;
 
@@ -32,22 +35,22 @@ public class StageEtudiantServiceImpl implements StageEtudiantService{
 
 	@Override
 	public int save(StageEtudiant stageEtudiant) {
-			stageEtudiantDao.save(stageEtudiant);
-			return 1;
-		
+		stageEtudiantDao.save(stageEtudiant);
+		return 1;
+
 	}
 
 	@Override
 	public int update(StageEtudiant stageEtudiant) {
-				stageEtudiantDao.save(stageEtudiant);
-				return 1;
+		stageEtudiantDao.save(stageEtudiant);
+		return 1;
 	}
-	
+
 	@Override
 	public int removeById(Long id) {
-		if(id == null || id == 0) {
+		if (id == null || id == 0) {
 			return -1;
-		}else {
+		} else {
 			stageEtudiantDao.deleteById(id);
 			return 1;
 		}
@@ -59,11 +62,8 @@ public class StageEtudiantServiceImpl implements StageEtudiantService{
 	}
 
 	@Override
-	public List<StageEtudiant> findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(String nom,
-			String prenom) {
+	public List<StageEtudiant> findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(String nom, String prenom) {
 		return stageEtudiantDao.findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(nom, prenom);
 	}
-
-	
 
 }

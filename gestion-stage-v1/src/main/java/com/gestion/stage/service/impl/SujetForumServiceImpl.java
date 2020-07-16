@@ -22,6 +22,10 @@ import com.gestion.stage.service.facade.SujetForumService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class SujetForumServiceImpl implements SujetForumService {
 	@Autowired
@@ -111,9 +115,9 @@ public class SujetForumServiceImpl implements SujetForumService {
 	@Override
 	public int update(SujetForum sujetForum) {
 		User u = userService.findByUsername(sujetForum.getUser().getUsername());
-		if(u == null) {
+		if (u == null) {
 			return -1;
-		}else {
+		} else {
 			sujetForum.setDateModification(DateUtil.getDate());
 			sujetForumDao.save(sujetForum);
 			return 1;

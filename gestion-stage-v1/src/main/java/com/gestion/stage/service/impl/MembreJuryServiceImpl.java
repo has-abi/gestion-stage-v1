@@ -25,6 +25,10 @@ import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FieldsUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class MembreJuryServiceImpl implements MembreJuryService {
 	@Autowired
@@ -37,11 +41,6 @@ public class MembreJuryServiceImpl implements MembreJuryService {
 	@Override
 	public MembreJury findByUserId(Long id) {
 		return membreJuryDao.findByUserId(id);
-	}
-
-	@Override
-	public Page<MembreJury> findByProfession(String profession, int page, int size) {
-		return membreJuryDao.findByProfession(profession, PageRequest.of(page, size));
 	}
 
 	@Override
@@ -65,26 +64,24 @@ public class MembreJuryServiceImpl implements MembreJuryService {
 			if (foundedJury != null) {
 				return -2;
 			} else {
-				
+
 				List<Role> roles = new ArrayList<Role>();
 				membreJury.getUser().setRoles(roles);
 				membreJury.getUser().getRoles().add(roleService.getJuryRole());
-				if(membreJury.getUser().getReference() != "" && membreJury.getUser().getReference() !=null) {
+				if (membreJury.getUser().getReference() != "" && membreJury.getUser().getReference() != null) {
 					membreJuryDao.save(membreJury);
 					userService.update(membreJury.getUser());
 					return 1;
-				}else {
+				} else {
 					membreJury.getUser().setReference("u" + DateUtil.getDate().getTime());
-					
+
 					if (userService.register(membreJury.getUser()) < -1) {
 						return -3;
 					}
 					membreJury.setUser(userService.findByReference(membreJury.getUser().getReference()));
 					return 1;
 				}
-				
-				
-				
+
 			}
 		}
 	}

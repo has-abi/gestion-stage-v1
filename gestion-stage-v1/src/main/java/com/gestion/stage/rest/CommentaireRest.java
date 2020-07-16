@@ -16,32 +16,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestion.stage.bean.Commentaire;
 import com.gestion.stage.service.facade.CommentaireService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/commentaire")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class CommentaireRest {
 
 	@Autowired
 	private CommentaireService commentaireService;
-	
+
 	@GetMapping("/user/id/{id}")
 	public List<Commentaire> findByUserId(Long id) {
 		return commentaireService.findByUserId(id);
 	}
+
 	@GetMapping("/commentaire/id/{id}")
 	public List<Commentaire> findbyCommentaireId(Long id) {
 		return commentaireService.findbyCommentaireId(id);
 	}
+
 	@PutMapping("/")
 	public int updateCommentaire(@RequestBody Commentaire commentaire) {
 		return commentaireService.updateCommentaire(commentaire);
 	}
+
 	@DeleteMapping("/id/{id}")
 	public int deleteById(@PathVariable Long id) {
 		return commentaireService.deleteById(id);
 	}
-
-	
 
 	@GetMapping("/sujetForum/id/{id}")
 	public List<Commentaire> findBySujetForumId(@PathVariable Long id) {

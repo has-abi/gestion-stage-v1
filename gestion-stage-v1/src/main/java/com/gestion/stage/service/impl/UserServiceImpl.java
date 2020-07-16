@@ -18,26 +18,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.bean.User;
 import com.gestion.stage.dao.UserDao;
+import com.gestion.stage.service.facade.EtudiantService;
 import com.gestion.stage.service.facade.FileStorageService;
 import com.gestion.stage.service.facade.UserService;
+import com.gestion.stage.utils.CodeSession;
 import com.gestion.stage.utils.DateUtil;
-import com.gestion.stage.utils.FieldsUtil;
 import com.gestion.stage.utils.FileUtil;
 import com.gestion.stage.utils.LoginUser;
 import com.gestion.stage.utils.ResponseMessage;
 import com.google.common.net.HttpHeaders;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
-	
+
 	@Autowired
 	private EtudiantService etudiantService;
-	
+
 	@Autowired
 	private FileStorageService fileStorageService;
 	@Autowired
@@ -71,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int login(User user) {
 		User foundedutilisateur = findByUsername(user.getUsername());
-		if(foundedutilisateur == null) {
+		if (foundedutilisateur == null) {
 			return -1;
 		} else if (!foundedutilisateur.getPassword().equals(user.getPassword())) {
 			return -2;
@@ -90,7 +94,6 @@ public class UserServiceImpl implements UserService {
 		} else if (user.getNom() == "" || user.getNom() == null || user.getPrenom() == "" || user.getPrenom() == null) {
 			return -3;
 		} else {
-			System.out.println(user);
 			user.setDateJoin(DateUtil.getDate());
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			userDao.save(user);
@@ -101,11 +104,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int update(User user) {
 		User foundeduser = findByUsername(user.getUsername());
-		if (FieldsUtil.utilisateurFields(user) < 0) {
+		if (user.getNom() == null || user.getNom() == "" || user.getPrenom() == null || user.getPrenom() == ""
+				|| user.getUsername() == null || user.getUsername() == "") {
 			return -1;
-		} else if (!foundeduser.getReference().equals(user.getReference())) {
-			return -2;
 		} else {
+			if (user.getPassword() == null || user.getPassword() == "") {
+				user.setPassword(foundeduser.getPassword());
+			} else {
+				user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			}
 			userDao.save(user);
 			return 1;
 		}
@@ -203,16 +210,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int confirmUser(String code, String cne) {
-		System.out.println(cne);
-		System.out.println(code);
 		User foundedUser = etudiantService.findByCin(cne).getUser();
-		if(foundedUser == null) {
+		if (foundedUser == null) {
 			return -1;
-		}else if(foundedUser.isConfirm() == true) {
+		} else if (foundedUser.isConfirm() == true) {
 			return -2;
-		}else if(!foundedUser.getCodeConfirm().equals(code)) {
+		} else if (!foundedUser.getCodeConfirm().equals(code)) {
 			return -3;
-		}else {
+		} else {
+			foundedUser.setCodeConfirm(null);
+			;
 			foundedUser.setConfirm(true);
 			userDao.save(foundedUser);
 			return 1;
@@ -222,9 +229,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int newUser(LoginUser user) {
 		User foundedUser = etudiantService.findByCin(user.getCne()).getUser();
-		if(foundedUser == null) {
+		if (foundedUser == null) {
 			return -1;
-		}else {
+		} else {
 			foundedUser.setUsername(user.getUsername());
 			foundedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			userDao.save(foundedUser);
@@ -232,6 +239,59 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	
+	@Override
+	public int checkPassword(String ref, String pwd) {
+		User foundedUser = findByReference(ref);
+		if (foundedUser == null) {
+			return -1;
+		} else if (!bCryptPasswordEncoder.matches(pwd, foundedUser.getPassword())) {
+			return -2;
+		} else {
+			return 1;
+		}
+	}
 
+	@Override
+	public int checkSecurityQuestion(String username, String question, String reponse) {
+		User foundedUser = findByUsername(username);
+		if (foundedUser == null) {
+			return -1;
+		} else if (foundedUser.getQuestion() == null || foundedUser.getReponce() == null) {
+			return -4;
+		} else if (!foundedUser.getQuestion().equals(question)) {
+			return -2;
+		} else if (!foundedUser.getReponce().equals(reponse)) {
+			return -3;
+		} else {
+			return 1;
+		}
+	}
+
+	@Override
+	public int updatePassword(String username, String pwd) {
+		User foundedUser = findByUsername(username);
+		if (foundedUser == null) {
+			return -1;
+		} else {
+			foundedUser.setPassword(bCryptPasswordEncoder.encode(pwd));
+			userDao.save(foundedUser);
+			return 1;
+		}
+	}
+
+	@Override
+	public int checkCode(String username, String code) {
+		User foundedUser = findByUsername(username);
+		if (username == null) {
+			return -1;
+		} else if (CodeSession.getCodeSession(username) == null) {
+			return -2;
+		} else if (CodeSession.getCodeSession(username).getDuration() < DateUtil.getDate().getTime()) {
+			return -3;
+		} else if (!CodeSession.getCodeSession(username).getCode().equals(code)) {
+			return -4;
+		} else {
+			return 1;
+		}
+	}
 }

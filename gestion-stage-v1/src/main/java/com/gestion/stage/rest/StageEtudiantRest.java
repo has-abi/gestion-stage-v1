@@ -16,45 +16,56 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestion.stage.bean.StageEtudiant;
 import com.gestion.stage.service.facade.StageEtudiantService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/stage-etudiant")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class StageEtudiantRest {
 	@Autowired
 	private StageEtudiantService stageEtudiantService;
+
 	@GetMapping("/etudiant/nom/etudiant/prenom")
 	public List<StageEtudiant> findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(@PathVariable String nom,
 			@PathVariable String prenom) {
-		return stageEtudiantService.findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(nom,
-				prenom);
+		return stageEtudiantService.findByEtudiantUserNomContainsOrEtudiantUserPrenomContains(nom, prenom);
 	}
+
 	@GetMapping("/stage/reference/{reference}")
 	public List<StageEtudiant> findByStageReference(@PathVariable String reference) {
 		return stageEtudiantService.findByStageReference(reference);
 	}
+
 	@GetMapping("/etudiant/cin/{cin}")
 	public List<StageEtudiant> findByEtudiantCin(@PathVariable String cin) {
 		return stageEtudiantService.findByEtudiantCin(cin);
 	}
+
 	@GetMapping("/")
 	public List<StageEtudiant> findAll() {
 		return stageEtudiantService.findAll();
 	}
+
 	@PostMapping("/")
 	public int save(@RequestBody StageEtudiant stageEtudiant) {
 		return stageEtudiantService.save(stageEtudiant);
 	}
+
 	@PutMapping("/")
 	public int update(@RequestBody StageEtudiant stageEtudiant) {
 		return stageEtudiantService.update(stageEtudiant);
 	}
+
 	@DeleteMapping("/id/{id}")
 	public int removeById(@PathVariable Long id) {
 		return stageEtudiantService.removeById(id);
 	}
+
 	@GetMapping("/stage/reference/{reference}/etudiant/cin/{cin}")
-	public StageEtudiant findByStageReferenceAndEtudiantCin(@PathVariable String refernce,@PathVariable String cin) {
+	public StageEtudiant findByStageReferenceAndEtudiantCin(@PathVariable String refernce, @PathVariable String cin) {
 		return stageEtudiantService.findByStageReferenceAndEtudiantCin(refernce, cin);
 	}
-	
+
 }

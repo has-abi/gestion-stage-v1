@@ -2,17 +2,21 @@ package com.gestion.stage.utils;
 
 import java.util.Date;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public class Utils {
 
-    public static int checkDate(Date dateToCheck) {
-        Date date = new Date();
-        if (dateToCheck.compareTo(date) > 0) {
-            return -1;
-        } else if (dateToCheck.compareTo(date) < 0) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+	public static int checkDate(Date dateToCheck) {
+		Date date = new Date();
+		if (dateToCheck.compareTo(date) > 0) {
+			return -1;
+		} else if (dateToCheck.compareTo(date) < 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 
 }

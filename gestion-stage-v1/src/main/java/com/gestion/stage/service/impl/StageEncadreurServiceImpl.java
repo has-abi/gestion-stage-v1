@@ -10,16 +10,20 @@ import com.gestion.stage.dao.StageEncadrantDao;
 import com.gestion.stage.service.facade.StageEncadrantService;
 import com.gestion.stage.utils.FieldsUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class StageEncadreurServiceImpl implements StageEncadrantService{
+public class StageEncadreurServiceImpl implements StageEncadrantService {
 	@Autowired
 	private StageEncadrantDao stageEncadrantDao;
-	
+
 	@Override
 	public int save(StageEncadreur stageEncadreur) {
 		System.out.println(stageEncadreur);
-				stageEncadrantDao.save(stageEncadreur);
-				return 1;
+		stageEncadrantDao.save(stageEncadreur);
+		return 1;
 	}
 
 	@Override
@@ -29,9 +33,9 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 
 	@Override
 	public int update(StageEncadreur stageEncadreur) {
-		 if(FieldsUtil.StageEncadreurFields(stageEncadreur)<0) {
+		if (FieldsUtil.StageEncadreurFields(stageEncadreur) < 0) {
 			return -2;
-		}else {
+		} else {
 			stageEncadrantDao.save(stageEncadreur);
 			return 1;
 		}
@@ -40,9 +44,9 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 	@Override
 	public int removeById(Long id) {
 		StageEncadreur so = stageEncadrantDao.findById(id).get();
-		if(so == null) {
+		if (so == null) {
 			return -1;
-		}else {
+		} else {
 			stageEncadrantDao.delete(so);
 			return 1;
 		}
@@ -64,8 +68,7 @@ public class StageEncadreurServiceImpl implements StageEncadrantService{
 	}
 
 	@Override
-	public List<StageEncadreur> findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(String nom,
-			String prenom) {
+	public List<StageEncadreur> findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(String nom, String prenom) {
 		return stageEncadrantDao.findByEncadreurUserNomContainsOrEncadreurUserPrenomContains(nom, prenom);
 	}
 

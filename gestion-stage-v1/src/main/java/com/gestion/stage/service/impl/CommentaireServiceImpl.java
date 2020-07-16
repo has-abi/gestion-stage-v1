@@ -14,6 +14,10 @@ import com.gestion.stage.service.facade.SujetForumService;
 import com.gestion.stage.service.facade.UserService;
 import com.gestion.stage.utils.DateUtil;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class CommentaireServiceImpl implements CommentaireService {
 	@Autowired
@@ -22,7 +26,6 @@ public class CommentaireServiceImpl implements CommentaireService {
 	private UserService userService;
 	@Autowired
 	private SujetForumService sujetForumService;
-
 
 	@Override
 	public int save(Commentaire commentaire) {
@@ -45,16 +48,13 @@ public class CommentaireServiceImpl implements CommentaireService {
 		return commentaireDao.findAll();
 	}
 
-	
-	
-
 	@Override
 	public int updateCommentaire(Commentaire commentaire) {
-		
-			commentaire.setDateModification(DateUtil.getDate());
-			commentaireDao.save(commentaire);
-			return 1;
-		
+
+		commentaire.setDateModification(DateUtil.getDate());
+		commentaireDao.save(commentaire);
+		return 1;
+
 	}
 
 	@Override

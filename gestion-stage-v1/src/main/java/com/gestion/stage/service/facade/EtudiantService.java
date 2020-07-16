@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.Etudiant;
 import com.gestion.stage.bean.Filiere;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface EtudiantService {
 	Etudiant findByCin(String cin);
 

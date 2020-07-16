@@ -27,6 +27,10 @@ import com.gestion.stage.utils.DateUtil;
 import com.gestion.stage.utils.FileUtil;
 import com.gestion.stage.utils.ResponseMessage;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class RapportServiceImpl implements RapportService {
 	@Autowired
@@ -35,37 +39,30 @@ public class RapportServiceImpl implements RapportService {
 	private DocumentService documentService;
 	@Autowired
 	private StageService stageService;
-	@Autowired 
+	@Autowired
 	private StageDao stageDao;
-	@Override
-	public List<Rapport> findByDateDepot(Date dateDepot) {
-		return rapportDao.findByDateDepot(dateDepot);
-	}
 
 	@Override
-	public List<Rapport> findByDescreption(String descreption) {
-		return rapportDao.findByDescreptionContains(descreption);
-	}
-
-	@Override
-	public ResponseEntity<ResponseMessage>  save(String titre, String description, String StageRef, MultipartFile file) {
+	public ResponseEntity<ResponseMessage> save(String titre, String description, String StageRef, MultipartFile file) {
 		Stage foundedStage = stageService.findByReference(StageRef);
-		if(foundedStage == null) {
+		if (foundedStage == null) {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("stage n'existe pas"));
-		}else {
-			if(!foundedStage.isStatu()) {
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("impossible d'enregister ce rapport car le stage n'est pas encore acitiver!!"));
+		} else {
+			if (!foundedStage.isStatu()) {
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(
+						"impossible d'enregister ce rapport car le stage n'est pas encore acitiver!!"));
 			}
 			MultipartFile fileToStore = FileUtil.getNewFile(FileUtil.getEditedName(file), file);
-			if(documentService.save(titre, fileToStore).getStatusCode() == HttpStatus.EXPECTATION_FAILED) {
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
-			}else {
+			if (documentService.save(titre, fileToStore).getStatusCode() == HttpStatus.EXPECTATION_FAILED) {
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+						.body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
+			} else {
 				Rapport rapport = new Rapport();
 				rapport.setDateDepot(DateUtil.getDate());
 				rapport.setDescreption(description);
 				rapport.setValider(false);
 				Date date = new Date();
-				String ref = "rapp"+date.getTime();
+				String ref = "rapp" + date.getTime();
 				rapport.setReference(ref);
 				rapport.setDocument(documentService.findByReference(fileToStore.getOriginalFilename()));
 				rapportDao.save(rapport);
@@ -75,7 +72,6 @@ public class RapportServiceImpl implements RapportService {
 			}
 		}
 	}
-
 
 	@Override
 	public List<Rapport> findAll() {
@@ -92,17 +88,20 @@ public class RapportServiceImpl implements RapportService {
 			MultipartFile file) {
 		Rapport foundedRapport = findByReference(ref);
 
-		
-		if(foundedRapport == null) {
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
-		}else {
-			if(foundedRapport.isValider()) {
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("on ne peut pas modifier le rapport car il est dèjà valider!!"));
+		if (foundedRapport == null) {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
+		} else {
+			if (foundedRapport.isValider()) {
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+						.body(new ResponseMessage("on ne peut pas modifier le rapport car il est dèjà valider!!"));
 			}
 			MultipartFile fileToStore = FileUtil.getNewFile(FileUtil.getEditedName(file), file);
-			if(documentService.update(titre, fileToStore,foundedRapport.getDocument().getReference()).getStatusCode() == HttpStatus.EXPECTATION_FAILED) {
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
-			}else {
+			if (documentService.update(titre, fileToStore, foundedRapport.getDocument().getReference())
+					.getStatusCode() == HttpStatus.EXPECTATION_FAILED) {
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+						.body(new ResponseMessage("on ne peut pas uploader le fichier correctement!"));
+			} else {
 				foundedRapport.setDescreption(description);
 				rapportDao.save(foundedRapport);
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("rapport modifier avec succée!"));
@@ -113,9 +112,9 @@ public class RapportServiceImpl implements RapportService {
 	@Override
 	public int validerRapport(String ref) {
 		Rapport foundedRapport = findByReference(ref);
-		if(foundedRapport == null) {
+		if (foundedRapport == null) {
 			return -1;
-		}else {
+		} else {
 			foundedRapport.setValider(true);
 			foundedRapport.setDateValidation(DateUtil.getDate());
 			rapportDao.save(foundedRapport);
@@ -135,21 +134,22 @@ public class RapportServiceImpl implements RapportService {
 
 	@Override
 	public Page<Rapport> findAllWithPagination(int page, int size, String sort) {
-		if(sort.equals("asc")) {
-			return rapportDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
-		}else if(sort.equals("desc")) {
-			return rapportDao.findAll(PageRequest.of(page, size,Sort.by(Direction.ASC,"id")));
-		}else {
+		if (sort.equals("asc")) {
+			return rapportDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else if (sort.equals("desc")) {
+			return rapportDao.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+		} else {
 			return null;
 		}
 	}
+
 	@Transactional
 	@Override
 	public int delete(Long id, String stageRef) {
 		Stage s = stageService.findByReference(stageRef);
-		if(s == null) {
+		if (s == null) {
 			return -1;
-		}else {
+		} else {
 			s.setRapport(null);
 			stageService.update(s);
 			rapportDao.delete(rapportDao.findById(id).get());

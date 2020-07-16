@@ -23,29 +23,35 @@ import com.gestion.stage.service.facade.TypeServiceOrganismeService;
 import com.gestion.stage.service.facade.VilleService;
 import com.gestion.stage.utils.FieldsUtil;
 import com.gestion.stage.utils.OrganismeStatistics;
+
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
+public class OrganismeAccueilServiceImpl implements OrganismeAccueilService {
 	@Autowired
 	private OrganismeAccueilDao organismeAccueilDao;
 	@Autowired
 	private TypeServiceOrganismeService typeServiceOrganismeService;
-	@Autowired 
+	@Autowired
 	private TypeOrganismeService typeOrganismeService;
 	@Autowired
 	private VilleService villeService;
+
 	@Override
-	public Page<OrganismeAccueil> findByTypeOrganismeType(String type,int page,int size) {
-		return organismeAccueilDao.findByTypeOrganismeType(type,PageRequest.of(page, size));
+	public Page<OrganismeAccueil> findByTypeOrganismeType(String type, int page, int size) {
+		return organismeAccueilDao.findByTypeOrganismeType(type, PageRequest.of(page, size));
 	}
 
 	@Override
-	public Page<OrganismeAccueil> findByTypeServiceOrganismeType(String type,int page,int size) {
+	public Page<OrganismeAccueil> findByTypeServiceOrganismeType(String type, int page, int size) {
 		return organismeAccueilDao.findByTypeServiceOrganismeType(type, PageRequest.of(page, size));
 	}
 
 	@Override
-	public Page<OrganismeAccueil> findByVilleNom(String nom,int page,int size) {
-		return organismeAccueilDao.findByVilleNom(nom,PageRequest.of(page, size));
+	public Page<OrganismeAccueil> findByVilleNom(String nom, int page, int size) {
+		return organismeAccueilDao.findByVilleNom(nom, PageRequest.of(page, size));
 	}
 
 	@Override
@@ -61,17 +67,18 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Override
 	public int save(OrganismeAccueil organismeAccueil) {
 		TypeOrganisme to = typeOrganismeService.findByType(organismeAccueil.getTypeOrganisme().getType());
-		TypeServiceOrganisme tso = typeServiceOrganismeService.findByType(organismeAccueil.getTypeServiceOrganisme().getType());
-		Ville v = villeService.findByPaysNomAndNom(organismeAccueil.getVille().getPays().getNom(), organismeAccueil.getVille().getNom());
+		TypeServiceOrganisme tso = typeServiceOrganismeService
+				.findByType(organismeAccueil.getTypeServiceOrganisme().getType());
+		Ville v = villeService.findByPaysNomAndNom(organismeAccueil.getVille().getPays().getNom(),
+				organismeAccueil.getVille().getNom());
 		OrganismeAccueil orgAccueil = findByRaisonSocial(organismeAccueil.getRaisonSociale());
-		if(orgAccueil !=null) {
+		if (orgAccueil != null) {
 			return -1;
-		}
-		else if(to == null || tso == null || v == null ) {
+		} else if (to == null || tso == null || v == null) {
 			return -2;
-		}else if(FieldsUtil.OrganismeFields(organismeAccueil)<0) {
+		} else if (FieldsUtil.OrganismeFields(organismeAccueil) < 0) {
 			return -3;
-		}else {
+		} else {
 			organismeAccueil.setVille(v);
 			organismeAccueil.setTypeOrganisme(to);
 			organismeAccueil.setTypeServiceOrganisme(tso);
@@ -83,14 +90,15 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Override
 	public int update(OrganismeAccueil organismeAccueil) {
 		OrganismeAccueil orgAccueil = organismeAccueilDao.findById(organismeAccueil.getId()).get();
-		if(orgAccueil == null) {
+		if (orgAccueil == null) {
 			return -1;
-		}else if(FieldsUtil.OrganismeFields(organismeAccueil)<0) {
+		} else if (FieldsUtil.OrganismeFields(organismeAccueil) < 0) {
 			return -2;
-		}else {
+		} else {
 			List<OrganismeAccueil> orgAccueils = findAll();
-			for(OrganismeAccueil or : orgAccueils) {
-				if(or.getId()!=orgAccueil.getId() && or.getRaisonSociale().equals(organismeAccueil.getRaisonSociale())) {
+			for (OrganismeAccueil or : orgAccueils) {
+				if (or.getId() != orgAccueil.getId()
+						&& or.getRaisonSociale().equals(organismeAccueil.getRaisonSociale())) {
 					return -3;
 				}
 			}
@@ -102,9 +110,9 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 	@Override
 	public int removeById(long id) {
 		OrganismeAccueil orgaAccueil = organismeAccueilDao.findById(id).get();
-		if(orgaAccueil == null) {
+		if (orgaAccueil == null) {
 			return -1;
-		}else {
+		} else {
 			organismeAccueilDao.delete(orgaAccueil);
 			return 1;
 		}
@@ -135,17 +143,19 @@ public class OrganismeAccueilServiceImpl implements OrganismeAccueilService{
 		List<OrganismeStatistics> organismes = new ArrayList<OrganismeStatistics>();
 		List<OrganismeAccueil> foundedOrganismes = structuresParFiliere(id);
 		int nombre = 0;
-		for(int i = 0;i<foundedOrganismes.size();i++) {
+		for (int i = 0; i < foundedOrganismes.size(); i++) {
 			nombre = 0;
 			OrganismeAccueil o = foundedOrganismes.get(i);
-			if(organismes.stream().filter(d->d.getNom().equals(o.getRaisonSociale())).collect(Collectors.toList()).size() == 0) {
-				for(int j = 0;j<foundedOrganismes.size();j++) {
-					if(o.getId() == foundedOrganismes.get(j).getId()) nombre++;
+			if (organismes.stream().filter(d -> d.getNom().equals(o.getRaisonSociale())).collect(Collectors.toList())
+					.size() == 0) {
+				for (int j = 0; j < foundedOrganismes.size(); j++) {
+					if (o.getId() == foundedOrganismes.get(j).getId())
+						nombre++;
 				}
 				organismes.add(new OrganismeStatistics(foundedOrganismes.get(i).getRaisonSociale(), nombre));
 			}
 		}
-		
+
 		return organismes;
 	}
 

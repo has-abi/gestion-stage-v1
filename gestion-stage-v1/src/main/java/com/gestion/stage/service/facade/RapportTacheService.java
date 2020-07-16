@@ -9,7 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gestion.stage.bean.Document;
 import com.gestion.stage.bean.RapportTache;
 import com.gestion.stage.utils.ResponseMessage;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface RapportTacheService {
 
 	List<RapportTache> findByDateDepot(Date dateDepot);

@@ -8,38 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.stage.bean.Departement;
-import com.gestion.stage.bean.Etablissement;
 import com.gestion.stage.dao.DepartementDao;
 import com.gestion.stage.service.facade.DepartementService;
-import com.gestion.stage.service.facade.EtablissementService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
 public class DepartementServiceImpl implements DepartementService {
 
 	@Autowired
 	private DepartementDao departementDao;
-	@Autowired
-	private EtablissementService etablissementService;
-
-
-	@Override
-	public List<Departement> findByEtablissementLibelle(String libelle) {
-		return departementDao.findByEtablissementLibelle(libelle);
-	}
 
 	@Override
 	public int save(Departement departement) {
-		Etablissement etablissement = etablissementService.findByLibelle(departement.getEtablissement().getLibelle());
-		if (etablissement == null || departement.getLibelle() == null || departement.getLibelle() == "") {
+		if (departement.getLibelle() == null || departement.getLibelle() == "") {
 			return -1;
 		} else {
-			List<Departement> deps = findByEtablissementLibelle(departement.getEtablissement().getLibelle());
+			List<Departement> deps = findAll();
 			for (Departement dep : deps) {
 				if (dep.getLibelle().equals(departement.getLibelle())) {
 					return -2;
 				}
 			}
-			departement.setEtablissement(etablissement);
 			departementDao.save(departement);
 			return 1;
 		}
@@ -65,12 +57,9 @@ public class DepartementServiceImpl implements DepartementService {
 			if (dep == null) {
 				return -1;
 			} else {
-				Etablissement etablissement = etablissementService
-						.findByLibelle(departement.getEtablissement().getLibelle());
-				if (etablissement == null || departement.getLibelle() == null || departement.getLibelle() == "") {
+				if (departement.getLibelle() == null || departement.getLibelle() == "") {
 					return -2;
 				}
-				departement.setEtablissement(etablissement);
 				departementDao.save(departement);
 				return 1;
 			}

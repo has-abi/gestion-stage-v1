@@ -7,7 +7,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.Stage;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface StageService {
 	Page<Stage> findByDateDebut(String dateDebut, int page, int size);
 

@@ -7,13 +7,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 
 import com.gestion.stage.bean.Encadreur;
-
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 public interface EncadreurService {
-	Page<Encadreur> findByProfession(String profession, int page, int size);
 
 	Page<Encadreur> findByType(String type, int page, int size);
-
-	Page<Encadreur> findByQualite(String qualite, int page, int size);
 
 	Encadreur findByUserId(Long id);
 
@@ -42,4 +42,6 @@ public interface EncadreurService {
 	 int countEncadreurs();
 	 
 	 List<Encadreur> findByFiliere(Long id);
+	 
+	 Encadreur fetchEncadreur(String username);
 }

@@ -13,17 +13,23 @@ import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.Tache;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Repository
-public interface TacheDao extends JpaRepository<Tache, Long>,JpaSpecificationExecutor<Tache>{
+public interface TacheDao extends JpaRepository<Tache, Long>, JpaSpecificationExecutor<Tache> {
 	List<Tache> findByDateCreation(Date dateCreation);
+
 	List<Tache> findByDateLimite(Date dateLimite);
+
 	Tache findByReference(String reference);
-	List<Tache> findByStageReference(String reference); 
-	Page<Tache> findByEncadreurReference(String reference,Pageable pageable);
-	
-	@Query(value = "select tache.* from tache,stage,stage_etudiant where stage_etudiant.etudiant=:id and stage.id = stage_etudiant.stage and tache.stage = stage.id",countQuery = "SELECT count(*) from stage_etudiant where stage_etudiant.etudiant = :id",nativeQuery = true)
-	Page<Tache> findByEtudiant(@Param("id") Long id,Pageable pageable);
-	
-	
-	
+
+	List<Tache> findByStageReference(String reference);
+
+	Page<Tache> findByEncadreurReference(String reference, Pageable pageable);
+
+	@Query(value = "select tache.* from tache,stage,stage_etudiant where stage_etudiant.etudiant=:id and stage.id = stage_etudiant.stage and tache.stage = stage.id", countQuery = "SELECT count(*) from stage_etudiant where stage_etudiant.etudiant = :id", nativeQuery = true)
+	Page<Tache> findByEtudiant(@Param("id") Long id, Pageable pageable);
+
 }

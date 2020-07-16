@@ -18,10 +18,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Stage{
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Stage {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true)
 	private String reference;
@@ -45,7 +52,7 @@ public class Stage{
 	private List<StageEtudiant> stageEtudiants;
 	@OneToMany(mappedBy = "stage")
 	private List<StageEncadreur> stageEncadreurs;
-	
+
 	@OneToMany(mappedBy = "stage")
 	private List<StageMembreJury> stageMembreJuries;
 	@ManyToOne

@@ -11,10 +11,15 @@ import com.gestion.stage.bean.Pays;
 import com.gestion.stage.dao.PaysDao;
 import com.gestion.stage.service.facade.PaysService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Service
-public class PaysServiceImpl implements PaysService{
+public class PaysServiceImpl implements PaysService {
 	@Autowired
 	private PaysDao paysDao;
+
 	@Override
 	public Pays findByNom(String nom) {
 		return paysDao.findByNom(nom);
@@ -23,13 +28,13 @@ public class PaysServiceImpl implements PaysService{
 	@Override
 	public int save(Pays pays) {
 		Pays foundedPays = findByNom(pays.getNom());
-		if(foundedPays!=null) {
+		if (foundedPays != null) {
 			return -1;
-		}else {
+		} else {
 			paysDao.save(pays);
 			return 1;
 		}
-		
+
 	}
 
 	@Override
@@ -40,12 +45,12 @@ public class PaysServiceImpl implements PaysService{
 	@Override
 	public int update(Pays pays) {
 		Pays foundedPays = paysDao.findById(pays.getId()).get();
-		if(foundedPays == null) {
+		if (foundedPays == null) {
 			return -1;
-		}else {
+		} else {
 			List<Pays> ps = findAll();
-			for(Pays p : ps) {
-				if(p.getId()!=pays.getId() && p.getNom().equals(pays.getNom())) {
+			for (Pays p : ps) {
+				if (p.getId() != pays.getId() && p.getNom().equals(pays.getNom())) {
 					return -2;
 				}
 			}
@@ -53,13 +58,14 @@ public class PaysServiceImpl implements PaysService{
 			return 1;
 		}
 	}
+
 	@Transactional
 	@Override
 	public int removeByNom(String nom) {
 		Pays pays = findByNom(nom);
-		if(pays == null) {
+		if (pays == null) {
 			return -1;
-		}else {
+		} else {
 			paysDao.delete(pays);
 			return 1;
 		}

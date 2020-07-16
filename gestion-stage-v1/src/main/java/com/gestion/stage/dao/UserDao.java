@@ -10,16 +10,25 @@ import org.springframework.stereotype.Repository;
 
 import com.gestion.stage.bean.User;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Repository
-public interface UserDao extends JpaRepository<User, Long> ,JpaSpecificationExecutor<User>{
+public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 	List<User> findByDateNaissanceGreaterThan(Date dateNaissance);
+
 	User findByUsername(String username);
+
 	User findByReference(String reference);
+
 	List<User> findByNomContains(String nom);
+
 	List<User> findByPrenomContains(String prenom);
+
 	List<User> findByDateJoin(Date dateJoin);
-	
-	@Query(value="SELECT count(*) as users from user",nativeQuery = true)
+
+	@Query(value = "SELECT count(*) as users from user", nativeQuery = true)
 	int countUsers();
-	
+
 }

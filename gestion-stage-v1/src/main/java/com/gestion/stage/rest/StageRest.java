@@ -20,8 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.stage.bean.Stage;
 import com.gestion.stage.service.facade.StageService;
+import com.gestion.stage.utils.AppFilters;
 import com.sipios.springsearch.anotation.SearchSpec;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/stage")
 @CrossOrigin({ "http://localhost:4200" })
@@ -29,46 +34,57 @@ public class StageRest {
 
 	@Autowired
 	private StageService stageService;
+
 	@GetMapping("/etudiant/id/{id}")
-	public Stage findEtudiantActiveStage(Long id) {
+	public Stage findEtudiantActiveStage(@PathVariable Long id) {
 		return stageService.findEtudiantActiveStage(id);
 	}
+
 	@GetMapping("/jury/id/{id}")
-	public List<Stage> findJuryActiveStages(Long id) {
+	public List<Stage> findJuryActiveStages(@PathVariable Long id) {
 		return stageService.findJuryActiveStages(id);
 	}
-	@GetMapping("/coordinaeur/id/{id}")
-	public List<Stage> findCoordinateurActiveStages(Long id) {
+
+	@GetMapping("/coordinateur/id/{id}")
+	public List<Stage> findCoordinateurActiveStages(@PathVariable Long id) {
 		return stageService.findCoordinateurActiveStages(id);
 	}
+
 	@GetMapping("/encadreur/id/{id}")
 	public List<Stage> findEncadreurActiveStages(@PathVariable Long id) {
 		return stageService.findEncadreurActiveStages(id);
 	}
+
 	@GetMapping("/count")
 	public int countStages() {
 		return stageService.countStages();
 	}
+
 	@GetMapping("/encadreur/id/{id}/page/{page}/size/{size}")
-	public Page<Stage> findByEncadreur(@PathVariable Long id,@PathVariable int page,@PathVariable int size) {
+	public Page<Stage> findByEncadreur(@PathVariable Long id, @PathVariable int page, @PathVariable int size) {
 		return stageService.findByEncadreur(id, page, size);
 	}
+
 	@GetMapping("/jury/id/{id}/page/{page}/size/{size}")
-	public Page<Stage> findByJury(@PathVariable Long id,@PathVariable int page,@PathVariable int size) {
+	public Page<Stage> findByJury(@PathVariable Long id, @PathVariable int page, @PathVariable int size) {
 		return stageService.findByJury(id, page, size);
 	}
+
 	@GetMapping("/coordinateur/count/ref/{reference}")
 	public Long countByCoordinateurReference(@PathVariable String reference) {
 		return stageService.countByCoordinateurReference(reference);
 	}
+
 	@GetMapping("/etudiant/count/id/{id}")
 	public Long countByEtudiant(@PathVariable Long id) {
 		return stageService.countByEtudiant(id);
 	}
+
 	@GetMapping("/encadreur/count/id/{id}")
 	public Long countByEncadreur(@PathVariable Long id) {
 		return stageService.countByEncadreur(id);
 	}
+
 	@GetMapping("/jury/count/id/{id}")
 	public Long countByJury(@PathVariable Long id) {
 		return stageService.countByJury(id);
@@ -80,8 +96,8 @@ public class StageRest {
 	}
 
 	@GetMapping("/coordinateur/id/{id}/page/{page}/size/{size}/sort/{sort}")
-	public Page<Stage> findByCoordinateurUserId(@PathVariable Long id, @PathVariable int page,
-			@PathVariable int size, @PathVariable String sort) {
+	public Page<Stage> findByCoordinateurUserId(@PathVariable Long id, @PathVariable int page, @PathVariable int size,
+			@PathVariable String sort) {
 		return stageService.findByCoordinateurUserId(id, page, size, sort);
 	}
 
@@ -90,9 +106,34 @@ public class StageRest {
 		return stageService.activerStage(ref);
 	}
 
+	@GetMapping("/coord/id/{id}/search")
+	public List<Stage> searchByCoord(@SearchSpec Specification<Stage> spec, @PathVariable Long id) {
+		ResponseEntity<List<Stage>> stgs = stageService.searchForStages(spec);
+		return AppFilters.filterStagesByCoord(id, stgs.getBody());
+	}
+
+	@GetMapping("/encadreur/id/{id}/search")
+	public List<Stage> searchByEncadreur(@SearchSpec Specification<Stage> spec, @PathVariable Long id) {
+		ResponseEntity<List<Stage>> stgs = stageService.searchForStages(spec);
+		return AppFilters.filterStagesByEncadreur(id, stgs.getBody());
+	}
+
+	@GetMapping("/etudiant/id/{id}/search")
+	public List<Stage> searchByEtudiant(@SearchSpec Specification<Stage> spec, @PathVariable Long id) {
+		ResponseEntity<List<Stage>> stgs = stageService.searchForStages(spec);
+		return AppFilters.filterStagesByEtudiant(id, stgs.getBody());
+	}
+
+	@GetMapping("/jury/id/{id}/search")
+	public List<Stage> searchByJury(@SearchSpec Specification<Stage> spec, @PathVariable Long id) {
+		ResponseEntity<List<Stage>> stgs = stageService.searchForStages(spec);
+		return AppFilters.filterStagesByJury(id, stgs.getBody());
+	}
+
 	@GetMapping("/search")
-	public ResponseEntity<List<Stage>> searchForStages(@SearchSpec Specification<Stage> spec) {
+	public ResponseEntity<List<Stage>> search(@SearchSpec Specification<Stage> spec) {
 		return stageService.searchForStages(spec);
+
 	}
 
 	@RequestMapping(value = "/list/get", params = { "page", "size" }, method = RequestMethod.GET)

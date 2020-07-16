@@ -16,28 +16,32 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestion.stage.bean.Departement;
 import com.gestion.stage.service.facade.DepartementService;
 
+/**
+ * @author Hassan ABIDA & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("gestion-stage-api/departement")
-@CrossOrigin({"http://localhost:4200"})
+@CrossOrigin({ "http://localhost:4200" })
 public class DepartementRest {
 	@Autowired
 	private DepartementService departementService;
-	@GetMapping("/etablissement/libelle/{libelle}")
-	public List<Departement> findByEtablissementLibelle(@PathVariable String libelle) {
-		return departementService.findByEtablissementLibelle(libelle);
-	}
+
 	@PostMapping("/")
 	public int save(@RequestBody Departement departement) {
 		return departementService.save(departement);
 	}
+
 	@DeleteMapping("/id/{id}")
 	public int removeById(@PathVariable Long id) {
 		return departementService.removeById(id);
 	}
+
 	@PutMapping("/")
 	public int update(@RequestBody Departement departement) {
 		return departementService.update(departement);
 	}
+
 	@GetMapping("/")
 	public List<Departement> findAll() {
 		return departementService.findAll();

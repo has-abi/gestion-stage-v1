@@ -17,11 +17,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Commentaire{
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Commentaire {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(columnDefinition = "Text")
 	private String contenu;
@@ -31,11 +38,11 @@ public class Commentaire{
 	private Date dateModification;
 	@ManyToOne
 	private User user;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private SujetForum sujetForum;
-	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	private Commentaire commentaire;
-	
+
 }

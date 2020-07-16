@@ -1,6 +1,5 @@
 package com.gestion.stage.bean;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,13 +13,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author Hassan Abida & Aicha ELABDELLAOUI
+ * @version 1.0
+ */
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Etudiant{
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Etudiant {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true,length = 10)
+	@Column(unique = true, length = 10)
 	private String cin;
 	@Column(length = 8)
 	private String codeAppoge;
@@ -35,7 +42,4 @@ public class Etudiant{
 	@ManyToOne
 	private Filiere filiere;
 
-	
-	
-	
 }
